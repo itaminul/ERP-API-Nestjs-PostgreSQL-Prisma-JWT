@@ -9,3 +9,39 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Users {
+id Int @default(autoincrement()) @id
+username String @unique
+password String
+mobileNumber String?
+emailAddress String?
+deptId Int?
+desigId Int?
+roleId Int?
+orgId Int?
+activeStatus Boolean @default(false)
+createdDate String?
+createdTime String?
+createdBy Int?
+createdAt DateTime @default(now())
+updatedDate String?
+updatedTime String?
+updatedAt DateTime?
+}
+
+model AllModule {
+id Int @default(autoincrement()) @id
+moduleName String
+moduleDes String?
+moduleLogo String?
+orgId Int?
+activeStatus Boolean @default(false)
+createdDate String?
+createdTime String?
+createdBy Int?
+createdAt DateTime @default(now())
+updatedDate String?
+updatedTime String?
+updatedAt DateTime?
+}
