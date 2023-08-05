@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { EmployeeService } from './employee-info.service';
+import { EmployeeController } from './employee-info.controller';
 
-@Module({})
-export class EmployeeInfoModule {}
+@Module({
+  providers: [EmployeeService]
+})
+export class EmployeeModule {}

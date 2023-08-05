@@ -1,4 +1,9 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
 @Controller('item-setup')
-export class ItemSetupController {}
+export class ItemSetupController {
+    @Get()
+    async getAll() {
+        return 'get all';
+    }
+}

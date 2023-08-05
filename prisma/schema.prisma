@@ -45,3 +45,124 @@ updatedDate String?
 updatedTime String?
 updatedAt DateTime?
 }
+
+
+
+model ModuleLink {
+  id Int @default(autoincrement()) @id
+  moduleId Int  
+  linkeNameMenuName String
+  menuOrSubmenuStatus Int //1 for menue 2 for submenu
+  serialNo Int?
+  activeStatus Boolean @default(true)
+  createdDate String?
+  createdTime String?
+  createdBy Int?
+  createdAt DateTime @default(now())
+  updatedDate String?
+  updatedTime String?
+  updatedAt DateTime?
+  updatedBy Int?
+}
+
+model ModuleLinkAssign {
+  id Int @default(autoincrement()) @id
+  moduleId Int
+  moduleLinkId Int
+  userLabel Int
+  permissionStatus Boolean //See menu link or not
+  activeStatus Boolean @default(true)
+  createdDate String?
+  createdTime String?
+  createdBy Int?
+  createdAt DateTime @default(now())
+  updatedDate String?
+  updatedTime String?
+  updatedAt DateTime?
+  updatedBy Int?
+  }
+
+  model EmployeeInfo {
+    id Int @default(autoincrement()) @id
+    firstName String?
+    middleName String
+    lastName String
+    fullName String
+    phone String?
+    mobileOne String?
+    mobileTwo String?
+    emergencyMobile String?
+    officeEmail String?
+    personalEmail String?
+    empImage String?
+    empSignature String?
+    nationalId String?
+    deptId Int?
+    designationId Int?
+    dateOfBirts String?
+    gender Int?
+    religion Int?
+    maritialStatus Boolean?
+    spousName String?
+    spouseProfe Int?
+    fatherOrHusbandName String?
+    fatherOrHusbandProfe Int?
+    fatherOrHusbandMobile String?
+    motherName String?
+    motherProfe Int?
+    motherMobile String?
+    //start present address information
+    presentDivi Int?
+    presentDis Int?
+    presentPS Int?
+    presentCityCor Int?
+    presentWord Int?
+    presentWordNo Int?
+    presentVillRoad Int?
+    presentBasHolding Int?
+    presentPostOffice Int?
+    presentPostOfficeCode Int?
+    //start permanent address information
+    perDivi Int?
+    pertDis Int?
+    pertPS Int?
+    perCityCor Int?
+    perWord Int?
+    perWordNo Int?
+    perVillRoad Int?
+    perBasHolding Int?
+    perPostOffice Int?
+    perPostOfficeCode Int? 
+    activeStatus Boolean @default(true)
+    createdDate String?
+    createdTime String?
+    createdBy Int?
+    createdAt DateTime @default(now())
+    updatedDate String?
+    updatedTime String?
+    updatedAt DateTime?
+    updatedBy Int?
+    employeeEdu EmployeeEdu[]
+  }
+
+
+  model EmployeeEdu {
+    id Int @default(autoincrement()) @id
+    employeeInfo EmployeeInfo? @relation(fields: [empId], references: [id])
+    empId Int?
+    degreeId Int?
+    boardId Int?
+    resultType Int? //GPA or Division
+    resultGPA String?
+    resultDivision String?
+    certificateImage String?
+    activeStatus Boolean @default(true)
+    createdDate String?
+    createdTime String?
+    createdBy Int?
+    createdAt DateTime @default(now())
+    updatedDate String?
+    updatedTime String?
+    updatedAt DateTime?
+    updatedBy Int?
+  }
