@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HrModule } from './module/hr.module';
+import { HrModule } from './modules/hr.module';
 import { SecurityModule } from './security/security/security.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './database/prisma/prisma.module';

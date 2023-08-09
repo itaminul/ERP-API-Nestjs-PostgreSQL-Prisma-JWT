@@ -41,9 +41,11 @@ export class CreateEmployeeDto {
     @IsOptional()
     @IsString()
     personalEmail
+
     @IsOptional()
     @IsString()
     empImage
+    
     @IsOptional()
     @IsString()
     empSignature

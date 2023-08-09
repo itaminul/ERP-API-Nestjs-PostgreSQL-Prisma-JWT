@@ -8,13 +8,76 @@ import { UpdateEmployeeDto } from './dto/update.employee.dto';
 export class EmployeeService {
     constructor(private readonly prisma: PrismaService) {}
 
+
     async getAll() {
-        return await this.prisma.employeeInfo.findMany();
+        return await this.prisma.employeeInfo.findMany({
+            include: {
+                employeeEdu: true,
+                department: {
+                   select: {
+                    departmentName: true,
+                    departmentDes: true
+                   }
+                },
+                designation: {
+                    select: {
+                        designationName: true,
+                        designationDes: true
+                    }
+                }
+            }
+        });
     }
 
-    async createEmpInfo(@Body() body: CreateEmployeeDto,  authUserInfo, empPhoto) {      
-        const empP = empPhoto.filename;
-        //console.log("serveic body", empPhoto.filename)
+    async getById(@Param('id') id: number) {
+        return await this.prisma.employeeInfo.findMany({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                employeeEdu: true,
+                department: {
+                   select: {
+                    departmentName: true,
+                    departmentDes: true
+                   }
+                },
+                designation: {
+                    select: {
+                        designationName: true,
+                        designationDes: true
+                    }
+                }
+            }
+        });
+    }
+
+    async getAllActive() {
+        return await this.prisma.employeeInfo.findMany({
+            where: {
+                activeStatus: true
+            },
+            include: {
+                employeeEdu: true,
+                department: {
+                   select: {
+                    departmentName: true,
+                    departmentDes: true
+                   }
+                   
+                },
+                designation: {
+                    select: {
+                        designationName: true,
+                        designationDes: true
+                    }
+                }
+            }
+        });
+    }
+
+    async createEmpInfo(@Body() body: CreateEmployeeDto, authUserInfo, empPhoto) {
+        const empP = empPhoto;
         const {
             firstName,
             middleName,
@@ -26,7 +89,7 @@ export class EmployeeService {
             emergencyMobile,
             officeEmail,
             personalEmail,
-           // empImage:empP,
+            // empImage:empP,
             empSignature,
             nationalId,
             deptId,
@@ -66,7 +129,7 @@ export class EmployeeService {
             empList
         } = body
 
-        return await this.prisma.employeeInfo.create({            
+        return await this.prisma.employeeInfo.create({
             data: {
                 firstName,
                 middleName,
@@ -78,7 +141,7 @@ export class EmployeeService {
                 emergencyMobile,
                 officeEmail,
                 personalEmail,
-                empImage:empP,
+                empImage: empP,
                 empSignature,
                 nationalId,
                 deptId,
@@ -119,19 +182,19 @@ export class EmployeeService {
                 createdTime: new Date().toLocaleTimeString(),
                 createdAt: new Date(),
                 createdBy: authUserInfo.id,
-                employeeEdu: { create: body.empList}
+                employeeEdu: { create: body.empList }
             }
         })
     }
 
-    async updateEmpInfo(@Param('id') id: number, @Body() body: UpdateEmployeeDto, authUserInfo) {
+    async updateEmpInfo(@Param('id') id: number, @Body() body: UpdateEmployeeDto, authUserInfo, empPhoto) {
 
         await this.prisma.employeeEdu.deleteMany({
             where: {
                 empId: Number(id)
             }
         })
-   
+
         const {
             firstName,
             middleName,
@@ -218,9 +281,9 @@ export class EmployeeService {
                     },
   
   */
-        const rawq = await this.prisma.$queryRaw`SELECT * FROM "EmployeeInfo"`;
+        // const rawq = await this.prisma.$queryRaw`SELECT * FROM "EmployeeInfo"`;
 
-        return await this.prisma.employeeInfo.update({            
+        return await this.prisma.employeeInfo.update({
             where: {
                 id: Number(id)
             },
@@ -235,7 +298,7 @@ export class EmployeeService {
                 emergencyMobile,
                 officeEmail,
                 personalEmail,
-                empImage,
+                empImage: empPhoto,
                 empSignature,
                 nationalId,
                 deptId,
@@ -276,7 +339,7 @@ export class EmployeeService {
                 updatedTime: new Date().toLocaleTimeString(),
                 updatedAt: new Date(),
                 updatedBy: authUserInfo.id,
-                employeeEdu: { create:  body.empList}
+                employeeEdu: { create: body.empList }
             }
         })
     }
