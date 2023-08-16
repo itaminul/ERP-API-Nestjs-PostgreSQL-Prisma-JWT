@@ -78,6 +78,7 @@ export class EmployeeService {
 
     async createEmpInfo(@Body() body: CreateEmployeeDto, authUserInfo, empPhoto) {
         const empP = empPhoto;
+        console.log("emp logo", body)
         const {
             firstName,
             middleName,
