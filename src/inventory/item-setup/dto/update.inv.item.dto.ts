@@ -23,5 +23,5 @@ export class UpdateInvItem {
     @IsDate()
     expireDate: Date
     @IsBoolean()
-    activeStatue: boolean
+    activeStatus: boolean
 }
