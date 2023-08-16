@@ -305,3 +305,29 @@ model Attendance {
   updatedAt      DateTime?
   updatedBy      Int?
 }
+
+//item setup
+
+model InvItem {
+  id Int @default(autoincrement()) @id
+  categoryId Int
+  itemName String
+  itemDescription String?
+  supplierId Int?
+  unitOfMeasurment String?
+  manufactureBy Int?
+  manufactureDate DateTime?
+  expireDate DateTime?
+  orgId           Int?
+  activeStatus    Boolean        @default(true)
+  createdDate     String?
+  createdTime     String?
+  createdBy       Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+
+
+}
