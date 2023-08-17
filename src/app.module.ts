@@ -19,6 +19,9 @@ import { ModulelinksassignModule } from './security/modulelinksassign/modulelink
 import { ModulelinksassignController } from './security/modulelinksassign/modulelinksassign.controller';
 import { ModulelinksassignService } from './security/modulelinksassign/modulelinksassign.service';
 import { MulterModule } from '@nestjs/platform-express';
+import { ItemSetupModule } from './inventory/item-setup/item-setup.module';
+import { ItemSetupService } from './inventory/item-setup/item-setup.service';
+import { ItemSetupController } from './inventory/item-setup/item-setup.controller';
 
 //https://www.loginradius.com/blog/engineering/guest-post/session-authentication-with-nestjs-and-mongodb/
 
@@ -38,10 +41,25 @@ import { MulterModule } from '@nestjs/platform-express';
     UserModule,
     AuthModule,
     ModulelinksModule,
-    ModulelinksassignModule
+    ModulelinksassignModule,
+    ItemSetupModule
   ],
-  controllers: [SecurityController, ModulesController, UserController, ModulelinksController, ModulelinksassignController],
-  providers: [ModulesService, UserService, JwtService, ModulelinksService, ModulelinksassignService]
+  controllers: [
+    SecurityController,
+    ModulesController,
+    UserController,
+    ModulelinksController,
+    ModulelinksassignController,
+    ItemSetupController
+  ],
+  providers: [
+    ModulesService,
+    UserService,
+    JwtService,
+    ModulelinksService,
+    ModulelinksassignService,
+    ItemSetupService
+  ]
 })
 
-export class AppModule {}
+export class AppModule { }

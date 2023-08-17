@@ -1,4 +1,4 @@
-import { Body, Injectable } from '@nestjs/common';
+import { Body, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateInvItem } from './dto/create.inv.item.dto';
 import { UpdateInvItem } from './dto/update.inv.item.dto';
@@ -11,7 +11,7 @@ export class ItemSetupService {
         return await this.prisma.invItem.findMany()
     }
 
-    async create(@Body() dto: CreateInvItem) {
+    async create(@Body() dto: CreateInvItem, authUserInfo) {
         const {
             categoryId,
             itemName,
@@ -31,13 +31,17 @@ export class ItemSetupService {
                 unitOfMeasurment,
                 manufactureBy,
                 manufactureDate,
-                expireDate
+                expireDate,
+                createdBy: authUserInfo.id,
+                createdDate: new Date().toLocaleDateString(),
+                createdTime: new Date().toLocaleTimeString(),
+                createdAt: new Date()
 
             }
         })
     }
 
-    async update(@Body() dto: UpdateInvItem) {
+    async update(@Param('id') id: number, @Body() dto: UpdateInvItem, authUserInfo) {
         const {
             categoryId,
             itemName,
@@ -59,7 +63,11 @@ export class ItemSetupService {
                 manufactureBy,
                 manufactureDate,
                 expireDate,
-                activeStatus
+                activeStatus,
+                updatedBy: authUserInfo.id,
+                updatedDate: new Date().toLocaleDateString(),
+                updatedTime: new Date().toLocaleTimeString(),
+                updatedAt: new Date()
 
             }
         })
