@@ -7,8 +7,12 @@ import { UpdateInvItem } from './dto/update.inv.item.dto';
 export class ItemSetupService {
     constructor(private readonly prisma: PrismaService) { }
 
-    async getAll() {
-        return await this.prisma.invItem.findMany()
+    async getAll(authUserInfo) {
+        return await this.prisma.invItem.findMany({
+            where: {
+                orgId: authUserInfo.id
+            }
+        })
     }
 
     async create(@Body() dto: CreateInvItem, authUserInfo) {
@@ -32,6 +36,7 @@ export class ItemSetupService {
                 manufactureBy,
                 manufactureDate,
                 expireDate,
+                orgId: authUserInfo.id,
                 createdBy: authUserInfo.id,
                 createdDate: new Date().toLocaleDateString(),
                 createdTime: new Date().toLocaleTimeString(),
@@ -64,6 +69,7 @@ export class ItemSetupService {
                 manufactureDate,
                 expireDate,
                 activeStatus,
+                orgId: authUserInfo.id,
                 updatedBy: authUserInfo.id,
                 updatedDate: new Date().toLocaleDateString(),
                 updatedTime: new Date().toLocaleTimeString(),

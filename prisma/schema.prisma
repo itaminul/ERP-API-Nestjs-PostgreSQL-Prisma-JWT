@@ -31,12 +31,24 @@ model Users {
   updatedAt    DateTime?
 }
 
-model Test {
-  id          Int     @id @default(autoincrement())
-  name        String?
-  descriptoin String?
-}
+model InvSupplier {
+  id Int @default(autoincrement()) @id
+  supName String
+  supDescription String?
+  orgId           Int?
+  activeStatus    Boolean        @default(true)
+  createdDate     String?
+  createdTime     String?
+  createdBy       Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  invItem InvItem[]
 
+
+}
 model AllModule {
   id           Int       @id @default(autoincrement())
   moduleName   String
@@ -313,6 +325,7 @@ model InvItem {
   categoryId Int
   itemName String
   itemDescription String?
+  invSupplier InvSupplier? @relation(fields: [supplierId], references: [id])
   supplierId Int?
   unitOfMeasurment String?
   manufactureBy Int?
@@ -328,6 +341,4 @@ model InvItem {
   updatedTime    String?
   updatedAt      DateTime?
   updatedBy      Int?
-
-
 }

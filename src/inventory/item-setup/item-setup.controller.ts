@@ -11,9 +11,9 @@ export class ItemSetupController {
     constructor(private readonly itemSetupService: ItemSetupService) { }
     @UseGuards(AuthGuard('jwt'))
     @Get()
-    async getAll() {
+    async getAll(@AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.itemSetupService.getAll();
+            const response = await this.itemSetupService.getAll(authUserInfo);
             return { message: "Show successfully", status: HttpStatus.OK, response };
         } catch (error) {
             if (error instanceof Prisma.PrismaClientKnownRequestError) {
