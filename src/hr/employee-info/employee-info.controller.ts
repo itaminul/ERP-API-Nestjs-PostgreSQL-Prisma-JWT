@@ -81,7 +81,9 @@ export class EmployeeController {
           return callback(null, `${randomName}${extname(file.originalname)}`);
         },
       }),
+      
       fileFilter: (req, file, callback) => {
+        console.log("sss", file)
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
           return callback(new Error('Only image files are allowed!'), false);
         }
@@ -103,7 +105,7 @@ const resizedFilePath = `./uploads/employee/${file.filename}`;
 await sharp(resizedImageBuffer).toFile(resizedFilePath);
 const resizedImagePath = resizedFilePath
 const empPhoto = resizedImagePath
-
+console.log("empPhoto", empPhoto)
  const response = await this.employeeService.createEmpInfo(body, authUserInfo, empPhoto)
  return { message: "Insert Successfully", status: HttpStatus.OK, response }
 
