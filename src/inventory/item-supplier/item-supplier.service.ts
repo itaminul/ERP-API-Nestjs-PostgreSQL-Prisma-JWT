@@ -21,7 +21,7 @@ export class ItemSupplierService {
             data: {
                 supName,
                 supDescription,
-                orgId: authUserInfo.id,
+                orgId: authUserInfo.orgId,
                 createdBy: authUserInfo.id,
                 createdDate: new Date().toLocaleDateString(),
                 createdTime: new Date().toLocaleTimeString(),
@@ -41,7 +41,7 @@ export class ItemSupplierService {
                 supName,
                 supDescription,
                 activeStatus,
-                updatedBy: authUserInfo.id,
+                updatedBy: authUserInfo.orgId,
                 updatedDate: new Date().toLocaleDateString(),
                 updatedTime: new Date().toLocaleTimeString(),
                 updatedAt: new Date()
