@@ -12,6 +12,7 @@ export class EmployeeService {
     async getAll() {
         return await this.prisma.employeeInfo.findMany({
             include: {
+                
                 employeeEdu: true,
                 department: {
                    select: {
@@ -25,7 +26,11 @@ export class EmployeeService {
                         designationDes: true
                     }
                 }
+            },
+            orderBy: {
+                id: 'desc'
             }
+
         });
     }
 
