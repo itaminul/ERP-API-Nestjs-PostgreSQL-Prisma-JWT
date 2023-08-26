@@ -34,6 +34,22 @@ export class EmployeeController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'))
+  @Get()
+  async getAllByDate() {
+    try {
+      const fromDate = new Date('2022-08-01').toISOString();
+      const toDate = new Date('2022-08-20').toISOString();
+      const response = await this.employeeService.getAllByDate(fromDate, toDate);
+      return { message: "Show Successfully", status: HttpStatus.OK, response }
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+
+      }
+      throw error
+    }
+  }
+
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/getById')

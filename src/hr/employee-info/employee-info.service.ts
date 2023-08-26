@@ -11,8 +11,37 @@ export class EmployeeService {
 
     async getAll() {
         return await this.prisma.employeeInfo.findMany({
-            include: {
-                
+            include: {                
+                employeeEdu: true,
+                department: {
+                   select: {
+                    departmentName: true,
+                    departmentDes: true
+                   }
+                },
+                designation: {
+                    select: {
+                        designationName: true,
+                        designationDes: true
+                    }
+                }
+            },
+            orderBy: {
+                id: 'desc'
+            }
+
+        });
+    }
+
+    async getAllByDate(fromDate, toDate) {
+        return await this.prisma.employeeInfo.findMany({
+            where:{
+                createdAt: {
+                    gte: fromDate,
+                    lte: toDate
+                }
+            },
+            include: {                
                 employeeEdu: true,
                 department: {
                    select: {
@@ -186,7 +215,7 @@ export class EmployeeService {
                 perPostOfficeCode,
                 createdDate: new Date().toLocaleDateString(),
                 createdTime: new Date().toLocaleTimeString(),
-                createdAt: new Date(),
+                createdAt: new Date().toISOString(),
                 createdBy: authUserInfo.id,
                 employeeEdu: { create: body.empList }
             }
