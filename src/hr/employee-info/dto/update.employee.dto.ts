@@ -16,12 +16,19 @@ export class UpdateEmployeeDto {
     @IsOptional()
     @IsString()
     firstName
+
+    @IsOptional()
     @IsString()
     middleName
+
+    @IsOptional()
     @IsString()
     lastName
+
+    @IsOptional()
     @IsString()
     fullName
+    
     @IsOptional()
     @IsString()
     phone

@@ -1,78 +1,88 @@
 import { Injectable } from "@nestjs/common";
 import { Type } from "class-transformer";
-import { IsBoolean, IsDefined, IsEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsBoolean, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
 import { CreateEduInfoDto } from "./create.eduinfo.dto";
 
 @Injectable()
 
 export class CreateEmployeeDto {
+
+    @IsObject()
+    @ValidateNested()
+    @Type(() => CreateEduInfoDto)
     static empList: any;
     empList(arg0: string, empList: any) {
         throw new Error('Method not implemented.');
     }
-    @IsObject()
-    @ValidateNested()
-    @Type(() => CreateEduInfoDto)
-    
-    @IsOptional()
-    @IsString()
-    firstName
-    @IsString()
-    middleName
-    @IsString()
-    lastName
-    @IsString()
-    fullName
-    @IsOptional()
-    @IsString()
-    phone
-    @IsOptional()
-    @IsString()
-    mobileOne
-    @IsOptional()
-    @IsString()
-    mobileTwo
-    @IsOptional()
-    @IsString()
-    emergencyMobile
-    @IsOptional()
-    @IsString()
-    officeEmail
-    @IsOptional()
-    @IsString()
-    personalEmail
 
     @IsOptional()
     @IsString()
-    empImage
-    
+    firstName: string
+
+
+    @IsString()
+    @IsOptional()
+    middleName: string
+
     @IsOptional()
     @IsString()
-    empSignature
+    lastName: string
+
     @IsOptional()
     @IsString()
-    nationalId
-    @IsOptional()
-    @IsNumber()
-    deptId
-    @IsOptional()
-    @IsNumber()
-    designationId
+    fullName: string
+
     @IsOptional()
     @IsString()
-    dateOfBirts
+    phone: string
+    @IsOptional()
+    @IsString()
+    mobileOne:string
+    @IsOptional()
+    @IsString()
+    mobileTwo: string
+    @IsOptional()
+    @IsString()
+    emergencyMobile: string
+    @IsOptional()
+    @IsString()
+    officeEmail: string
+    @IsOptional()
+    @IsString()
+    personalEmail:string
+    @IsOptional()
+    @IsString()
+    empImage:string
+    @IsOptional()
+    @IsString()
+    empSignature:string
     @IsOptional()
     @IsNumber()
-    gender
+    nationalId: number
     @IsOptional()
     @IsNumber()
-    religion
+    @Type(() => Number)
+    deptId: number
     @IsOptional()
     @IsNumber()
-    maritialStatus
+    @Type(() => Number)
+    designationId: number
+    @IsOptional()
+    @IsString()
+    dateOfBirts: string
     @IsOptional()
     @IsNumber()
-    spousName
+    gender: number
+    @IsOptional()
+    @IsNumber()
+    @Type(() => Number)
+    religion: number
+    @IsOptional()
+    @IsBoolean()
+    maritialStatus: boolean
+    @IsOptional()
+    @IsString()
+    spousName: string
     @IsOptional()
     @IsString()
     spouseProfe
