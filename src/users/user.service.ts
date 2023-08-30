@@ -4,7 +4,9 @@ import * as bcrypt from 'bcrypt'
 @Injectable()
 export class UserService{
     constructor(private readonly prisma: PrismaService){}
-
+    async getAllUser() {
+        return await this.prisma.users.findMany()
+    }
     async signUp(@Body() body: any) {
         const{ username, password} = body
         const saltOrRounds = 10;

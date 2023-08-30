@@ -16,7 +16,22 @@ constructor(
     private readonly configService: ConfigService
     ){}
 
-@Post()
+      
+@Get('/getAllUser')
+async getAllUser() {
+  try {
+    const response = await this.userService.getAllUser()
+    return { message: "Show successfully", status: HttpStatus.OK, response}
+} catch (error) {
+    if(error instanceof Prisma.PrismaClientKnownRequestError){
+
+    }
+    throw error;
+}
+}
+
+
+@Post('/register')
 async signUp(@Body() body: any) {
     try {
         const response = await this.userService.signUp(body)
