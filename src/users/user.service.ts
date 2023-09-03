@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt'
 export class UserService{
     constructor(private readonly prisma: PrismaService){}
 
+    
     async getAllUser(authUserInfo) {
         return await this.prisma.users.findMany()
     }
