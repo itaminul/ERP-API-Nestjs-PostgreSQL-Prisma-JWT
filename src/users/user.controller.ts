@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
 
+
 @Controller('user')
 export class UserController{
     constructor(
@@ -79,16 +80,16 @@ async login(@Body() body:any, @Request() req) {
           activeStatus: true
       },
   });
-    
+
     if (!checkUserExists) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
-    
+
     const checkPassword = await compare(
         body.password,
         checkUserExists.password,
         );
-    
+
     delete checkUserExists.password;
     if (checkPassword) {
         const accessToken = this.generateJWT({
@@ -101,7 +102,7 @@ async login(@Body() body:any, @Request() req) {
           roleId: checkUserExists.roleId,
           orgId:checkUserExists.orgId,
       });
-        
+
         return {
           statusCode: 200,
           message: 'Login Successfully',
