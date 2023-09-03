@@ -7,13 +7,16 @@ import { UpdateInvItem } from './dto/update.inv.item.dto';
 export class ItemSetupService {
     constructor(private readonly prisma: PrismaService) { }
 
-    async getAll(authUserInfo) {
-        return await this.prisma.invItem.findMany({
+   async getAll(page: number = 1, authUserInfo) {
+        return await this.prisma.invItemSetup.findMany({
+            take: 10,
+            skip: 10 * (page - 1),
             where: {
-                orgId: authUserInfo.id
+                orgId: authUserInfo.orgId
             }
         })
     }
+    
 
     async create(@Body() dto: CreateInvItem, authUserInfo) {
         const {

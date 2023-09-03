@@ -9,47 +9,39 @@ import { UpdateInvItem } from './dto/update.inv.item.dto';
 @Controller('item-setup')
 export class ItemSetupController {
     constructor(private readonly itemSetupService: ItemSetupService) { }
+    
+
     @UseGuards(AuthGuard('jwt'))
     @Get()
-    async getAll(@AuthUserInfo() authUserInfo: Users) {
+    async getAll(@Query('page') page: number ,@AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.itemSetupService.getAll(authUserInfo);
-            return { message: "Show successfully", status: HttpStatus.OK, response };
+            const results = await this.itemService.getAll(page,authUserInfo)
+            return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error
+            return { success: false, message: error.message }
         }
     }
 
     @UseGuards(AuthGuard('jwt'))
     @Post()
-    async create(@Body() dto: CreateInvItem, @AuthUserInfo() authUserInfo: Users) {
+    async create(@Body() dto: CreateItemDto, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.itemSetupService.create(dto, authUserInfo);
-            return { message: "Created successfully", status: HttpStatus.OK, response };
+            const results = await this.itemService.create(dto, authUserInfo)
+            return { message: 'Show Successfully', success: true, status: HttpStatus.CREATED, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error
+            return { success: false, message: error.message }
         }
-
     }
 
     @UseGuards(AuthGuard('jwt'))
-    @Patch(':id')
-    async update(@Param('id') id: number, @Body() dto: UpdateInvItem, @AuthUserInfo() authUserInfo: Users) {
+    @Patch('/:id')
+    async update(@Param('id') id: number, @Body() dto: UpdateItemDto, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.itemSetupService.update(id, dto, authUserInfo);
-            return { message: "Updated successfully", status: HttpStatus.OK, response };
+            const results = await this.itemService.update(id, dto, authUserInfo)
+            return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error
-
+            return { success: false, message: error.message }
         }
     }
+    
 }
