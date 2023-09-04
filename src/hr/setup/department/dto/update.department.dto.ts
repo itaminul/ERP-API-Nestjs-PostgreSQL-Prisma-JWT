@@ -9,12 +9,13 @@ export class UpdateDepartmentDto{
     @IsOptional()
     @IsString()
     departmentDes: string
-
-    @IsBoolean()
-    activeStatus: boolean
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     orgId: number
+    @IsOptional()
     @IsNumber()
     serialNo: number
+    @IsOptional()
+    @IsBoolean()
+    activeStatus: boolean
 }

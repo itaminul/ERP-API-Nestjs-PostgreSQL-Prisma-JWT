@@ -17,7 +17,7 @@ export class DepartmentController {
             const results = await this.departmentService.getAll(authUserInfo)
             return { message: "Show data successfully", success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            return { success: false, message: error.message}
+            return { success: false, message: error.message }
         }
     }
 
@@ -28,7 +28,7 @@ export class DepartmentController {
             const results = await this.departmentService.getActiveAll()
             return { message: "Show data successfully", success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            return { success: false, message: error.message}
+            return { success: false, message: error.message }
         }
     }
 
@@ -39,7 +39,7 @@ export class DepartmentController {
             const results = await this.departmentService.getById(id)
             return { message: "Show data successfully", success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            return { success: false, message: error.message}
+            return { success: false, message: error.message }
         }
     }
 
@@ -48,9 +48,9 @@ export class DepartmentController {
     async create(@Body() dto: CreateDepartmentDto, @AuthUserInfo() authUserInfo: Users) {
         try {
             const results = await this.departmentService.create(dto, authUserInfo)
-            return { message: "Created Successfully", success: true, status: HttpStatus.OK, results }
+            return { message: "Created Successfully", success: true, status: HttpStatus.CREATED, results }
         } catch (error) {
-            return { success: false, message: error.message}
+            return { success: false, message: error.message }
         }
     }
 
@@ -61,7 +61,7 @@ export class DepartmentController {
             const results = await this.departmentService.update(id, dto, authUserInfo)
             return { message: "Updated Successfully", success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            return { success: false, message: error.message}
+            return { success: false, message: error.message }
         }
 
     }

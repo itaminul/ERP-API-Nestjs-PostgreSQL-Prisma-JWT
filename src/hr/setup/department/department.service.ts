@@ -9,6 +9,11 @@ export class DepartmentService {
 
     async getAll(authUserInfo) {
         return await this.prisma.department.findMany({
+            orderBy: [
+                {
+                    id: 'desc'
+                }
+            ],
             where: {
                 orgId: authUserInfo.orgId
             }
@@ -17,6 +22,11 @@ export class DepartmentService {
 
     async getActiveAll() {
         return await this.prisma.department.findMany({
+            orderBy: [
+                {
+                    id: 'desc'
+                }
+            ],
             where: {
                 activeStatus: true
             }
@@ -25,6 +35,11 @@ export class DepartmentService {
 
     async getById(@Param('id') id: number) {
         return await this.prisma.department.findMany({
+            orderBy: [
+                {
+                    id: 'desc'
+                }
+            ],
             where: {
                 id: Number(id),
                 activeStatus: true
