@@ -14,13 +14,10 @@ export class DesignationController {
     @Get()
     async getAll(@AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.designationService.getAll(authUserInfo)
-            return { message: "Show Successfully", status: HttpStatus.OK, response }
+            const results = await this.designationService.getAll(authUserInfo)
+            return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error;
+            return { success: false, message: error.message }
         }
 
     }
@@ -30,13 +27,10 @@ export class DesignationController {
     @Get('/getById')
     async getById(@Param('id') id: number, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.designationService.getById(id, authUserInfo)
-            return { message: "Show Successfully", status: HttpStatus.OK, response }
+            const results = await this.designationService.getById(id, authUserInfo)
+            return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error;
+            return { success: false, message: error.message }
         }
 
     }
@@ -46,13 +40,10 @@ export class DesignationController {
     @Get('active')
     async getAllActive() {
         try {
-            const response = await this.designationService.getAllActive()
-            return { message: "Show Successfully", status: HttpStatus.OK, response }
+            const results = await this.designationService.getAllActive()
+            return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error;
+            return { success: false, message: error.message }
         }
 
     }
@@ -61,13 +52,10 @@ export class DesignationController {
     @Post()
     async create(@Body() dto: CreateDesignatinDto, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.designationService.create(dto, authUserInfo)
-            return { message: "Created Successfully", status: HttpStatus.OK, response }
+            const results = await this.designationService.create(dto, authUserInfo)
+            return { message: 'Created Successfully', success: true, status: HttpStatus.CREATED, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error;
+            return { success: false, message: error.message }
         }
 
     }
@@ -76,13 +64,10 @@ export class DesignationController {
     @Patch(':id')
     async update(@Param('id') id: number, @Body() dto: UpdateDesignatinDto, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.designationService.update(id, dto, authUserInfo)
-            return { message: "Created Successfully", status: HttpStatus.OK, response }
+            const results = await this.designationService.update(id, dto, authUserInfo)
+            return { message: 'Updated Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error;
+            return { success: false, message: error.message }
         }
     }
 }

@@ -64,8 +64,8 @@ export class DepartmentService {
     }
 
     async update(@Param('id') id: number, @Body() dto: UpdateDepartmentDto, authUserInfo) {
-        const { departmentName, departmentDes, orgId, serialNo,activeStatus } = dto
-       return await this.prisma.department.update({
+        const { departmentName, departmentDes, orgId, serialNo, activeStatus } = dto
+        return await this.prisma.department.update({
             where: {
                 id: Number(id)
             },

@@ -10,12 +10,15 @@ export class UpdateDesignatinDto{
     @IsString()
     designationDes:  string
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     orgId: number
+
+    @IsOptional()
     @IsNumber()
     serialNo: number
-    
+
+    @IsOptional()    
     @IsBoolean()
     activeStatus: boolean
 }

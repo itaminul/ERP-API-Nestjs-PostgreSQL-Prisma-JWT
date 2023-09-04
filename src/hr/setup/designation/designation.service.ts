@@ -9,6 +9,11 @@ export class DesignationService {
 
     async getAll(authUserInfo) {
         return await this.prisma.designation.findMany({
+            orderBy: [
+                {
+                    id: 'desc'
+                }
+            ],
             where: {
                 orgId: authUserInfo.orgId
             }
@@ -17,6 +22,11 @@ export class DesignationService {
 
     async getById(@Param('id') id: number, authUserInfo) {
         return await this.prisma.designation.findMany({
+            orderBy: [
+                {
+                    id: 'desc'
+                }
+            ],
             where: {
                 id: Number(id),
                 orgId: authUserInfo.orgId
@@ -27,6 +37,11 @@ export class DesignationService {
 
     async getAllActive() {
         return await this.prisma.designation.findMany({
+            orderBy: [
+                {
+                    id: 'desc'
+                }
+            ],
             where: {
                 activeStatus: true
             }
