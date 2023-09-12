@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { RequisitionController } from './requisition.controller';
 import { RequisitionService } from './requisition.service';
+import { RequisitionController } from './requisition.controller';
 
 @Module({
-  controllers: [RequisitionController],
-  providers: [RequisitionService]
+  providers: [RequisitionService],
+  controllers: [RequisitionController]
 })
 export class RequisitionModule {}
