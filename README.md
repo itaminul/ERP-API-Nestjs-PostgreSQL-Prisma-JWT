@@ -14,6 +14,14 @@
 - Inventory
 - Quiz Test
 
+## Module wise features
+### HR Module
+### Employee Information
+- Create employee
+- Update employee
+- Get all employee
+
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
