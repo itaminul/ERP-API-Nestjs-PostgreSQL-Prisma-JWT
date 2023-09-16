@@ -1,4 +1,9 @@
 import { Module } from '@nestjs/common';
+import { MovementsController } from './movements.controller';
+import { MovementsService } from './movements.service';
 
-@Module({})
-export class MovementModule {}
+@Module({
+  controllers: [MovementsController],
+  providers: [MovementsService]
+})
+export class MovementsModule {}
