@@ -1,89 +1,45 @@
-import { Body, Injectable, Param } from '@nestjs/common';
-import { PrismaService } from 'src/database/prisma/prisma.service';
-import { CreateRequisitionDto } from './dto/create-requisition.dot';
-import { UpdateRequisitionDto } from './dto/update-requisition.dot';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { RequisitionService } from './requisition.service';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
+import { Prisma, Users } from '@prisma/client';
+import { CreateRequisitionDto } from './dto/create-requisition.dto';
+import { UpdateRequisitionDto } from './dto/update-requisition.dto';
 
-@Injectable()
-export class RequisitionService {
-    constructor(private readonly prisma: PrismaService) { }
+@Controller('requisition')
+export class RequisitionController {
+    constructor(private readonly requisitionService: RequisitionService) {}
 
-    async getAll(authUserInfo) {
-        return await this.prisma.requisitionParent.findMany({
-            where: {
-                orgId: authUserInfo.orgId
-            }
-        })
+    @UseGuards(AuthGuard('jwt'))
+    @Get()
+    async getAll(@AuthUserInfo() authUserInfo: Users) {
+        try {
+            const results = await this.requisitionService.getAll(authUserInfo)
+            return { message: "Show data successfully", success: true, status: HttpStatus.OK, results }
+        } catch (error) {
+            return { success: false, message: error.message }
+        }
     }
 
-    async create(@Body() body: CreateRequisitionDto, authUserInfo) {
-        const {
-            requisitionNo,
-            requisitionType,
-            requisitionFrom,
-            requisitionTo,
-            requisitionStatus,
-            requisitionDate,
-            requisitionRemarks,
-            requisitionAppCanRemarks,
-            requisitionBy,
-            empList
-        } = body
-
-        return await this.prisma.requisitionParent.create({
-            data: {
-                requisitionNo,
-                requisitionType,
-                requisitionFrom,
-                requisitionTo,
-                requisitionStatus,
-                requisitionDate,
-                requisitionRemarks,
-                requisitionAppCanRemarks,
-                requisitionBy,
-                orgId: authUserInfo.orgId,
-                createdAt: new Date().toISOString(),
-                createdTime: new Date().toLocaleTimeString(),
-                createdBy: authUserInfo.id,
-                createdDate: new Date().toISOString(),
-              //  requisitionChild: { create: body.empList }
-            }
-        })
+    @UseGuards(AuthGuard('jwt'))
+    @Post()
+    async create(@Body() dto: any, @AuthUserInfo() authUserInfo: Users) {
+        try {
+            const results = await this.requisitionService.create(dto, authUserInfo)
+            return { message: "Created data successfully", success: true, status: HttpStatus.CREATED, results }
+        } catch (error) {
+            return { success: false, message: error.message }
+        }
     }
 
-
-
-    async update(@Param('id') id: number, @Body() dto: UpdateRequisitionDto, authUserInfo) {
-        const {
-            requisitionNo,
-            requisitionType,
-            requisitionFrom,
-            requisitionTo,
-            requisitionStatus,
-            requisitionDate,
-            requisitionRemarks,
-            requisitionAppCanRemarks,
-            requisitionBy,
-        } = dto
-        return await this.prisma.requisitionParent.update({
-            where: {
-                id: Number(id)
-            },
-            data: {
-                requisitionNo,
-                requisitionType,
-                requisitionFrom,
-                requisitionTo,
-                requisitionStatus,
-                requisitionDate,
-                requisitionRemarks,
-                requisitionAppCanRemarks,
-                requisitionBy,
-                orgId: authUserInfo.orgId,
-                updatedAt: new Date().toISOString(),
-                updatedTime: new Date().toLocaleTimeString(),
-                updatedBy: authUserInfo.id,
-                updatedDate: new Date().toLocaleDateString()
-            }
-        })
+    @UseGuards(AuthGuard('jwt'))
+    @Patch(':id')
+    async update(@Param('id') id: number, @Body() dto: any, @AuthUserInfo() authUserInfo: Users) {
+        try {
+            const results = await this.requisitionService.update(id, dto, authUserInfo)
+            return { message: "Updated data successfully", success: true, status: HttpStatus.OK, results }
+        } catch (error) {
+            return { success: false, message: error.message }
+        }
     }
 }
