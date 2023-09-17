@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ItemSetupService } from './item-setup.service';
 import { Prisma, Users } from '@prisma/client';
 import { CreateInvItem } from './dto/create.inv.item.dto';
@@ -15,7 +15,7 @@ export class ItemSetupController {
     @Get()
     async getAll(@Query('page') page: number ,@AuthUserInfo() authUserInfo: Users) {
         try {
-            const results = await this.itemService.getAll(page,authUserInfo)
+            const results = await this.itemSetupService.getAll(page,authUserInfo)
             return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
             return { success: false, message: error.message }
@@ -24,9 +24,9 @@ export class ItemSetupController {
 
     @UseGuards(AuthGuard('jwt'))
     @Post()
-    async create(@Body() dto: CreateItemDto, @AuthUserInfo() authUserInfo: Users) {
+    async create(@Body() dto: CreateInvItem, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const results = await this.itemService.create(dto, authUserInfo)
+            const results = await this.itemSetupService.create(dto, authUserInfo)
             return { message: 'Show Successfully', success: true, status: HttpStatus.CREATED, results }
         } catch (error) {
             return { success: false, message: error.message }
@@ -35,9 +35,9 @@ export class ItemSetupController {
 
     @UseGuards(AuthGuard('jwt'))
     @Patch('/:id')
-    async update(@Param('id') id: number, @Body() dto: UpdateItemDto, @AuthUserInfo() authUserInfo: Users) {
+    async update(@Param('id') id: number, @Body() dto: UpdateInvItem, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const results = await this.itemService.update(id, dto, authUserInfo)
+            const results = await this.itemSetupService.update(id, dto, authUserInfo)
             return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
             return { success: false, message: error.message }

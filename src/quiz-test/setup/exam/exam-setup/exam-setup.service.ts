@@ -7,7 +7,7 @@ export class ExamSetupService {
     constructor(private readonly prisma: PrismaService) { }
 
     async getAll() {
-        retun this.prisma.examSetup.getAll()
+        return this.prisma.examSetup.getAll()
     }
 
     async create(@Body() dto: CreateExamSetupDto) {
