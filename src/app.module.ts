@@ -30,8 +30,13 @@ import { CountriesController } from './global-setup/countries/countries.controll
 import { ItemsService } from './inventory/setup/items/items.service';
 import { CountriesService } from './global-setup/countries/countries.service';
 import { JavascriptService } from './custom/javascript.service';
+import { DivisionModule } from './global-setup/division/division.module';
+import { JavascriptController } from './custom/javascript.controoler';
+import { DivisionController } from './global-setup/division/division.controller';
+import { DivisionService } from './global-setup/division/division.service';
 
 //https://www.loginradius.com/blog/engineering/guest-post/session-authentication-with-nestjs-and-mongodb/
+
 
 
 @Module({
@@ -53,11 +58,11 @@ import { JavascriptService } from './custom/javascript.service';
     ModulelinksassignModule,
     CountriesModule,
     ItemsModule,
-    MovementsModule
+    MovementsModule,
+    DivisionModule
   ],
-  controllers: [SecurityController, SecurityController, ModulesController, UserController, ModulelinksController, ModulelinksassignController, CountriesController, ItemsController, MovementsController],
-  providers: [JavascriptService, ModulesService, UserService, JwtService, ModulelinksService, ModulelinksassignService, CountriesService, ItemsService, MovementsService]
+  controllers: [JavascriptController, SecurityController, ModulesController, UserController, ModulelinksController, ModulelinksassignController, CountriesController, ItemsController, MovementsController, DivisionController],
+  providers: [JavascriptService, ModulesService, UserService, JwtService, ModulelinksService, ModulelinksassignService, CountriesService, ItemsService, MovementsService, DivisionService]
 })
 
 export class AppModule {}
-
