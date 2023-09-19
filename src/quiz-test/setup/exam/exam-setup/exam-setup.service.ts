@@ -7,12 +7,12 @@ export class ExamSetupService {
     constructor(private readonly prisma: PrismaService) { }
 
     async getAll() {
-        return this.prisma.examSetup.getAll()
+       //return this.prisma.examSetup.getAll()
     }
 
     async create(@Body() dto: CreateExamSetupDto) {
         const { examName, examDescription } = dto
-        return await this.prisma.examSetup.create({
+        /*return await this.prisma.examSetup.create({
             data: {
                 examName,
                 examDescription,
@@ -20,12 +20,12 @@ export class ExamSetupService {
                 createdTime: new Date().toLocaleTimeString(),
                 createdAt: new Date()
             }
-        })
+        })*/
     }
 
     async update(@Param('id') id: number, @Body() dto: CreateExamSetupDto) {
         const { examName, examDescription } = dto
-        return await this.prisma.examSetup.update({
+      /*  return await this.prisma.examSetup.update({
             where: {
                 id: id
             },
@@ -36,6 +36,6 @@ export class ExamSetupService {
                 updatedTime: new Date().toLocaleTimeString(),
                 updatedAt: new Date()
             }
-        })
+        })*/
     }
 }

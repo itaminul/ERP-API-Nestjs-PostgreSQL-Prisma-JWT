@@ -1,6 +1,5 @@
 import { Body, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { CreateEmployeeDto } from 'src/hr/employee/dto/create.employee.dto';
 import { UpdateEmployeeTypeDto } from './dto/update-emp-type.dto';
 import { CreateEmployeeTypeDto } from './dto/create-emp-type.dto';
 

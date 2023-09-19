@@ -3,9 +3,9 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 import { AttendanceController } from 'src/hr/attendance/attendance.controller';
 import { AttendanceModule } from 'src/hr/attendance/attendance.module';
 import { AttendanceService } from 'src/hr/attendance/attendance.service';
-import { EmployeeController } from 'src/hr/employee-info/employee-info.controller';
-import { EmployeeModule } from 'src/hr/employee-info/employee-info.module';
-import { EmployeeService } from 'src/hr/employee-info/employee-info.service';
+import { EmployeeController } from 'src/hr/employee-info/employee.controller';
+import { EmployeeModule } from 'src/hr/employee-info/employee.module';
+import { EmployeeService } from 'src/hr/employee-info/employee.service';
 import { LeaveController } from 'src/hr/leave/leave.controller';
 import { LeaveModule } from 'src/hr/leave/leave.module';
 import { LeaveService } from 'src/hr/leave/leave.service';
@@ -31,5 +31,6 @@ import { ImageResizeService } from 'src/services/image-resize.service';
   controllers: [EmployeeController, DepartmentController, DesignationController, LeaveController, AttendanceController, MovementsController, ReligionsController, BloodGroupsController],
   providers: [EmployeeService, ImageResizeService, DepartmentService, DesignationService, LeaveService, AttendanceService, MovementsService, ReligionsService, BloodGroupsService]
 })
+
 
 export class HrModule {}

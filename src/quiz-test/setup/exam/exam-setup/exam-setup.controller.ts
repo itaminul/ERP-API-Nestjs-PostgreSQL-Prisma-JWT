@@ -15,7 +15,7 @@ export class ExamSetupController {
     }
     async create(@Body() dto: CreateExamSetupDto) {
         try {
-            const results = await this.examService.create()            
+            const results = await this.examService.create(dto)            
             return { message: 'Insert Successfully', success: true, status: HttpStatus.OK, results }
         } catch (error) {
             return { success: false, message: error.message }

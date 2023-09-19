@@ -4,7 +4,6 @@ import { ConfigService } from '@nestjs/config'
 @Injectable()
 
 export class PrismaService extends PrismaClient implements OnModuleInit {
-    users: any;
     raw(arg0: string) {
         throw new Error('Method not implemented.');
     }

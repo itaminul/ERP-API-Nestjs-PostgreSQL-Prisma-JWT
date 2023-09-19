@@ -1,10 +1,11 @@
 import { Body, Controller, Get, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { MovementsService } from './movements.service';
+
 import { Prisma, Users } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateMovementDto } from './dto/create.movement.dto';
 import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
 import { UpdateMovementDto } from './dto/update.movement.dto';
+import { MovementsService } from './movement.service';
 
 @Controller('movements')
 export class MovementsController {

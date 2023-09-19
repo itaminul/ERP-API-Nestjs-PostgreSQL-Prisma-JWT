@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { IsNumber, IsNumberString, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString } from "class-validator";
 
 @Injectable()
 export class CreateItemDto {
@@ -12,16 +12,17 @@ export class CreateItemDto {
     @IsOptional()
     @IsString()
     modelNo
+    @IsNotEmpty()
     @IsString()
     itemName
     @IsOptional()
     @IsString()
     itemDescription
     @IsOptional()
-    @IsNumberString()
+    @IsNumber()
     costPrice
     @IsOptional()
-    @IsNumberString()
+    @IsNumber()
     salePrice
     @IsOptional()
     @IsString()
@@ -30,7 +31,7 @@ export class CreateItemDto {
     @IsString()
     expireDate
     @IsOptional()
-    @IsNumberString()
+    @IsNumber()
     taxRate
     @IsOptional()
     @IsNumber()
