@@ -41,11 +41,11 @@ export class EmployeeService {
 
             }
 
-            console.log("value", value)
+           // console.log("value", value)
 
             result.push(showRes)
         }
-        console.log(result);
+        //console.log(result);
         return query;
 
     }
@@ -140,7 +140,7 @@ export class EmployeeService {
             // empImage:empP,
             empSignature,
             nationalId,
-            deptId,
+            departmentId,
             designationId,
             dateOfBirts,
             gender,
@@ -154,9 +154,9 @@ export class EmployeeService {
             motherName,
             motherProfe,
             motherMobile,
-            presentDivi,
-            presentDis,
-            presentPS,
+            presentDiviId,
+            presentDistId,
+            presentPSId,
             presentCityCor,
             presentWord,
             presentWordNo,
@@ -164,9 +164,9 @@ export class EmployeeService {
             presentBasHolding,
             presentPostOffice,
             presentPostOfficeCode,
-            perDivi,
-            pertDis,
-            pertPS,
+            perDiviId,
+            pertDisId,
+            pertPSId,
             perCityCor,
             perWord,
             perWordNo,
@@ -177,6 +177,8 @@ export class EmployeeService {
             empList
         } = body
 
+        //console.log("ppp", body.presentDiviId)
+        
         
         return await this.prisma.employeeInfo.create({
             data: {
@@ -193,11 +195,11 @@ export class EmployeeService {
                 empImage: empP,
                 empSignature,
                 nationalId,
-                deptId: Number(deptId),
+                departmentId: Number(departmentId),
                 designationId: Number(designationId),
                 dateOfBirts,
-                gender,
-                religion,
+                genderId: Number(gender),
+                religionId: Number(religion),
                 maritialStatus,
                 spousName,
                 spouseProfe,
@@ -207,9 +209,9 @@ export class EmployeeService {
                 motherName,
                 motherProfe,
                 motherMobile,
-                presentDivi,
-                presentDis,
-                presentPS,
+                presentDiviId: Number(presentDiviId),
+                presentDistId,
+                presentPSId,
                 presentCityCor,
                 presentWord,
                 presentWordNo,
@@ -217,9 +219,9 @@ export class EmployeeService {
                 presentBasHolding,
                 presentPostOffice,
                 presentPostOfficeCode,
-                perDivi,
-                pertDis,
-                pertPS,
+                perDiviId,
+                pertDisId,
+                pertPSId,
                 perCityCor,
                 perWord,
                 perWordNo,
@@ -259,7 +261,7 @@ export class EmployeeService {
             empImage,
             empSignature,
             nationalId,
-            deptId,
+            departmentId,
             designationId,
             dateOfBirts,
             gender,
@@ -273,9 +275,9 @@ export class EmployeeService {
             motherName,
             motherProfe,
             motherMobile,
-            presentDivi,
-            presentDis,
-            presentPS,
+            presentDiviId,
+            presentDistId,
+            presentPSId,
             presentCityCor,
             presentWord,
             presentWordNo,
@@ -283,9 +285,9 @@ export class EmployeeService {
             presentBasHolding,
             presentPostOffice,
             presentPostOfficeCode,
-            perDivi,
-            pertDis,
-            pertPS,
+            perDiviId,
+            pertDisId,
+            pertPSId,
             perCityCor,
             perWord,
             perWordNo,
@@ -351,8 +353,8 @@ export class EmployeeService {
                 empImage: empPhoto,
                 empSignature,
                 nationalId,
-                deptId,
-                designationId,
+               // departmentId,
+                //designationId,
                 dateOfBirts,
                 gender,
                 religion,
@@ -365,9 +367,9 @@ export class EmployeeService {
                 motherName,
                 motherProfe,
                 motherMobile,
-                presentDivi,
-                presentDis,
-                presentPS,
+               // presentDiviId,
+              //  presentDistId,
+              //  presentPSId,
                 presentCityCor,
                 presentWord,
                 presentWordNo,
@@ -375,9 +377,9 @@ export class EmployeeService {
                 presentBasHolding,
                 presentPostOffice,
                 presentPostOfficeCode,
-                perDivi,
-                pertDis,
-                pertPS,
+                perDiviId,
+                pertDisId,
+                pertPSId,
                 perCityCor,
                 perWord,
                 perWordNo,

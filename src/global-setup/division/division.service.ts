@@ -1,15 +1,14 @@
 import { Body, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { UpdateEmployeeTypeDto } from './dto/update-emp-type.dto';
-import { CreateEmployeeTypeDto } from './dto/create-emp-type.dto';
+import { CreateDivisionDto } from './dto/create-division.dto';
+import { UpdateDivisionDto } from './dto/update-division.dto';
 
 @Injectable()
-export class EmployeeTypeService {
-
+export class DivisionService {
     constructor(private readonly prisma: PrismaService) { }
 
     async getAll(authUserInfo) {
-        return await this.prisma.employeeType.findMany({
+        return await this.prisma.division.findMany({
             orderBy: [
                 {
                     id: 'desc'
@@ -21,23 +20,8 @@ export class EmployeeTypeService {
         })
     }
 
-    async getById(@Param('id') id: number, authUserInfo) {
-        return await this.prisma.employeeType.findMany({
-            orderBy: [
-                {
-                    id: 'desc'
-                }
-            ],
-            where: {
-                id: Number(id),
-                orgId: authUserInfo.orgId
-            }
-        })
-    }
-
-
-    async getAllActive() {
-        return await this.prisma.employeeType.findMany({
+    async getActiveAll() {
+        return await this.prisma.division.findMany({
             orderBy: [
                 {
                     id: 'desc'
@@ -49,13 +33,28 @@ export class EmployeeTypeService {
         })
     }
 
-    async create(@Body() dto: CreateEmployeeTypeDto, authUserInfo) {
-        const { empTypeName, empTypeDes, serialNo } = dto
-        await this.prisma.employeeType.create({
+    async getById(@Param('id') id: number) {
+        return await this.prisma.division.findMany({
+            orderBy: [
+                {
+                    id: 'desc'
+                }
+            ],
+            where: {
+                id: Number(id),
+                activeStatus: true
+            }
+        })
+    }
+
+    async create(@Body() dto: CreateDivisionDto, authUserInfo) {
+        const { divisionName, divisionDes, orgId, serialNo } = dto
+        await this.prisma.division.create({
             data: {
-                empTypeName,
-                empTypeDes, 
-                serialNo,
+                divisionName,
+                divisionDes,
+                orgId: orgId,
+                serialNo: serialNo,
                 createdDate: new Date().toLocaleDateString(),
                 createdTime: new Date().toLocaleTimeString(),
                 createdAt: new Date(),
@@ -64,17 +63,18 @@ export class EmployeeTypeService {
         })
     }
 
-    async update(@Param('id') id: number, @Body() dto: UpdateEmployeeTypeDto, authUserInfo) {
-        const { empTypeName, empTypeDes, serialNo, activeStatus } = dto
-        return await this.prisma.employeeType.update({
+    async update(@Param('id') id: number, @Body() dto: UpdateDivisionDto, authUserInfo) {
+        const { divisionName, divisionDes, orgId, serialNo, activeStatus } = dto
+        return await this.prisma.division.update({
             where: {
                 id: Number(id)
             },
             data: {
-                empTypeName,
-                empTypeDes,
-                activeStatus,
-                serialNo,
+                divisionName: divisionName,
+                divisionDes: divisionDes,
+                activeStatus: activeStatus,
+                orgId: orgId,
+                serialNo: serialNo,
                 updatedDate: new Date().toLocaleDateString(),
                 updatedTime: new Date().toLocaleTimeString(),
                 updatedAt: new Date(),
@@ -82,4 +82,6 @@ export class EmployeeTypeService {
             }
         })
     }
+
 }
+

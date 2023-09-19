@@ -35,7 +35,7 @@ async function bootstrap() {
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   // app.useGlobalFilters(new HttpExceptionFilter())
   app.enableCors();
-  await app.listen(9007);
+  await app.listen(20005);
   
 }
 bootstrap();

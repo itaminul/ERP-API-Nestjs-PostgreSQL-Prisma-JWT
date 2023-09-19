@@ -7,8 +7,10 @@ import { UpdateItemDto } from './dto/update.items.dto';
 export class ItemsService {
     constructor(private readonly prisma: PrismaService) { }
 
-    async getAll(authUserInfo) {
+    async getAll(page: number = 1, authUserInfo) {
         return await this.prisma.invItemSetup.findMany({
+            take: 10,
+            skip: 10 * (page - 1),
             where: {
                 orgId: authUserInfo.orgId
             }
@@ -48,7 +50,7 @@ export class ItemsService {
                 itemImage,
                 remarks,
                 orgId: authUserInfo.orgId,
-                createdAt: new Date().toDateString(),
+                createdAt: new Date().toISOString(),
                 createdTime: new Date().toLocaleTimeString(),
                 createdBy: authUserInfo.id,
                 createdDate: new Date().toISOString()
@@ -92,10 +94,10 @@ export class ItemsService {
                 itemImage,
                 remarks,
                 orgId: authUserInfo.orgId,
-                createdAt: new Date().toDateString(),
-                createdTime: new Date().toLocaleTimeString(),
-                createdBy: authUserInfo.id,
-                createdDate: new Date().toISOString()
+                updatedAt: new Date().toISOString(),
+                updatedTime: new Date().toLocaleTimeString(),
+                updatedBy: authUserInfo.id,
+                updatedDate: new Date().toLocaleDateString()
             }
         })
     }

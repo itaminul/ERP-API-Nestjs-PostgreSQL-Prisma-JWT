@@ -62,7 +62,7 @@ export class CreateEmployeeDto {
     @IsOptional()
     @IsNumber()
     @Type(() => Number)
-    deptId: number
+    departmentId: number
     @IsOptional()
     @IsNumber()
     @Type(() => Number)
@@ -72,7 +72,8 @@ export class CreateEmployeeDto {
     dateOfBirts: string
     @IsOptional()
     @IsNumber()
-    genderz: number
+    @Type(() => Number)
+    gender: number
     @IsOptional()
     @IsNumber()
     @Type(() => Number)
@@ -104,15 +105,18 @@ export class CreateEmployeeDto {
     @IsOptional()
     @IsString()
     motherMobile
-    @IsOptional()
-    @IsString()
-    presentDivi
-    @IsOptional()
-    @IsNumber()
-    presentDis
+    
+    @Type(() => Number)
     @IsOptional()
     @IsNumber()
-    presentPS
+    presentDiviId: number
+
+    @IsOptional()
+    @IsNumber()
+    presentDistId
+    @IsOptional()
+    @IsNumber()
+    presentPSId
     @IsOptional()
     @IsNumber()
     presentCityCor
@@ -136,13 +140,13 @@ export class CreateEmployeeDto {
     presentPostOfficeCode
     @IsOptional()
     @IsString()
-    perDivi
+    perDiviId
     @IsOptional()
     @IsNumber()
-    pertDis
+    pertDisId
     @IsOptional()
     @IsNumber()
-    pertPS
+    pertPSId
     @IsOptional()
     @IsNumber()
     perCityCor

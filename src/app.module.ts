@@ -19,11 +19,24 @@ import { ModulelinksassignModule } from './security/modulelinksassign/modulelink
 import { ModulelinksassignController } from './security/modulelinksassign/modulelinksassign.controller';
 import { ModulelinksassignService } from './security/modulelinksassign/modulelinksassign.service';
 import { MulterModule } from '@nestjs/platform-express';
-import { ItemSetupModule } from './inventory/item-setup/item-setup.module';
-import { ItemSetupService } from './inventory/item-setup/item-setup.service';
-import { ItemSetupController } from './inventory/item-setup/item-setup.controller';
+import { InventoryModule } from './modules/inventory.module';
+import { CountriesModule } from './global-setup/countries/countries.module';
+import { ItemsModule } from './inventory/setup/items/items.module';
+import { MovementsModule } from './hr/movements/movements.module';
+import { MovementsController } from './hr/movements/movements.controller';
+import { ItemsController } from './inventory/setup/items/items.controller';
+import { MovementsService } from './hr/movements/movements.service';
+import { CountriesController } from './global-setup/countries/countries.controller';
+import { ItemsService } from './inventory/setup/items/items.service';
+import { CountriesService } from './global-setup/countries/countries.service';
+import { JavascriptService } from './custom/javascript.service';
+import { DivisionModule } from './global-setup/division/division.module';
+import { JavascriptController } from './custom/javascript.controoler';
+import { DivisionController } from './global-setup/division/division.controller';
+import { DivisionService } from './global-setup/division/division.service';
 
 //https://www.loginradius.com/blog/engineering/guest-post/session-authentication-with-nestjs-and-mongodb/
+
 
 
 @Module({
@@ -36,30 +49,20 @@ import { ItemSetupController } from './inventory/item-setup/item-setup.controlle
     }),
     PrismaModule,
     HrModule,
+    InventoryModule,
     SecurityModule,
     ModulesModule,
     UserModule,
     AuthModule,
     ModulelinksModule,
     ModulelinksassignModule,
-    ItemSetupModule
+    CountriesModule,
+    ItemsModule,
+    MovementsModule,
+    DivisionModule
   ],
-  controllers: [
-    SecurityController,
-    ModulesController,
-    UserController,
-    ModulelinksController,
-    ModulelinksassignController,
-    ItemSetupController
-  ],
-  providers: [
-    ModulesService,
-    UserService,
-    JwtService,
-    ModulelinksService,
-    ModulelinksassignService,
-    ItemSetupService
-  ]
+  controllers: [JavascriptController, SecurityController, ModulesController, UserController, ModulelinksController, ModulelinksassignController, CountriesController, ItemsController, MovementsController, DivisionController],
+  providers: [JavascriptService, ModulesService, UserService, JwtService, ModulelinksService, ModulelinksassignService, CountriesService, ItemsService, MovementsService, DivisionService]
 })
 
-export class AppModule { }
+export class AppModule {}

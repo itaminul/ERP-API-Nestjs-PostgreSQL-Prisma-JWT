@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Type } from "class-transformer";
-import { IsBoolean, IsEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsNumber, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
 
 @Injectable()
 
@@ -56,9 +56,10 @@ export class UpdateEmployeeDto {
     @IsOptional()
     @IsString()
     nationalId
+    @Type(() => Number)
     @IsOptional()
     @IsNumber()
-    deptId
+    departmentId
     @IsOptional()
     @IsNumber()
     designationId
@@ -100,13 +101,13 @@ export class UpdateEmployeeDto {
     motherMobile
     @IsOptional()
     @IsString()
-    presentDivi
+    presentDiviId
     @IsOptional()
     @IsNumber()
-    presentDis
+    presentDistId
     @IsOptional()
     @IsNumber()
-    presentPS
+    presentPSId
     @IsOptional()
     @IsNumber()
     presentCityCor
@@ -130,13 +131,13 @@ export class UpdateEmployeeDto {
     presentPostOfficeCode
     @IsOptional()
     @IsString()
-    perDivi
+    perDiviId
     @IsOptional()
     @IsNumber()
-    pertDis
+    pertDisId
     @IsOptional()
     @IsNumber()
-    pertPS
+    pertPSId
     @IsOptional()
     @IsNumber()
     perCityCor
