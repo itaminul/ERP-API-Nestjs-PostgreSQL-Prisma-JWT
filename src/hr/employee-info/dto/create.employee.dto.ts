@@ -72,7 +72,7 @@ export class CreateEmployeeDto {
     dateOfBirts: string
     @IsOptional()
     @IsNumber()
-    gender: number
+    genderz: number
     @IsOptional()
     @IsNumber()
     @Type(() => Number)
