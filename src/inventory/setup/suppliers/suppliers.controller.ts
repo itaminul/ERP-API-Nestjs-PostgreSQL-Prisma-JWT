@@ -14,14 +14,10 @@ export class SuppliersController {
     @Get()
     async getAll(@AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.invSupService.getAll(authUserInfo);
-            return { message: 'Show Successfully', status: HttpStatus.OK, response }
-
+            const results = await this.invSupService.getAll(authUserInfo);
+            return { message: "Show data successfully", success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error;
+            return { success: false, message: error.message }
         }
     }
 
@@ -29,14 +25,10 @@ export class SuppliersController {
     @Post()
     async create(@Body() createSupplierDto: CreateSupplierDto, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.invSupService.create(createSupplierDto, authUserInfo);
-            return { message: 'Show Successfully', status: HttpStatus.OK, response }
-
+            const results = await this.invSupService.create(createSupplierDto, authUserInfo);
+            return { message: "Show data successfully", success: true, status: HttpStatus.CREATED, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error;
+            return { success: false, message: error.message }
         }
     }
 
@@ -44,14 +36,10 @@ export class SuppliersController {
     @Patch(':id')
     async update(@Param('id') id: number, @Body() updateSupplierDto: UpdateSupplierDto, @AuthUserInfo() authUserInfo: Users) {
         try {
-            const response = await this.invSupService.update(id, updateSupplierDto, authUserInfo);
-            return { message: 'Show Successfully', status: HttpStatus.OK, response }
-
+            const results = await this.invSupService.update(id, updateSupplierDto, authUserInfo);
+            return { message: "Show data successfully", success: true, status: HttpStatus.OK, results }
         } catch (error) {
-            if (error instanceof Prisma.PrismaClientKnownRequestError) {
-
-            }
-            throw error;
+            return { success: false, message: error.message }
         }
     }
 }
