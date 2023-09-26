@@ -148,6 +148,8 @@ model EmployeeInfo {
 
 model EmployeePresentAddress {
   id                    Int           @id @default(autoincrement())
+  employeeInfo EmployeeInfo? @relation(fields: [empId], references: [id])
+  empId           Int? //present divisition
   //start present address information
   division Division? @relation(fields: [presentDiviId], references: [id])
   presentDiviId           Int? //present divisition
@@ -171,12 +173,13 @@ model EmployeePresentAddress {
   updatedTime           String?
   updatedAt             DateTime?
   updatedBy             Int?
-  employeeInfo EmployeeInfo[]
 }
 
 
 model EmployeePermanentAddress {
   id                    Int           @id @default(autoincrement())  
+  employeeInfo EmployeeInfo? @relation(fields: [empId], references: [id])
+  empId           Int? //present divisition
   //start permanent address information
   division Division? @relation(fields: [perDiviId], references: [id])
   perDiviId               Int?
@@ -200,7 +203,6 @@ model EmployeePermanentAddress {
   updatedTime           String?
   updatedAt             DateTime?
   updatedBy             Int?
-  employeeInfo EmployeeInfo[]
 }
 
 model EmployeeEdu {
