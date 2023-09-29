@@ -128,6 +128,28 @@ model EmployeeInfo {
   motherName            String?
   motherProfe           Int?
   motherMobile          String?
+  activeStatus          Boolean       @default(true)
+  createdDate           String?
+  createdTime           String?
+  createdBy             Int?
+  createdAt             DateTime      @default(now())
+  updatedDate           String?
+  updatedTime           String?
+  updatedAt             DateTime?
+  updatedBy             Int?
+  employeeEdu           EmployeeEdu[]
+  leaveParent           LeaveParent[]
+  movement              Movement[]
+  attendance            Attendance[]
+  employeePresentAddress EmployeePresentAddress[]
+  employeePermanentAddress EmployeePermanentAddress[]
+}
+
+
+model EmployeePresentAddress {
+  id                    Int           @id @default(autoincrement())
+  employeeInfo EmployeeInfo? @relation(fields: [empId], references: [id])
+  empId           Int? //present divisition
   //start present address information
   division Division? @relation(fields: [presentDiviId], references: [id])
   presentDiviId           Int? //present divisition
@@ -142,10 +164,28 @@ model EmployeeInfo {
   presentBasHolding     Int?
   presentPostOffice     Int?
   presentPostOfficeCode Int?
+  activeStatus          Boolean       @default(true)
+  createdDate           String?
+  createdTime           String?
+  createdBy             Int?
+  createdAt             DateTime      @default(now())
+  updatedDate           String?
+  updatedTime           String?
+  updatedAt             DateTime?
+  updatedBy             Int?
+}
+
+
+model EmployeePermanentAddress {
+  id                    Int           @id @default(autoincrement())  
+  employeeInfo EmployeeInfo? @relation(fields: [empId], references: [id])
+  empId           Int? //present divisition
   //start permanent address information
-  // division Division? @relation(fields: [perDiviId], references: [id])
+  division Division? @relation(fields: [perDiviId], references: [id])
   perDiviId               Int?
+  district District? @relation(fields: [pertDisId], references: [id])
   pertDisId               Int?
+  thana Thana? @relation(fields: [pertPSId], references: [id])
   pertPSId                Int? //permanent police station
   perCityCor            Int? //permanent city corporation
   perWord               Int? //permenaent word
@@ -163,10 +203,6 @@ model EmployeeInfo {
   updatedTime           String?
   updatedAt             DateTime?
   updatedBy             Int?
-  employeeEdu           EmployeeEdu[]
-  leaveParent           LeaveParent[]
-  movement              Movement[]
-  attendance            Attendance[]
 }
 
 model EmployeeEdu {
@@ -295,7 +331,8 @@ model Division {
   updatedTime    String?
   updatedAt      DateTime?
   updatedBy      Int?
-  employeeInfo   EmployeeInfo[]
+  employeePermanentAddress EmployeePermanentAddress[]
+  employeePresentAddress EmployeePresentAddress[]
 }
 
 model District {
@@ -313,7 +350,8 @@ model District {
   updatedTime    String?
   updatedAt      DateTime?
   updatedBy      Int?
-  employeeInfo   EmployeeInfo[]
+  employeePermanentAddress EmployeePermanentAddress[]
+  employeePresentAddress EmployeePresentAddress[]
 }
 
 model Thana {
@@ -331,7 +369,8 @@ model Thana {
   updatedTime    String?
   updatedAt      DateTime?
   updatedBy      Int?
-  employeeInfo   EmployeeInfo[]
+  employeePermanentAddress EmployeePermanentAddress[]
+  employeePresentAddress EmployeePresentAddress[]
 }
 model Designation {
   id              Int            @id @default(autoincrement())
@@ -515,6 +554,7 @@ model InvItemsGroup {
   updatedBy      Int?
   invItemSetup InvItemSetup[]
   requisitionChild RequisitionChild[]
+  requisitionApproveChild RequisitionApproveChild[]
 }
 
 model Measurement {
@@ -534,6 +574,7 @@ model Measurement {
   updatedBy      Int?
   invItemSetup InvItemSetup[]
   requisitionChild RequisitionChild[]
+  requisitionApproveChild RequisitionApproveChild[]
 }
 
 model InvItemSetup {
@@ -568,6 +609,7 @@ model InvItemSetup {
   updatedAt      DateTime?
   updatedBy      Int?
   requisitionChild RequisitionChild[]
+  requisitionApproveChild RequisitionApproveChild[]
 }
 
 
@@ -595,6 +637,7 @@ model RequisitionParent {
   updatedAt      DateTime?
   updatedBy      Int?
   requisitionChild RequisitionChild[]
+  requisitionApproveChild RequisitionApproveChild[]
 }
 
 
@@ -609,6 +652,61 @@ model RequisitionChild {
   measurement Measurement? @relation(fields: [uomId], references: [id])
   uomId Int?
   qty Int
+  price Int?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  
+}
+
+
+model RequisitionApproveParent {
+  id             Int           @id @default(autoincrement())
+  requisitionNo String
+  requisitionType Int? //1 for internal, 2 for external
+  requisitionFrom Int?
+  requisitionTo Int?
+  itemGroupId Int?
+  itemId Int?
+  requisitionDate DateTime
+  requisitionStatus Int @default(0) // 0 form requisition pending 1 form approve 2 for cancel
+  requisitionRemarks String
+  requisitionBy Int?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  requisitionApproveChild RequisitionApproveChild[]
+}
+
+
+model RequisitionApproveChild {
+  id             Int           @id @default(autoincrement())
+  requisitionApproveParent RequisitionApproveParent? @relation(fields: [requisitionApproveId], references: [id])
+  requisitionApproveId Int?
+  requisitionParent RequisitionParent? @relation(fields: [requisitionId], references: [id])
+  requisitionId Int?
+  invItemsGroup InvItemsGroup? @relation(fields: [itemGroupId], references: [id])
+  itemGroupId Int?
+  invItemSetup InvItemSetup? @relation(fields: [itemId], references: [id])
+  itemId Int?
+  measurement Measurement? @relation(fields: [uomId], references: [id])
+  uomId Int?
+  approvedQty Int?
+  receivedQty Int?
   price Int?
   orgId          Int?
   activeStatus   Boolean       @default(true)
