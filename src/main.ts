@@ -8,8 +8,7 @@ import { TransformInterceptor } from './filters/transform-nterceptor';
 import * as session from 'express-session';
 import * as passport from 'passport';
 
-
-
+const APP_PORT = process.env.APP_PORT || 8000;
 
 //role base authentication
 //https://blog.bitsrc.io/authentication-and-authorization-in-nestjs-39f9d92184ab
@@ -19,23 +18,22 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(
     session({
-      secret: "key",
+      secret: 'key',
       resave: false,
       saveUninitialized: false,
       // cookie: { maxAge: 10000 },
       cookie: { maxAge: 3600000 },
-    })
-  )
-  app.use(passport.initialize())
-  app.use(passport.session())
-  app.useGlobalPipes(new ValidationPipe())
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
   const { httpAdapter } = app.get(HttpAdapterHost);
   // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   // app.useGlobalFilters(new HttpExceptionFilter())
   app.enableCors();
-  await app.listen(9007);
-  
+  await app.listen(APP_PORT);
 }
 bootstrap();

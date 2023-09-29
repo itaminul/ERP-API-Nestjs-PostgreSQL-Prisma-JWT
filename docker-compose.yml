@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  nest-api:
+    build:
+      context: . # Dockerfile's path
+      dockerfile: Dockerfile
+    container_name: nest-api
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data # persist data even if container shuts down
+    env_file:
+      - .env
+
+volumes:
+  db_data:
+    name: ERP-API-nestjs-postgreSQL-prisma
