@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-  nest-api:
+  nest-app:
     build:
       context: . # Dockerfile's path
       dockerfile: Dockerfile
-    container_name: nest-api
+    container_name: nest-app
     restart: always
     ports:
-      - 3000:3000
+      - 8000:8000
     depends_on:
       - postgres
     env_file:

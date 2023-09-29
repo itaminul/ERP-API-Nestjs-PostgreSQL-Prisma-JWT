@@ -1,5 +1,5 @@
 # Use the official Node.js runtime parent image
-FROM node:18.18.0
+FROM node:16.16.0
 
 # Create and set the working directory in the container
 WORKDIR /app
@@ -17,7 +17,7 @@ RUN npx prisma generate
 COPY . .
 
 # Expose the port your app is running on
-EXPOSE 3000
+EXPOSE 8000
 
 # Define the command to start your app
 CMD [ "npm", "run", "start:dev" ]
