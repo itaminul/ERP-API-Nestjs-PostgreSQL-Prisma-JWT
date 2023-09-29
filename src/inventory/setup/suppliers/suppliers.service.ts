@@ -10,7 +10,15 @@ export class SuppliersService {
     async getAll(authUserInfo) {
         return await this.prisma.invSupplier.findMany({
             where: {
-                orgId: authUserInfo.id
+                orgId: authUserInfo.orgId
+            }
+        })
+    }
+    async getById(id, authUserInfo) {
+        return await this.prisma.invSupplier.findMany({
+            where: {
+                id: Number(id),
+                orgId: authUserInfo.orgId
             }
         })
     }

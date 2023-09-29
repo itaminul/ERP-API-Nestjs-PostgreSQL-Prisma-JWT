@@ -22,6 +22,17 @@ export class SuppliersController {
     }
 
     @UseGuards(AuthGuard('jwt'))
+    @Get('/getByid/:id')
+    async getById(@Param('id') id: number, @AuthUserInfo() authUserInfo: Users) {
+        try {
+            const results = await this.invSupService.getById(id,authUserInfo);
+            return { message: "Show data By Id successfully", success: true, status: HttpStatus.OK, results }
+        } catch (error) {
+            return { success: false, message: error.message }
+        }
+    }
+
+    @UseGuards(AuthGuard('jwt'))
     @Post()
     async create(@Body() createSupplierDto: CreateSupplierDto, @AuthUserInfo() authUserInfo: Users) {
         try {

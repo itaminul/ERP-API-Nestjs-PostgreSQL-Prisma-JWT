@@ -2,11 +2,9 @@
 
 ## Installation
 
-### Prisma installation processes
+###  installation processes
 ```bash
- npm install prisma --save-dev
- npx prsiama
- npx prisma init
+ npm install
 ```
 
 ## Modules
