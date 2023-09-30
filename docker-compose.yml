@@ -4,13 +4,16 @@ services:
   nest-app:
     build:
       context: . # Dockerfile's path
-      dockerfile: Dockerfile
     container_name: nest-app
     restart: always
-    ports:
-      - 8000:8000
     depends_on:
       - postgres
+    ports:
+      - 8000:8000
+    networks:
+      - mynetwork
+    volumes:
+      - ./:/app
     env_file:
       - .env
 
@@ -20,6 +23,8 @@ services:
     restart: always
     ports:
       - 5432:5432
+    networks:
+      - mynetwork
     volumes:
       - db_data:/var/lib/postgresql/data # persist data even if container shuts down
     env_file:
@@ -28,3 +33,6 @@ services:
 volumes:
   db_data:
     name: ERP-API-nestjs-postgreSQL-prisma
+
+networks:
+  - mynetwork
