@@ -35,4 +35,4 @@ volumes:
     name: ERP-API-nestjs-postgreSQL-prisma
 
 networks:
-  - mynetwork
+  mynetwork:
