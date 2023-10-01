@@ -1,23 +1,23 @@
-# Use the official Node.js runtime parent image
-FROM node:18.18.0
+# Use the official Node.js runtime parent image with Node.js version 16.16.0
+FROM node:16.16.0
 
-# Create and set the working directory in the container
+# Create and set the working directory in the container as /app
 WORKDIR /app
 
-# Copy package.json to the app directory
+# Copy the package.json file to the /app directory
 COPY package.json .
 
-# Install app dependencies
+# Install the application dependencies using npm
 RUN npm install
 
-# Generate prisma client
+# Copy the Prisma schema and related files to the /app/prisma directory
+COPY prisma ./prisma
+
+# Generate the Prisma client from the schema
 RUN npx prisma generate
 
-# Copy the rest of your app code to the app directory
+# Copy the rest of the application code to the /app directory
 COPY . .
 
-# Expose the port your app is running on
-EXPOSE 3000
-
-# Define the command to start your app
+# Define the command to start the application in development mode
 CMD [ "npm", "run", "start:dev" ]
