@@ -58,3 +58,5 @@ Prerequisites: You have to have installed Docker and Docker-compose in your comp
 
 - If you see this `Error: P1001: Can't reach database server at "postgres:5432"` error message while running `npm run migrate:dev` script command or `npx prisma generate` or `npx prisma migrate dev` command to perform Prisma migrations locally then you can replace the value of `POSTGRES_HOST` with `localhost` like `POSTGRES_HOST=localhost` in `.env` file.
   **N.B**: Please keep in mind, before running `docker compose up` first the value of the `POSTGRES_HOST` env variable should be `postgres` because, inside docker, services communicate with each other with their container name as the hostname like when we'll run `docker compose up`, our `nest-app` service will be connected with `postgres` service through `http://postgres:5432`.
+
+  - Alternatively you can run the command from the container by using this command `docker exec -it nest-app bash`
