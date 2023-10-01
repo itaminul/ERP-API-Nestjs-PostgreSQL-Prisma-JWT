@@ -10,14 +10,11 @@ COPY package.json .
 # Install the application dependencies using npm
 RUN npm install
 
-# Copy the Prisma schema and related files to the /app/prisma directory
-COPY prisma ./prisma
+# Copy the rest of the application code to the /app directory
+COPY . .
 
 # Generate the Prisma client from the schema
 RUN npx prisma generate
-
-# Copy the rest of the application code to the /app directory
-COPY . .
 
 # Define the command to start the application in development mode
 CMD [ "npm", "run", "start:dev" ]
