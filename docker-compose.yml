@@ -2,8 +2,7 @@ version: '3'
 
 services:
   nest-app:
-    build:
-      context: . # Dockerfile's path
+    build: . # Dockerfile's path
     container_name: nest-app
     restart: always
     depends_on:
@@ -27,12 +26,12 @@ services:
       - mynetwork
     volumes:
       - db_data:/var/lib/postgresql/data # persist data even if container shuts down
+      - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh # for creating an additional shadow database
     env_file:
       - .env
 
 volumes:
   db_data:
-    name: ERP-API-nestjs-postgreSQL-prisma
 
 networks:
   mynetwork:
