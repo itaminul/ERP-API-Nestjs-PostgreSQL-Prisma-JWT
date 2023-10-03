@@ -25,13 +25,14 @@ services:
     networks:
       - mynetwork
     volumes:
-      - db_data:/var/lib/postgresql/data # persist data even if container shuts down
+      - postgres_data:/var/lib/postgresql/data # persist data even if container shuts down
       - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh # for creating an additional shadow database
     env_file:
       - .env
 
 volumes:
-  db_data:
+  postgres_data:
 
 networks:
   mynetwork:
+    name: mynetwork
