@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  nest-app:
+    build: . # Dockerfile's path
+    container_name: nest-app
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - 8000:8000
+    networks:
+      - mynetwork
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - mynetwork
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # persist data even if container shuts down
+      - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh # for creating an additional shadow database
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+
+networks:
+  mynetwork:
+    name: mynetwork

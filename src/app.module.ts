@@ -12,9 +12,9 @@ import { UserController } from './users/user.controller';
 import { UserService } from './users/user.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtService } from '@nestjs/jwt';
-import { ModulelinksModule } from './security/modulelinks/modulelinks.module'
-import { ModulelinksService } from './security/modulelinks/modulelinks.service'
-import { ModulelinksController } from './security/modulelinks/modulelinks.controller'
+import { ModulelinksModule } from './security/modulelinks/modulelinks.module';
+import { ModulelinksService } from './security/modulelinks/modulelinks.service';
+import { ModulelinksController } from './security/modulelinks/modulelinks.controller';
 import { ModulelinksassignModule } from './security/modulelinksassign/modulelinksassign.module';
 import { ModulelinksassignController } from './security/modulelinksassign/modulelinksassign.controller';
 import { ModulelinksassignService } from './security/modulelinksassign/modulelinksassign.service';
@@ -37,15 +37,13 @@ import { DivisionService } from './global-setup/division/division.service';
 
 //https://www.loginradius.com/blog/engineering/guest-post/session-authentication-with-nestjs-and-mongodb/
 
-
-
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     MulterModule.register({
-      dest: './uploads/employee'
+      dest: './uploads/employee',
     }),
     PrismaModule,
     HrModule,
@@ -59,10 +57,31 @@ import { DivisionService } from './global-setup/division/division.service';
     CountriesModule,
     ItemsModule,
     MovementsModule,
-    DivisionModule
+    DivisionModule,
   ],
-  controllers: [JavascriptController, SecurityController, ModulesController, UserController, ModulelinksController, ModulelinksassignController, CountriesController, ItemsController, MovementsController, DivisionController],
-  providers: [JavascriptService, ModulesService, UserService, JwtService, ModulelinksService, ModulelinksassignService, CountriesService, ItemsService, MovementsService, DivisionService]
+  controllers: [
+    JavascriptController,
+    SecurityController,
+    ModulesController,
+    UserController,
+    ModulelinksController,
+    ModulelinksassignController,
+    CountriesController,
+    ItemsController,
+    MovementsController,
+    DivisionController,
+  ],
+  providers: [
+    JavascriptService,
+    ModulesService,
+    UserService,
+    JwtService,
+    ModulelinksService,
+    ModulelinksassignService,
+    CountriesService,
+    ItemsService,
+    MovementsService,
+    DivisionService,
+  ],
 })
-
 export class AppModule {}

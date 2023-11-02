@@ -3,9 +3,9 @@ import { PrismaService } from 'src/database/prisma/prisma.service';
 import { AttendanceController } from 'src/hr/attendance/attendance.controller';
 import { AttendanceModule } from 'src/hr/attendance/attendance.module';
 import { AttendanceService } from 'src/hr/attendance/attendance.service';
-import { EmployeeController } from 'src/hr/employee-info/employee.controller';
-import { EmployeeModule } from 'src/hr/employee-info/employee.module';
-import { EmployeeService } from 'src/hr/employee-info/employee.service';
+// import { EmployeeController } from 'src/hr/employee-info_back/employee.controller';
+// import { EmployeeModule } from 'src/hr/employee-info_back/employee.module';
+// import { EmployeeService } from 'src/hr/employee-info_back/employee.service';
 import { LeaveController } from 'src/hr/leave/leave.controller';
 import { LeaveModule } from 'src/hr/leave/leave.module';
 import { LeaveService } from 'src/hr/leave/leave.service';
@@ -27,10 +27,34 @@ import { ReligionsService } from 'src/hr/setup/religions/religions.service';
 import { ImageResizeService } from 'src/services/image-resize.service';
 
 @Module({
-  imports: [EmployeeModule, DepartmentModule, DesignationModule, LeaveModule, AttendanceModule, MovementsModule, ReligionsModule, BloodGroupsModule],
-  controllers: [EmployeeController, DepartmentController, DesignationController, LeaveController, AttendanceController, MovementsController, ReligionsController, BloodGroupsController],
-  providers: [EmployeeService, ImageResizeService, DepartmentService, DesignationService, LeaveService, AttendanceService, MovementsService, ReligionsService, BloodGroupsService]
+  imports: [
+    DepartmentModule,
+    DesignationModule,
+    LeaveModule,
+    AttendanceModule,
+    MovementsModule,
+    ReligionsModule,
+    BloodGroupsModule,
+  ],
+  // controllers: [EmployeeController, DepartmentController, DesignationController, LeaveController, AttendanceController, MovementsController, ReligionsController, BloodGroupsController],
+  controllers: [
+    DepartmentController,
+    DesignationController,
+    LeaveController,
+    AttendanceController,
+    MovementsController,
+    ReligionsController,
+    BloodGroupsController,
+  ],
+  providers: [
+    ImageResizeService,
+    DepartmentService,
+    DesignationService,
+    LeaveService,
+    AttendanceService,
+    MovementsService,
+    ReligionsService,
+    BloodGroupsService,
+  ],
 })
-
-
 export class HrModule {}
