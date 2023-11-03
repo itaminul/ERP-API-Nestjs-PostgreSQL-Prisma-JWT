@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -30,6 +27,7 @@ model Users {
   updatedDate  String?
   updatedTime  String?
   updatedAt    DateTime?
+  companyId    Int?
 }
 
 model Test {
@@ -43,7 +41,6 @@ model AllModule {
   moduleName   String
   moduleDes    String?
   moduleLogo   String?
-  serialNo     Int?
   orgId        Int?
   activeStatus Boolean   @default(true)
   createdDate  String?
@@ -54,13 +51,14 @@ model AllModule {
   updatedTime  String?
   updatedAt    DateTime?
   updatedBy    Int?
+  serialNo     Int?
 }
 
 model ModuleLink {
   id                  Int       @id @default(autoincrement())
   moduleId            Int
   linkeNameMenuName   String
-  menuOrSubmenuStatus Int //1 for menue 2 for submenu
+  menuOrSubmenuStatus Int
   serialNo            Int?
   activeStatus        Boolean   @default(true)
   createdDate         String?
@@ -78,7 +76,6 @@ model ModuleLinkAssign {
   moduleId         Int
   moduleLinkId     Int
   userLabel        Int
-  permissionStatus Boolean //See menu link or not
   activeStatus     Boolean   @default(true)
   createdDate      String?
   createdTime      String?
@@ -88,6 +85,7 @@ model ModuleLinkAssign {
   updatedTime      String?
   updatedAt        DateTime?
   updatedBy        Int?
+  permissionStatus Boolean
 }
 
 model EmployeeInfo {
@@ -143,6 +141,9 @@ model EmployeeInfo {
   attendance               Attendance[]
   employeePresentAddress   EmployeePresentAddress[]
   employeePermanentAddress EmployeePermanentAddress[]
+  employeePresentAddress   EmployeePresentAddress[]
+  leaveParent              LeaveParent[]
+  movement                 Movement[]
 }
 
 model EmployeePresentAddress {
@@ -172,6 +173,11 @@ model EmployeePresentAddress {
   updatedTime           String?
   updatedAt             DateTime?
   updatedBy             Int?
+  empId                 Int?
+  employeeInfo          EmployeeInfo? @relation(fields: [empId], references: [id])
+  district              District?     @relation(fields: [presentDistId], references: [id])
+  division              Division?     @relation(fields: [presentDiviId], references: [id])
+  thana                 Thana?        @relation(fields: [presentPSId], references: [id])
 }
 
 model EmployeePermanentAddress {
@@ -205,11 +211,10 @@ model EmployeePermanentAddress {
 
 model EmployeeEdu {
   id               Int           @id @default(autoincrement())
-  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
   empId            Int?
   degreeId         Int?
   boardId          Int?
-  resultType       Int? //GPA or Division
+  resultType       Int?
   resultGPA        String?
   resultDivision   String?
   certificateImage String?
@@ -222,6 +227,7 @@ model EmployeeEdu {
   updatedTime      String?
   updatedAt        DateTime?
   updatedBy        Int?
+  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
 }
 
 model EmployeeType {
@@ -391,9 +397,8 @@ model Designation {
 
 model LeaveParent {
   id               Int           @id @default(autoincrement())
-  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
   empId            Int?
-  leaveStatus      Int? // full day leave 1 short leave 2
+  leaveStatus      Int?
   leaveReasons     String?
   leaveDes         String?
   attachments      String?
@@ -411,12 +416,14 @@ model LeaveParent {
   updatedTime      String?
   updatedAt        DateTime?
   updatedBy        Int?
+  leaveFromDate    DateTime?     @db.Date
+  leaveToDate      DateTime?     @db.Date
   leaveChild       LeaveChild[]
+  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
 }
 
 model LeaveChild {
   id            Int          @id @default(autoincrement())
-  leaveParent   LeaveParent? @relation(fields: [leaveId], references: [id])
   leaveId       Int?
   leaveDate     DateTime?    @db.Date
   leaveFromTime String?
@@ -430,15 +437,18 @@ model LeaveChild {
   updatedTime   String?
   updatedAt     DateTime?
   updatedBy     Int?
+  leaveFromTime String?
+  leaveToTime   String?
+  leaveDate     DateTime?    @db.Date
+  leaveParent   LeaveParent? @relation(fields: [leaveId], references: [id])
 }
 
 model Movement {
   id               Int           @id @default(autoincrement())
-  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
   empId            Int?
   clientId         Int?
   projectId        Int?
-  movementStatus   Int? // from office 1 from home 2
+  movementStatus   Int?
   movementReasons  String?
   movementDes      String?
   movementFromDate String?
@@ -456,18 +466,16 @@ model Movement {
   updatedTime      String?
   updatedAt        DateTime?
   updatedBy        Int?
+  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
 }
 
 model Attendance {
   id             Int           @id @default(autoincrement())
-  employeeInfo   EmployeeInfo? @relation(fields: [empId], references: [id])
   empId          Int?
   attendanceDate String?
   logInTime      String?
   logOutTime     String?
   biometricId    Int?
-  machineId      Int?
-  shiftId        Int?
   orgId          Int?
   activeStatus   Boolean       @default(true)
   createdDate    String?
@@ -478,6 +486,9 @@ model Attendance {
   updatedTime    String?
   updatedAt      DateTime?
   updatedBy      Int?
+  machineId      Int?
+  shiftId        Int?
+  employeeInfo   EmployeeInfo? @relation(fields: [empId], references: [id])
 }
 
 model Holidays {
@@ -552,6 +563,7 @@ model InvItemsGroup {
   invItemSetup            InvItemSetup[]
   requisitionChild        RequisitionChild[]
   requisitionApproveChild RequisitionApproveChild[]
+  requisitionChild        RequisitionChild[]
 }
 
 model Measurement {
@@ -572,6 +584,7 @@ model Measurement {
   invItemSetup            InvItemSetup[]
   requisitionChild        RequisitionChild[]
   requisitionApproveChild RequisitionApproveChild[]
+  requisitionChild        RequisitionChild[]
 }
 
 model InvItemSetup {
@@ -607,6 +620,7 @@ model InvItemSetup {
   updatedBy               Int?
   requisitionChild        RequisitionChild[]
   requisitionApproveChild RequisitionApproveChild[]
+  requisitionChild        RequisitionChild[]
 }
 
 model RequisitionParent {
@@ -710,4 +724,20 @@ model RequisitionApproveChild {
   updatedTime              String?
   updatedAt                DateTime?
   updatedBy                Int?
+}
+
+model Organization {
+  id             Int       @id @default(autoincrement())
+  orgName        String
+  orgDescription String?
+  serialNo       Int?
+  activeStatus   Boolean   @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime  @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
 }
