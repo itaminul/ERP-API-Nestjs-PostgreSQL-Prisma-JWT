@@ -1,23 +1,21 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
- import { ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
- 
 @Injectable()
 export class LocalStrategyJwt extends PassportStrategy(Strategy, 'jwt') {
-  constructor(private authService: AuthService,
-    private configService: ConfigService
-    ) {
-    super(
-        {
-        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey:configService.get('JWT_SECRET')
-        }
-    );
+  constructor(
+    private authService: AuthService,
+    private configService: ConfigService,
+  ) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: configService.get('JWT_SECRET'),
+    });
   }
- /*
+  /*
  
    async validate(payload: {username: string}) {
       const user = await this.prisma.users.findUnique({
@@ -48,7 +46,7 @@ export class LocalStrategyJwt extends PassportStrategy(Strategy, 'jwt') {
       deptId: payload.deptId,
       desigId: payload.desigId,
       roleId: payload.roleId,
-      orgId:payload.orgId,
-    }
+      orgId: payload.orgId,
+    };
   }
 }

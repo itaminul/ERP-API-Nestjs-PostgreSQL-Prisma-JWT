@@ -25,7 +25,9 @@ import { ReligionsController } from 'src/hr/setup/religions/religions.controller
 import { ReligionsModule } from 'src/hr/setup/religions/religions.module';
 import { ReligionsService } from 'src/hr/setup/religions/religions.service';
 import { ImageResizeService } from 'src/services/image-resize.service';
-
+import { OrganizationService } from 'src/hr/setup/organization/organization.service';
+import { OrganizationModule } from 'src/hr/setup/organization/organization.module';
+import { OrganizationController } from 'src/hr/setup/organization/organization.controller';
 @Module({
   imports: [
     DepartmentModule,
@@ -35,6 +37,7 @@ import { ImageResizeService } from 'src/services/image-resize.service';
     MovementsModule,
     ReligionsModule,
     BloodGroupsModule,
+    OrganizationModule,
   ],
   // controllers: [EmployeeController, DepartmentController, DesignationController, LeaveController, AttendanceController, MovementsController, ReligionsController, BloodGroupsController],
   controllers: [
@@ -45,6 +48,7 @@ import { ImageResizeService } from 'src/services/image-resize.service';
     MovementsController,
     ReligionsController,
     BloodGroupsController,
+    OrganizationController,
   ],
   providers: [
     ImageResizeService,
@@ -55,6 +59,7 @@ import { ImageResizeService } from 'src/services/image-resize.service';
     MovementsService,
     ReligionsService,
     BloodGroupsService,
+    OrganizationService,
   ],
 })
 export class HrModule {}

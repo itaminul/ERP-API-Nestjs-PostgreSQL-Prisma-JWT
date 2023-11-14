@@ -4,6 +4,6 @@ import { DivisionController } from './division.controller';
 
 @Module({
   providers: [DivisionService],
-  controllers: [DivisionController]
+  controllers: [DivisionController],
 })
 export class DivisionModule {}

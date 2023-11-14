@@ -4,6 +4,6 @@ import { RequisitionController } from './requisition.controller';
 
 @Module({
   providers: [RequisitionService],
-  controllers: [RequisitionController]
+  controllers: [RequisitionController],
 })
 export class RequisitionModule {}

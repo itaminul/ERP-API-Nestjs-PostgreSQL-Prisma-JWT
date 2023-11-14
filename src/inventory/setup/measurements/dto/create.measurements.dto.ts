@@ -1,14 +1,14 @@
-import { Injectable } from "@nestjs/common";
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { Injectable } from '@nestjs/common';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-@Injectable() 
+@Injectable()
 export class CreateMeasurementsDto {
-    @IsString()
-    measurementName: string
-    @IsOptional()
-    @IsString()
-    measurementDescription: string
-    @IsOptional()
-    @IsString()
-    remarks: string
+  @IsString()
+  measurementName: string;
+  @IsOptional()
+  @IsString()
+  measurementDescription: string;
+  @IsOptional()
+  @IsString()
+  remarks: string;
 }

@@ -3,4 +3,4 @@ import { OrganizationService } from './organization.service';
 @Module({
   providers: [OrganizationService],
 })
-export class DepartmentModule {}
+export class OrganizationModule {}

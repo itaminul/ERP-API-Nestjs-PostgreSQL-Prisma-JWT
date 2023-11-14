@@ -4,6 +4,6 @@ import { ReligionsService } from './religions.service';
 
 @Module({
   controllers: [ReligionsController],
-  providers: [ReligionsService]
+  providers: [ReligionsService],
 })
 export class ReligionsModule {}

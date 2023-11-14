@@ -4,15 +4,15 @@ import { CreateExamSetupDto } from './dto/create-exam-setup.dto';
 
 @Injectable()
 export class ExamSetupService {
-    constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
-    async getAll() {
-       //return this.prisma.examSetup.getAll()
-    }
+  async getAll() {
+    //return this.prisma.examSetup.getAll()
+  }
 
-    async create(@Body() dto: CreateExamSetupDto) {
-        const { examName, examDescription } = dto
-        /*return await this.prisma.examSetup.create({
+  async create(@Body() dto: CreateExamSetupDto) {
+    const { examName, examDescription } = dto;
+    /*return await this.prisma.examSetup.create({
             data: {
                 examName,
                 examDescription,
@@ -21,11 +21,11 @@ export class ExamSetupService {
                 createdAt: new Date()
             }
         })*/
-    }
+  }
 
-    async update(@Param('id') id: number, @Body() dto: CreateExamSetupDto) {
-        const { examName, examDescription } = dto
-      /*  return await this.prisma.examSetup.update({
+  async update(@Param('id') id: number, @Body() dto: CreateExamSetupDto) {
+    const { examName, examDescription } = dto;
+    /*  return await this.prisma.examSetup.update({
             where: {
                 id: id
             },
@@ -37,5 +37,5 @@ export class ExamSetupService {
                 updatedAt: new Date()
             }
         })*/
-    }
+  }
 }

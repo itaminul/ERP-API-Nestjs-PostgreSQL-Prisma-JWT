@@ -1,11 +1,14 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Users {
@@ -18,7 +21,7 @@ model Users {
   desigId      Int?
   roleId       Int?
   orgId        Int?
-  companyId    Int?
+  companyId Int?
   activeStatus Boolean   @default(true)
   createdDate  String?
   createdTime  String?
@@ -27,7 +30,22 @@ model Users {
   updatedDate  String?
   updatedTime  String?
   updatedAt    DateTime?
-  companyId    Int?
+}
+
+model Organization {
+  id             Int            @id @default(autoincrement())
+  orgName String
+  orgDescription  String?
+  serialNo       Int?
+  activeStatus   Boolean        @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
 }
 
 model Test {
@@ -41,6 +59,7 @@ model AllModule {
   moduleName   String
   moduleDes    String?
   moduleLogo   String?
+  serialNo     Int?
   orgId        Int?
   activeStatus Boolean   @default(true)
   createdDate  String?
@@ -51,14 +70,13 @@ model AllModule {
   updatedTime  String?
   updatedAt    DateTime?
   updatedBy    Int?
-  serialNo     Int?
 }
 
 model ModuleLink {
   id                  Int       @id @default(autoincrement())
   moduleId            Int
   linkeNameMenuName   String
-  menuOrSubmenuStatus Int
+  menuOrSubmenuStatus Int //1 for menue 2 for submenu
   serialNo            Int?
   activeStatus        Boolean   @default(true)
   createdDate         String?
@@ -76,6 +94,7 @@ model ModuleLinkAssign {
   moduleId         Int
   moduleLinkId     Int
   userLabel        Int
+  permissionStatus Boolean //See menu link or not
   activeStatus     Boolean   @default(true)
   createdDate      String?
   createdTime      String?
@@ -85,78 +104,75 @@ model ModuleLinkAssign {
   updatedTime      String?
   updatedAt        DateTime?
   updatedBy        Int?
-  permissionStatus Boolean
 }
 
 model EmployeeInfo {
-  id                       Int                        @id @default(autoincrement())
-  firstName                String?
-  middleName               String
-  lastName                 String
-  fullName                 String
-  phone                    String?
-  mobileOne                String?
-  mobileTwo                String?
-  emergencyMobile          String?
-  officeEmail              String?
-  personalEmail            String?
-  empImage                 String?
-  empSignature             String?
-  nationalId               Int?
-  department               Department?                @relation(fields: [departmentId], references: [id])
-  departmentId             Int?
-  designation              Designation?               @relation(fields: [designationId], references: [id])
-  designationId            Int?
-  employeeType             EmployeeType?              @relation(fields: [empType], references: [id])
-  empType                  Int? // permanent, trainee, casual etc
-  leaveApplicableStatus    Boolean?
-  dateOfBirts              String?
-  gender                   Gender?                    @relation(fields: [genderId], references: [id])
-  genderId                 Int?
-  religion                 Religion?                  @relation(fields: [religionId], references: [id])
-  religionId               Int?
-  bloodgroup               Bloodgroup?                @relation(fields: [bloodGroupId], references: [id])
-  bloodGroupId             Int?
-  maritialStatus           Boolean?
-  spousName                String?
-  spouseProfe              Int? //spouse profession
-  fatherOrHusbandName      String?
-  fatherOrHusbandProfe     Int?
-  fatherOrHusbandMobile    String?
-  motherName               String?
-  motherProfe              Int?
-  motherMobile             String?
-  activeStatus             Boolean                    @default(true)
-  createdDate              String?
-  createdTime              String?
-  createdBy                Int?
-  createdAt                DateTime                   @default(now())
-  updatedDate              String?
-  updatedTime              String?
-  updatedAt                DateTime?
-  updatedBy                Int?
-  employeeEdu              EmployeeEdu[]
-  leaveParent              LeaveParent[]
-  movement                 Movement[]
-  attendance               Attendance[]
-  employeePresentAddress   EmployeePresentAddress[]
+  id                    Int           @id @default(autoincrement())
+  firstName             String?
+  middleName            String
+  lastName              String
+  fullName              String
+  phone                 String?
+  mobileOne             String?
+  mobileTwo             String?
+  emergencyMobile       String?
+  officeEmail           String?
+  personalEmail         String?
+  empImage              String?
+  empSignature          String?
+  nationalId            Int?
+  department            Department?   @relation(fields: [departmentId], references: [id])
+  departmentId                Int?
+  designation           Designation?  @relation(fields: [designationId], references: [id])
+  designationId         Int?
+  employeeType EmployeeType? @relation(fields: [empType], references: [id])
+  empType Int? // permanent, trainee, casual etc
+  leaveApplicableStatus Boolean?
+  dateOfBirts           String?
+  gender Gender? @relation(fields: [genderId], references: [id])
+  genderId             Int?
+  religion Religion? @relation(fields: [religionId], references: [id])
+  religionId              Int?
+  bloodgroup Bloodgroup? @relation(fields: [bloodGroupId], references: [id])
+  bloodGroupId Int?
+  maritialStatus        Boolean?
+  spousName             String?
+  spouseProfe           Int? //spouse profession
+  fatherOrHusbandName   String?
+  fatherOrHusbandProfe  Int?
+  fatherOrHusbandMobile String?
+  motherName            String?
+  motherProfe           Int?
+  motherMobile          String?
+  activeStatus          Boolean       @default(true)
+  createdDate           String?
+  createdTime           String?
+  createdBy             Int?
+  createdAt             DateTime      @default(now())
+  updatedDate           String?
+  updatedTime           String?
+  updatedAt             DateTime?
+  updatedBy             Int?
+  employeeEdu           EmployeeEdu[]
+  leaveParent           LeaveParent[]
+  movement              Movement[]
+  attendance            Attendance[]
+  employeePresentAddress EmployeePresentAddress[]
   employeePermanentAddress EmployeePermanentAddress[]
-  employeePresentAddress   EmployeePresentAddress[]
-  leaveParent              LeaveParent[]
-  movement                 Movement[]
 }
+
 
 model EmployeePresentAddress {
   id                    Int           @id @default(autoincrement())
-  employeeInfo          EmployeeInfo? @relation(fields: [empId], references: [id])
-  empId                 Int? //present divisition
+  employeeInfo EmployeeInfo? @relation(fields: [empId], references: [id])
+  empId           Int? //present divisition
   //start present address information
-  division              Division?     @relation(fields: [presentDiviId], references: [id])
-  presentDiviId         Int? //present divisition
-  district              District?     @relation(fields: [presentDistId], references: [id])
-  presentDistId         Int? //present district
-  thana                 Thana?        @relation(fields: [presentPSId], references: [id])
-  presentPSId           Int? //present police station
+  division Division? @relation(fields: [presentDiviId], references: [id])
+  presentDiviId           Int? //present divisition
+  district District? @relation(fields: [presentDistId], references: [id])
+  presentDistId            Int? //present district
+  thana Thana? @relation(fields: [presentPSId], references: [id])
+  presentPSId             Int? //present police station
   presentCityCor        Int? // present city corporation
   presentWord           Int? //present word
   presentWordNo         Int? //present word no
@@ -173,48 +189,45 @@ model EmployeePresentAddress {
   updatedTime           String?
   updatedAt             DateTime?
   updatedBy             Int?
-  empId                 Int?
-  employeeInfo          EmployeeInfo? @relation(fields: [empId], references: [id])
-  district              District?     @relation(fields: [presentDistId], references: [id])
-  division              Division?     @relation(fields: [presentDiviId], references: [id])
-  thana                 Thana?        @relation(fields: [presentPSId], references: [id])
 }
 
+
 model EmployeePermanentAddress {
-  id                Int           @id @default(autoincrement())
-  employeeInfo      EmployeeInfo? @relation(fields: [empId], references: [id])
-  empId             Int? //present divisition
+  id                    Int           @id @default(autoincrement())  
+  employeeInfo EmployeeInfo? @relation(fields: [empId], references: [id])
+  empId           Int? //present divisition
   //start permanent address information
-  division          Division?     @relation(fields: [perDiviId], references: [id])
-  perDiviId         Int?
-  district          District?     @relation(fields: [pertDisId], references: [id])
-  pertDisId         Int?
-  thana             Thana?        @relation(fields: [pertPSId], references: [id])
-  pertPSId          Int? //permanent police station
-  perCityCor        Int? //permanent city corporation
-  perWord           Int? //permenaent word
-  perWordNo         Int? //permanent word no
-  perVillRoad       Int? //permanent village road
-  perBasHolding     Int? //permanent basha holdings
-  perPostOffice     Int?
-  perPostOfficeCode Int?
-  activeStatus      Boolean       @default(true)
-  createdDate       String?
-  createdTime       String?
-  createdBy         Int?
-  createdAt         DateTime      @default(now())
-  updatedDate       String?
-  updatedTime       String?
-  updatedAt         DateTime?
-  updatedBy         Int?
+  division Division? @relation(fields: [perDiviId], references: [id])
+  perDiviId               Int?
+  district District? @relation(fields: [pertDisId], references: [id])
+  pertDisId               Int?
+  thana Thana? @relation(fields: [pertPSId], references: [id])
+  pertPSId                Int? //permanent police station
+  perCityCor            Int? //permanent city corporation
+  perWord               Int? //permenaent word
+  perWordNo             Int? //permanent word no
+  perVillRoad           Int? //permanent village road
+  perBasHolding         Int? //permanent basha holdings
+  perPostOffice         Int?
+  perPostOfficeCode     Int?
+  activeStatus          Boolean       @default(true)
+  createdDate           String?
+  createdTime           String?
+  createdBy             Int?
+  createdAt             DateTime      @default(now())
+  updatedDate           String?
+  updatedTime           String?
+  updatedAt             DateTime?
+  updatedBy             Int?
 }
 
 model EmployeeEdu {
   id               Int           @id @default(autoincrement())
+  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
   empId            Int?
   degreeId         Int?
   boardId          Int?
-  resultType       Int?
+  resultType       Int? //GPA or Division
   resultGPA        String?
   resultDivision   String?
   certificateImage String?
@@ -227,25 +240,24 @@ model EmployeeEdu {
   updatedTime      String?
   updatedAt        DateTime?
   updatedBy        Int?
-  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
 }
 
 model EmployeeType {
-  id           Int            @id @default(autoincrement())
-  empTypeName  String
-  empTypeDes   String?
-  orgId        Int?
-  serialNo     Int?
-  activeStatus Boolean        @default(true)
-  createdDate  String?
-  createdTime  String?
-  createdBy    Int?
-  createdAt    DateTime       @default(now())
-  updatedDate  String?
-  updatedTime  String?
-  updatedAt    DateTime?
-  updatedBy    Int?
-  employeeInfo EmployeeInfo[]
+  id             Int            @id @default(autoincrement())
+  empTypeName String
+  empTypeDes  String?
+  orgId          Int?
+  serialNo       Int?
+  activeStatus   Boolean        @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  employeeInfo   EmployeeInfo[]
 }
 
 model Department {
@@ -267,39 +279,39 @@ model Department {
 }
 
 model Gender {
-  id           Int            @id @default(autoincrement())
-  genderName   String
-  genderDes    String?
-  orgId        Int?
-  serialNo     Int?
-  activeStatus Boolean        @default(true)
-  createdDate  String?
-  createdTime  String?
-  createdBy    Int?
-  createdAt    DateTime       @default(now())
-  updatedDate  String?
-  updatedTime  String?
-  updatedAt    DateTime?
-  updatedBy    Int?
-  employeeInfo EmployeeInfo[]
+  id             Int            @id @default(autoincrement())
+  genderName String
+  genderDes  String?
+  orgId          Int?
+  serialNo       Int?
+  activeStatus   Boolean        @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  employeeInfo   EmployeeInfo[]
 }
 
 model Religion {
-  id           Int            @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   religionName String
   religionDes  String?
-  orgId        Int?
-  serialNo     Int?
-  activeStatus Boolean        @default(true)
-  createdDate  String?
-  createdTime  String?
-  createdBy    Int?
-  createdAt    DateTime       @default(now())
-  updatedDate  String?
-  updatedTime  String?
-  updatedAt    DateTime?
-  updatedBy    Int?
-  employeeInfo EmployeeInfo[]
+  orgId          Int?
+  serialNo       Int?
+  activeStatus   Boolean        @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  employeeInfo   EmployeeInfo[]
 }
 
 model Bloodgroup {
@@ -321,62 +333,61 @@ model Bloodgroup {
 }
 
 model Division {
-  id                       Int                        @id @default(autoincrement())
-  divisionName             String
-  divisionDes              String?
-  orgId                    Int?
-  serialNo                 Int?
-  activeStatus             Boolean                    @default(true)
-  createdDate              String?
-  createdTime              String?
-  createdBy                Int?
-  createdAt                DateTime                   @default(now())
-  updatedDate              String?
-  updatedTime              String?
-  updatedAt                DateTime?
-  updatedBy                Int?
+  id             Int            @id @default(autoincrement())
+  divisionName String
+  divisionDes  String?
+  orgId          Int?
+  serialNo       Int?
+  activeStatus   Boolean        @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
   employeePermanentAddress EmployeePermanentAddress[]
-  employeePresentAddress   EmployeePresentAddress[]
+  employeePresentAddress EmployeePresentAddress[]
 }
 
 model District {
-  id                       Int                        @id @default(autoincrement())
-  districtName             String
-  districtDes              String?
-  orgId                    Int?
-  serialNo                 Int?
-  activeStatus             Boolean                    @default(true)
-  createdDate              String?
-  createdTime              String?
-  createdBy                Int?
-  createdAt                DateTime                   @default(now())
-  updatedDate              String?
-  updatedTime              String?
-  updatedAt                DateTime?
-  updatedBy                Int?
+  id             Int            @id @default(autoincrement())
+  districtName String
+  districtDes  String?
+  orgId          Int?
+  serialNo       Int?
+  activeStatus   Boolean        @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
   employeePermanentAddress EmployeePermanentAddress[]
-  employeePresentAddress   EmployeePresentAddress[]
+  employeePresentAddress EmployeePresentAddress[]
 }
 
 model Thana {
-  id                       Int                        @id @default(autoincrement())
-  thanaName                String
-  thanaDes                 String?
-  orgId                    Int?
-  serialNo                 Int?
-  activeStatus             Boolean                    @default(true)
-  createdDate              String?
-  createdTime              String?
-  createdBy                Int?
-  createdAt                DateTime                   @default(now())
-  updatedDate              String?
-  updatedTime              String?
-  updatedAt                DateTime?
-  updatedBy                Int?
+  id             Int            @id @default(autoincrement())
+  thanaName String
+  thanaDes  String?
+  orgId          Int?
+  serialNo       Int?
+  activeStatus   Boolean        @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime       @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
   employeePermanentAddress EmployeePermanentAddress[]
-  employeePresentAddress   EmployeePresentAddress[]
+  employeePresentAddress EmployeePresentAddress[]
 }
-
 model Designation {
   id              Int            @id @default(autoincrement())
   designationName String
@@ -397,15 +408,16 @@ model Designation {
 
 model LeaveParent {
   id               Int           @id @default(autoincrement())
+  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
   empId            Int?
-  leaveStatus      Int?
+  leaveStatus      Int? // full day leave 1 short leave 2
   leaveReasons     String?
   leaveDes         String?
   attachments      String?
   leaveLocation    String?
   emergencyContact String?
-  leaveFromDate    DateTime?     @db.Date
-  leaveToDate      DateTime?     @db.Date
+  leaveFromDate DateTime?    @db.Date
+  leaveToDate   DateTime?    @db.Date
   orgId            Int?
   activeStatus     Boolean       @default(true)
   createdDate      String?
@@ -416,16 +428,14 @@ model LeaveParent {
   updatedTime      String?
   updatedAt        DateTime?
   updatedBy        Int?
-  leaveFromDate    DateTime?     @db.Date
-  leaveToDate      DateTime?     @db.Date
   leaveChild       LeaveChild[]
-  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
 }
 
 model LeaveChild {
   id            Int          @id @default(autoincrement())
+  leaveParent   LeaveParent? @relation(fields: [leaveId], references: [id])
   leaveId       Int?
-  leaveDate     DateTime?    @db.Date
+  leaveDate DateTime?    @db.Date
   leaveFromTime String?
   leaveToTime   String?
   activeStatus  Boolean      @default(true)
@@ -437,18 +447,15 @@ model LeaveChild {
   updatedTime   String?
   updatedAt     DateTime?
   updatedBy     Int?
-  leaveFromTime String?
-  leaveToTime   String?
-  leaveDate     DateTime?    @db.Date
-  leaveParent   LeaveParent? @relation(fields: [leaveId], references: [id])
 }
 
 model Movement {
   id               Int           @id @default(autoincrement())
+  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
   empId            Int?
   clientId         Int?
   projectId        Int?
-  movementStatus   Int?
+  movementStatus   Int? // from office 1 from home 2
   movementReasons  String?
   movementDes      String?
   movementFromDate String?
@@ -466,16 +473,18 @@ model Movement {
   updatedTime      String?
   updatedAt        DateTime?
   updatedBy        Int?
-  employeeInfo     EmployeeInfo? @relation(fields: [empId], references: [id])
 }
 
 model Attendance {
   id             Int           @id @default(autoincrement())
+  employeeInfo   EmployeeInfo? @relation(fields: [empId], references: [id])
   empId          Int?
   attendanceDate String?
   logInTime      String?
   logOutTime     String?
   biometricId    Int?
+  machineId      Int?
+  shiftId        Int?
   orgId          Int?
   activeStatus   Boolean       @default(true)
   createdDate    String?
@@ -486,256 +495,241 @@ model Attendance {
   updatedTime    String?
   updatedAt      DateTime?
   updatedBy      Int?
-  machineId      Int?
-  shiftId        Int?
-  employeeInfo   EmployeeInfo? @relation(fields: [empId], references: [id])
 }
+
 
 model Holidays {
-  id                Int       @id @default(autoincrement())
-  holidayTitle      String?
+  id             Int           @id @default(autoincrement())
+  holidayTitle String?
   hlidayDescription String?
-  date              String?
-  orgId             Int?
-  activeStatus      Boolean   @default(true)
-  createdDate       String?
-  createdTime       String?
-  createdBy         Int?
-  createdAt         DateTime  @default(now())
-  updatedDate       String?
-  updatedTime       String?
-  updatedAt         DateTime?
-  updatedBy         Int?
-}
-
-model Country {
-  id                 Int           @id @default(autoincrement())
-  countryName        String?
-  countryDescription String?
-  countryCode        Int?
-  activeStatus       Boolean       @default(true)
-  createdDate        String?
-  createdTime        String?
-  createdBy          Int?
-  createdAt          DateTime      @default(now())
-  updatedDate        String?
-  updatedTime        String?
-  updatedAt          DateTime?
-  updatedBy          Int?
-  invSupplier        InvSupplier[]
-}
-
-model InvSupplier {
-  id                  Int            @id @default(autoincrement())
-  supplierName        String?
-  supplierDescription String?
-  country             Country?       @relation(fields: [countryId], references: [id])
-  countryId           Int?
-  orgId               Int?
-  activeStatus        Boolean        @default(true)
-  createdDate         String?
-  createdTime         String?
-  createdBy           Int?
-  createdAt           DateTime       @default(now())
-  updatedDate         String?
-  updatedTime         String?
-  updatedAt           DateTime?
-  updatedBy           Int?
-  invItemSetup        InvItemSetup[]
-}
-
-model InvItemsGroup {
-  id                      Int                       @id @default(autoincrement())
-  udId                    Int?
-  groupName               String?
-  groupDescription        String?
-  remarks                 String?
-  orgId                   Int?
-  activeStatus            Boolean                   @default(true)
-  createdDate             String?
-  createdTime             String?
-  createdBy               Int?
-  createdAt               DateTime                  @default(now())
-  updatedDate             String?
-  updatedTime             String?
-  updatedAt               DateTime?
-  updatedBy               Int?
-  invItemSetup            InvItemSetup[]
-  requisitionChild        RequisitionChild[]
-  requisitionApproveChild RequisitionApproveChild[]
-  requisitionChild        RequisitionChild[]
-}
-
-model Measurement {
-  id                      Int                       @id @default(autoincrement())
-  measurementName         String
-  measurementDescription  String?
-  remarks                 String?
-  orgId                   Int?
-  activeStatus            Boolean                   @default(true)
-  createdDate             String?
-  createdTime             String?
-  createdBy               Int?
-  createdAt               DateTime                  @default(now())
-  updatedDate             String?
-  updatedTime             String?
-  updatedAt               DateTime?
-  updatedBy               Int?
-  invItemSetup            InvItemSetup[]
-  requisitionChild        RequisitionChild[]
-  requisitionApproveChild RequisitionApproveChild[]
-  requisitionChild        RequisitionChild[]
-}
-
-model InvItemSetup {
-  id                      Int                       @id @default(autoincrement())
-  udId                    Int?
-  itemCode                String?
-  modelNo                 String?
-  InvItemsGroup           InvItemsGroup?            @relation(fields: [itemGroupId], references: [id])
-  itemGroupId             Int?
-  itemName                String
-  itemDescription         String?
-  Measurement             Measurement?              @relation(fields: [measurementtId], references: [id])
-  measurementtId          Int?
-  costPrice               Float?
-  salePrice               Float?
-  manufactureDate         DateTime?
-  expireDate              DateTime?
-  taxRate                 Float?
-  reorderLabel            Int?
-  invSupplier             InvSupplier?              @relation(fields: [supplierId], references: [id])
-  supplierId              Int?
-  itemImage               String?
-  remarks                 String?
-  orgId                   Int?
-  activeStatus            Boolean                   @default(true)
-  createdDate             String?
-  createdTime             String?
-  createdBy               Int?
-  createdAt               DateTime                  @default(now())
-  updatedDate             String?
-  updatedTime             String?
-  updatedAt               DateTime?
-  updatedBy               Int?
-  requisitionChild        RequisitionChild[]
-  requisitionApproveChild RequisitionApproveChild[]
-  requisitionChild        RequisitionChild[]
-}
-
-model RequisitionParent {
-  id                       Int                       @id @default(autoincrement())
-  requisitionNo            String
-  requisitionType          Int? //1 for internal, 2 for external
-  requisitionFrom          Int?
-  requisitionTo            Int?
-  itemGroupId              Int?
-  itemId                   Int?
-  requisitionDate          DateTime
-  requisitionStatus        Int                       @default(0) // 0 form requisition pending 1 form approve 2 for cancel
-  requisitionRemarks       String
-  requisitionAppCanRemarks String // requisition approved or cancel satus
-  requisitionBy            Int?
-  orgId                    Int?
-  activeStatus             Boolean                   @default(true)
-  createdDate              String?
-  createdTime              String?
-  createdBy                Int?
-  createdAt                DateTime                  @default(now())
-  updatedDate              String?
-  updatedTime              String?
-  updatedAt                DateTime?
-  updatedBy                Int?
-  requisitionChild         RequisitionChild[]
-  requisitionApproveChild  RequisitionApproveChild[]
-}
-
-model RequisitionChild {
-  id                Int                @id @default(autoincrement())
-  requisitionParent RequisitionParent? @relation(fields: [requisitionId], references: [id])
-  requisitionId     Int?
-  invItemsGroup     InvItemsGroup?     @relation(fields: [itemGroupId], references: [id])
-  itemGroupId       Int?
-  invItemSetup      InvItemSetup?      @relation(fields: [itemId], references: [id])
-  itemId            Int?
-  measurement       Measurement?       @relation(fields: [uomId], references: [id])
-  uomId             Int?
-  qty               Int
-  price             Int?
-  orgId             Int?
-  activeStatus      Boolean            @default(true)
-  createdDate       String?
-  createdTime       String?
-  createdBy         Int?
-  createdAt         DateTime           @default(now())
-  updatedDate       String?
-  updatedTime       String?
-  updatedAt         DateTime?
-  updatedBy         Int?
-}
-
-model RequisitionApproveParent {
-  id                      Int                       @id @default(autoincrement())
-  requisitionNo           String
-  requisitionType         Int? //1 for internal, 2 for external
-  requisitionFrom         Int?
-  requisitionTo           Int?
-  itemGroupId             Int?
-  itemId                  Int?
-  requisitionDate         DateTime
-  requisitionStatus       Int                       @default(0) // 0 form requisition pending 1 form approve 2 for cancel
-  requisitionRemarks      String
-  requisitionBy           Int?
-  orgId                   Int?
-  activeStatus            Boolean                   @default(true)
-  createdDate             String?
-  createdTime             String?
-  createdBy               Int?
-  createdAt               DateTime                  @default(now())
-  updatedDate             String?
-  updatedTime             String?
-  updatedAt               DateTime?
-  updatedBy               Int?
-  requisitionApproveChild RequisitionApproveChild[]
-}
-
-model RequisitionApproveChild {
-  id                       Int                       @id @default(autoincrement())
-  requisitionApproveParent RequisitionApproveParent? @relation(fields: [requisitionApproveId], references: [id])
-  requisitionApproveId     Int?
-  requisitionParent        RequisitionParent?        @relation(fields: [requisitionId], references: [id])
-  requisitionId            Int?
-  invItemsGroup            InvItemsGroup?            @relation(fields: [itemGroupId], references: [id])
-  itemGroupId              Int?
-  invItemSetup             InvItemSetup?             @relation(fields: [itemId], references: [id])
-  itemId                   Int?
-  measurement              Measurement?              @relation(fields: [uomId], references: [id])
-  uomId                    Int?
-  approvedQty              Int?
-  receivedQty              Int?
-  price                    Int?
-  orgId                    Int?
-  activeStatus             Boolean                   @default(true)
-  createdDate              String?
-  createdTime              String?
-  createdBy                Int?
-  createdAt                DateTime                  @default(now())
-  updatedDate              String?
-  updatedTime              String?
-  updatedAt                DateTime?
-  updatedBy                Int?
-}
-
-model Organization {
-  id             Int       @id @default(autoincrement())
-  orgName        String
-  orgDescription String?
-  serialNo       Int?
-  activeStatus   Boolean   @default(true)
+  date String?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
   createdDate    String?
   createdTime    String?
   createdBy      Int?
-  createdAt      DateTime  @default(now())
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+}
+
+
+model Country {
+  id             Int           @id @default(autoincrement())
+  countryName String?
+  countryDescription String?
+  countryCode Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  invSupplier InvSupplier[]
+}
+
+model InvSupplier {
+  id             Int           @id @default(autoincrement())
+  supplierName String?
+  supplierDescription String?
+  country Country? @relation(fields: [countryId], references: [id])
+  countryId Int?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  invItemSetup InvItemSetup []
+}
+
+model InvItemsGroup {
+  id             Int           @id @default(autoincrement())
+  udId Int?
+  groupName String?
+  groupDescription String?
+  remarks String?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  invItemSetup InvItemSetup[]
+  requisitionChild RequisitionChild[]
+  requisitionApproveChild RequisitionApproveChild[]
+}
+
+model Measurement {
+  id             Int           @id @default(autoincrement())
+  measurementName String
+  measurementDescription String?
+  remarks String?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  invItemSetup InvItemSetup[]
+  requisitionChild RequisitionChild[]
+  requisitionApproveChild RequisitionApproveChild[]
+}
+
+model InvItemSetup {
+  id             Int           @id @default(autoincrement())
+  udId Int?
+  itemCode String?
+  modelNo String?
+  InvItemsGroup InvItemsGroup? @relation(fields: [itemGroupId], references: [id])
+  itemGroupId Int?
+  itemName String
+  itemDescription String?
+  Measurement Measurement? @relation(fields: [measurementtId], references: [id])
+  measurementtId Int?
+  costPrice Float?
+  salePrice Float?
+  manufactureDate DateTime?
+  expireDate DateTime?
+  taxRate Float?
+  reorderLabel Int?
+  invSupplier InvSupplier? @relation(fields: [supplierId], references: [id])
+  supplierId Int?
+  itemImage String?
+  remarks String?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  requisitionChild RequisitionChild[]
+  requisitionApproveChild RequisitionApproveChild[]
+}
+
+
+model RequisitionParent {
+  id             Int           @id @default(autoincrement())
+  requisitionNo String
+  requisitionType Int? //1 for internal, 2 for external
+  requisitionFrom Int?
+  requisitionTo Int?
+  itemGroupId Int?
+  itemId Int?
+  requisitionDate DateTime
+  requisitionStatus Int @default(0) // 0 form requisition pending 1 form approve 2 for cancel
+  requisitionRemarks String
+  requisitionAppCanRemarks String // requisition approved or cancel satus
+  requisitionBy Int?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  requisitionChild RequisitionChild[]
+  requisitionApproveChild RequisitionApproveChild[]
+}
+
+
+model RequisitionChild {
+  id             Int           @id @default(autoincrement())
+  requisitionParent RequisitionParent? @relation(fields: [requisitionId], references: [id])
+  requisitionId Int?
+  invItemsGroup InvItemsGroup? @relation(fields: [itemGroupId], references: [id])
+  itemGroupId Int?
+  invItemSetup InvItemSetup? @relation(fields: [itemId], references: [id])
+  itemId Int?
+  measurement Measurement? @relation(fields: [uomId], references: [id])
+  uomId Int?
+  qty Int
+  price Int?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  
+}
+
+
+model RequisitionApproveParent {
+  id             Int           @id @default(autoincrement())
+  requisitionNo String
+  requisitionType Int? //1 for internal, 2 for external
+  requisitionFrom Int?
+  requisitionTo Int?
+  itemGroupId Int?
+  itemId Int?
+  requisitionDate DateTime
+  requisitionStatus Int @default(0) // 0 form requisition pending 1 form approve 2 for cancel
+  requisitionRemarks String
+  requisitionBy Int?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+  requisitionApproveChild RequisitionApproveChild[]
+}
+
+
+model RequisitionApproveChild {
+  id             Int           @id @default(autoincrement())
+  requisitionApproveParent RequisitionApproveParent? @relation(fields: [requisitionApproveId], references: [id])
+  requisitionApproveId Int?
+  requisitionParent RequisitionParent? @relation(fields: [requisitionId], references: [id])
+  requisitionId Int?
+  invItemsGroup InvItemsGroup? @relation(fields: [itemGroupId], references: [id])
+  itemGroupId Int?
+  invItemSetup InvItemSetup? @relation(fields: [itemId], references: [id])
+  itemId Int?
+  measurement Measurement? @relation(fields: [uomId], references: [id])
+  uomId Int?
+  approvedQty Int?
+  receivedQty Int?
+  price Int?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
   updatedDate    String?
   updatedTime    String?
   updatedAt      DateTime?
