@@ -6,7 +6,6 @@ export class CreatePresentAddressDto {
   @IsOptional()
   @IsNumber()
   presentDiviId: number;
-
   @IsOptional()
   @IsNumber()
   presentDistId;
