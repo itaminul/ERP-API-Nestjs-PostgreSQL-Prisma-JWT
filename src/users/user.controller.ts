@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Request, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { Prisma, Users } from '@prisma/client';
 import { LocalAuthGuard } from 'src/auth/local.auth.guard';
@@ -9,26 +18,30 @@ import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
 
-
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private jwtService: JwtService,
     private prisma: PrismaService,
-    private readonly configService: ConfigService
-  ) { }
-
+    private readonly configService: ConfigService,
+  ) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/getAllUser')
   async getAllUser(@AuthUserInfo() authUserInfo: Users) {
     try {
-      const getTotalUser = await this.userService.getAllTotalUser(authUserInfo)
-      const results = await this.userService.getAllUser(authUserInfo)
-      return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results, getTotalUser }
+      const getTotalUser = await this.userService.getAllTotalUser(authUserInfo);
+      const results = await this.userService.getAllUser(authUserInfo);
+      return {
+        message: 'Show Successfully',
+        success: true,
+        status: HttpStatus.OK,
+        results,
+        getTotalUser,
+      };
     } catch (error) {
-      return { success: false, message: error.message }
+      return { success: false, message: error.message };
     }
   }
 
@@ -36,11 +49,19 @@ export class UserController {
   @Get('/getAllActiveUsers')
   async getAllActiveUsers(@AuthUserInfo() authUserInfo: Users) {
     try {
-      const totalActiveUser = await this.userService.getAllTotalActiveUsers(authUserInfo)
-      const results = await this.userService.getAllActiveUsers(authUserInfo)
-      return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results, totalActiveUser }
+      const totalActiveUser = await this.userService.getAllTotalActiveUsers(
+        authUserInfo,
+      );
+      const results = await this.userService.getAllActiveUsers(authUserInfo);
+      return {
+        message: 'Show Successfully',
+        success: true,
+        status: HttpStatus.OK,
+        results,
+        totalActiveUser,
+      };
     } catch (error) {
-      return { success: false, message: error.message }
+      return { success: false, message: error.message };
     }
   }
 
@@ -48,36 +69,48 @@ export class UserController {
   @Get('/getAllInActiveUsers')
   async getAllInActiveUsers(@AuthUserInfo() authUserInfo: Users) {
     try {
-      const totalInactiveUser = await this.userService.getAllTotalInActiveUsers(authUserInfo)
-      const results = await this.userService.getAllInActiveUsers(authUserInfo)
-      return { message: 'Show Successfully', success: true, status: HttpStatus.OK, results, totalInactiveUser }
+      const totalInactiveUser = await this.userService.getAllTotalInActiveUsers(
+        authUserInfo,
+      );
+      const results = await this.userService.getAllInActiveUsers(authUserInfo);
+      return {
+        message: 'Show Successfully',
+        success: true,
+        status: HttpStatus.OK,
+        results,
+        totalInactiveUser,
+      };
     } catch (error) {
-      return { success: false, message: error.message }
+      return { success: false, message: error.message };
     }
   }
-
 
   @Post('/register')
   async signUp(@Body() body: any) {
     try {
-      const results = await this.userService.signUp(body)
-      return { message: 'User Created Successfully', success: true, status: HttpStatus.OK, results }
+      const results = await this.userService.signUp(body);
+      return {
+        message: 'User Created Successfully',
+        success: true,
+        status: HttpStatus.OK,
+        results,
+      };
     } catch (error) {
-      return { success: false, message: error.message }
+      return { success: false, message: error.message };
     }
   }
 
   // @UseGuards(LocalAuthGuard)
   @Post('/login')
   async login(@Body() body: any, @Request() req) {
-    const userInfo = { Users: req.session }
-    console.log("body", body)
+    const userInfo = { Users: req.session };
+    console.log('body', body);
     // return { Users: req.user}
     // console.log("session", userInfo)
     const checkUserExists = await this.prisma.users.findFirst({
       where: {
         username: body.usernmae,
-        activeStatus: true
+        activeStatus: true,
       },
     });
 
@@ -103,7 +136,6 @@ export class UserController {
         orgId: checkUserExists.orgId,
       });
 
-
       return {
         statusCode: 200,
         message: 'Login Successfully',
@@ -116,7 +148,6 @@ export class UserController {
         HttpStatus.UNAUTHORIZED,
       );
     }
-
   }
   generateJWT(payload: any) {
     return this.jwtService.sign(payload, {
@@ -128,7 +159,6 @@ export class UserController {
   @Get('/logout')
   async logout(@Request() req) {
     req.session.destroy();
-    return { msg: 'The user session has ended' }
+    return { msg: 'The user session has ended' };
   }
-
 }

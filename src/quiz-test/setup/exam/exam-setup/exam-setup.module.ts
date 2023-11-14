@@ -4,6 +4,6 @@ import { ExamSetupService } from './exam-setup.service';
 
 @Module({
   controllers: [ExamSetupController],
-  providers: [ExamSetupService]
+  providers: [ExamSetupService],
 })
 export class ExamSetupModule {}

@@ -3,7 +3,7 @@ import { ModulelinksassignService } from './modulelinksassign.service';
 import { ModulelinksassignController } from './modulelinksassign.controller';
 
 @Module({
-    providers: [ModulelinksassignService],
-    controllers: [ModulelinksassignController]
+  providers: [ModulelinksassignService],
+  controllers: [ModulelinksassignController],
 })
 export class ModulelinksassignModule {}

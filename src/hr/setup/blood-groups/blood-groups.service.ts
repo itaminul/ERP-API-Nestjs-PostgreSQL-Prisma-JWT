@@ -5,81 +5,84 @@ import { UpdateBloodGroupsDto } from './dto/update-blood-groups.dto';
 
 @Injectable()
 export class BloodGroupsService {
-    constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
-    async getAll(authUserInfo) {
-        return await this.prisma.bloodgroup.findMany({
-            orderBy: [
-                {
-                    id: 'desc'
-                }
-            ],
-            where: {
-                orgId: authUserInfo.orgId
-            }
-        })
-    }
+  async getAll(authUserInfo) {
+    return await this.prisma.bloodgroup.findMany({
+      orderBy: [
+        {
+          id: 'desc',
+        },
+      ],
+      where: {
+        orgId: authUserInfo.orgId,
+      },
+    });
+  }
 
-    async getById(@Param('id') id: number, authUserInfo) {
-        return await this.prisma.bloodgroup.findMany({
-            orderBy: [
-                {
-                    id: 'desc'
-                }
-            ],
-            where: {
-                id: Number(id),
-                orgId: authUserInfo.orgId
-            }
-        })
-    }
+  async getById(@Param('id') id: number, authUserInfo) {
+    return await this.prisma.bloodgroup.findMany({
+      orderBy: [
+        {
+          id: 'desc',
+        },
+      ],
+      where: {
+        id: Number(id),
+        orgId: authUserInfo.orgId,
+      },
+    });
+  }
 
+  async getAllActive() {
+    return await this.prisma.bloodgroup.findMany({
+      orderBy: [
+        {
+          id: 'desc',
+        },
+      ],
+      where: {
+        activeStatus: true,
+      },
+    });
+  }
 
-    async getAllActive() {
-        return await this.prisma.bloodgroup.findMany({
-            orderBy: [
-                {
-                    id: 'desc'
-                }
-            ],
-            where: {
-                activeStatus: true
-            }
-        })
-    }
+  async create(@Body() dto: CreateBloodGroupsDto, authUserInfo) {
+    const { bloodGroupName, bloodGroupDes, serialNo } = dto;
+    await this.prisma.bloodgroup.create({
+      data: {
+        bloodGroupName,
+        bloodGroupDes,
+        serialNo,
+        createdDate: new Date().toLocaleDateString(),
+        createdTime: new Date().toLocaleTimeString(),
+        createdAt: new Date(),
+        createdBy: authUserInfo.id,
+      },
+    });
+  }
 
-    async create(@Body() dto: CreateBloodGroupsDto, authUserInfo) {
-        const { bloodGroupName, bloodGroupDes, serialNo } = dto
-        await this.prisma.bloodgroup.create({
-            data: {
-                bloodGroupName,
-                bloodGroupDes,
-                serialNo,
-                createdDate: new Date().toLocaleDateString(),
-                createdTime: new Date().toLocaleTimeString(),
-                createdAt: new Date(),
-                createdBy: authUserInfo.id,
-            }
-        })
-    }
+  async update(
+    @Param('id') id: number,
+    @Body() dto: UpdateBloodGroupsDto,
+    authUserInfo,
+  ) {
+    const { bloodGroupName, bloodGroupDes, serialNo, activeStatus } = dto;
 
-    async update(@Param('id') id: number, @Body() dto: UpdateBloodGroupsDto, authUserInfo) {
-        const { bloodGroupName, bloodGroupDes, serialNo, activeStatus } = dto
-
-        return await this.prisma.bloodgroup.update({
-            where: {
-                id: Number(id)
-            },
-            data: {
-                bloodGroupName,
-                bloodGroupDes,
-                activeStatus,
-                serialNo,
-                updatedDate: new Date().toLocaleDateString(),
-                updatedTime: new Date().toLocaleTimeString(),
-                updatedAt: new Date(),
-                updatedBy: authUserInfo.id,
-            }
-        })
-    }
+    return await this.prisma.bloodgroup.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        bloodGroupName,
+        bloodGroupDes,
+        activeStatus,
+        serialNo,
+        updatedDate: new Date().toLocaleDateString(),
+        updatedTime: new Date().toLocaleTimeString(),
+        updatedAt: new Date(),
+        updatedBy: authUserInfo.id,
+      },
+    });
+  }
 }

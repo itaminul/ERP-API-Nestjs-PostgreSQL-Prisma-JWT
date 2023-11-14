@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { Injectable } from '@nestjs/common';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-@Injectable() 
+@Injectable()
 export class CreateSupplierDto {
-    @IsString()
-    supplierName: string
-    @IsOptional()
-    @IsString()
-    supplierDescription: string
-    @IsNumber()
-    countryId: number
+  @IsString()
+  supplierName: string;
+  @IsOptional()
+  @IsString()
+  supplierDescription: string;
+  @IsNumber()
+  countryId: number;
 }

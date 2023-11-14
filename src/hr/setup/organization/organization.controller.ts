@@ -26,7 +26,6 @@ export class OrganizationController {
     try {
       const results = await this.organizationService.getAll();
       return {
-        message: 'Show data successfully',
         success: true,
         status: HttpStatus.OK,
         results,
@@ -42,7 +41,6 @@ export class OrganizationController {
     try {
       const results = await this.organizationService.getActiveAll();
       return {
-        message: 'Show data successfully',
         success: true,
         status: HttpStatus.OK,
         results,
@@ -58,7 +56,6 @@ export class OrganizationController {
     try {
       const results = await this.organizationService.getById(id);
       return {
-        message: 'Show data successfully',
         success: true,
         status: HttpStatus.OK,
         results,
@@ -77,7 +74,6 @@ export class OrganizationController {
     try {
       const results = await this.organizationService.create(dto, authUserInfo);
       return {
-        message: 'Created Successfully',
         success: true,
         status: HttpStatus.CREATED,
         results,
@@ -101,7 +97,6 @@ export class OrganizationController {
         authUserInfo,
       );
       return {
-        message: 'Updated Successfully',
         success: true,
         status: HttpStatus.OK,
         results,

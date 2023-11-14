@@ -4,6 +4,6 @@ import { ItemsController } from './items.controller';
 
 @Module({
   providers: [ItemsService],
-  controllers: [ItemsController]
+  controllers: [ItemsController],
 })
 export class ItemsModule {}

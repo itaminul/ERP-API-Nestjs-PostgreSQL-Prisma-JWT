@@ -3,7 +3,7 @@ import { LeaveService } from './leave.service';
 import { LeaveController } from './leave.controller';
 
 @Module({
-    providers: [LeaveService],
-    controllers: [LeaveController]
+  providers: [LeaveService],
+  controllers: [LeaveController],
 })
 export class LeaveModule {}

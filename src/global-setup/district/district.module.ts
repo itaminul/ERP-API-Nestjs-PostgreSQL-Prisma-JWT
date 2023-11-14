@@ -4,6 +4,6 @@ import { DistrictService } from './district.service';
 
 @Module({
   providers: [DistrictService],
-  controllers: [DivisionController]
+  controllers: [DivisionController],
 })
 export class DivisionModule {}
