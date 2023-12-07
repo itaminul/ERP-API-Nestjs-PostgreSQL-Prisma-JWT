@@ -4,6 +4,6 @@ import { BloodGroupsService } from './blood-groups.service';
 
 @Module({
   controllers: [BloodGroupsController],
-  providers: [BloodGroupsService]
+  providers: [BloodGroupsService],
 })
 export class BloodGroupsModule {}

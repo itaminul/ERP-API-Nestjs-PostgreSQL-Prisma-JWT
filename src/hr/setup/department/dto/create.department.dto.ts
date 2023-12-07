@@ -1,20 +1,20 @@
-import { Injectable } from "@nestjs/common";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { Injectable } from '@nestjs/common';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Injectable()
-export class CreateDepartmentDto{
-    @IsString()
-    departmentName: string
+export class CreateDepartmentDto {
+  @IsString()
+  departmentName: string;
 
-    @IsOptional()
-    @IsString()
-    departmentDes: string
+  @IsOptional()
+  @IsString()
+  departmentDes: string;
 
-    @IsOptional()
-    @IsNumber()
-    orgId: number
+  @IsOptional()
+  @IsNumber()
+  orgId: number;
 
-    @IsOptional()
-    @IsNumber()
-    serialNo: number
+  @IsOptional()
+  @IsNumber()
+  serialNo: number;
 }

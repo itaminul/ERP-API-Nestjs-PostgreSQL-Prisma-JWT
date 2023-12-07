@@ -8,24 +8,24 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { DesignationService } from './designation.service';
-import { Prisma, Users } from '@prisma/client';
-import { CreateDesignatinDto } from './dto/create.designation.dto';
+
+import { Users } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
-import { UpdateDesignatinDto } from './dto/update.designation.dto';
+import { OrganizationService } from './organization.service';
+import { CreateOrganizationDto } from './dto/create.organization.dto';
+import { UpdateOrganizationDto } from './dto/update.organization.dto';
 
-@Controller('designation')
-export class DesignationController {
-  constructor(private readonly designationService: DesignationService) {}
+@Controller('organization')
+export class OrganizationController {
+  constructor(private readonly organizationService: OrganizationService) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  async getAll(@AuthUserInfo() authUserInfo: Users) {
+  async getAll() {
     try {
-      const results = await this.designationService.getAll(authUserInfo);
+      const results = await this.organizationService.getAll();
       return {
-        message: 'Show Successfully',
         success: true,
         status: HttpStatus.OK,
         results,
@@ -36,12 +36,11 @@ export class DesignationController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('/getById')
-  async getById(@Param('id') id: number, @AuthUserInfo() authUserInfo: Users) {
+  @Get('/activeList')
+  async getActiveAll() {
     try {
-      const results = await this.designationService.getById(id, authUserInfo);
+      const results = await this.organizationService.getActiveAll();
       return {
-        message: 'Show Successfully',
         success: true,
         status: HttpStatus.OK,
         results,
@@ -52,12 +51,11 @@ export class DesignationController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('active')
-  async getAllActive() {
+  @Get('/byId/:id')
+  async getById(@Param('id') id: number) {
     try {
-      const results = await this.designationService.getAllActive();
+      const results = await this.organizationService.getById(id);
       return {
-        message: 'Show Successfully',
         success: true,
         status: HttpStatus.OK,
         results,
@@ -70,13 +68,12 @@ export class DesignationController {
   @UseGuards(AuthGuard('jwt'))
   @Post()
   async create(
-    @Body() dto: CreateDesignatinDto,
+    @Body() dto: CreateOrganizationDto,
     @AuthUserInfo() authUserInfo: Users,
   ) {
     try {
-      const results = await this.designationService.create(dto, authUserInfo);
+      const results = await this.organizationService.create(dto, authUserInfo);
       return {
-        message: 'Created Successfully',
         success: true,
         status: HttpStatus.CREATED,
         results,
@@ -90,17 +87,16 @@ export class DesignationController {
   @Patch(':id')
   async update(
     @Param('id') id: number,
-    @Body() dto: UpdateDesignatinDto,
+    @Body() dto: UpdateOrganizationDto,
     @AuthUserInfo() authUserInfo: Users,
   ) {
     try {
-      const results = await this.designationService.update(
+      const results = await this.organizationService.update(
         id,
         dto,
         authUserInfo,
       );
       return {
-        message: 'Updated Successfully',
         success: true,
         status: HttpStatus.OK,
         results,

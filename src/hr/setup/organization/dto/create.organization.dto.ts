@@ -2,12 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Injectable()
-export class CreateSupplierDto {
+export class CreateOrganizationDto {
   @IsString()
-  supplierName: string;
+  orgName: string;
+
   @IsOptional()
   @IsString()
-  supplierDescription: string;
+  orgDescription: string;
+
+  @IsOptional()
   @IsNumber()
-  countryId: number;
+  orgId: number;
+
+  @IsOptional()
+  @IsNumber()
+  serialNo: number;
 }

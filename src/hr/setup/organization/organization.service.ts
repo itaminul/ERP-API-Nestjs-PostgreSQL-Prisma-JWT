@@ -1,41 +1,24 @@
 import { Body, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { CreateBloodGroupsDto } from './dto/create-blood-groups.dto';
-import { UpdateBloodGroupsDto } from './dto/update-blood-groups.dto';
+import { CreateOrganizationDto } from './dto/create.organization.dto';
+import { UpdateOrganizationDto } from './dto/update.organization.dto';
 
 @Injectable()
-export class BloodGroupsService {
+export class OrganizationService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAll(authUserInfo) {
-    return await this.prisma.bloodgroup.findMany({
+  async getAll() {
+    return await this.prisma.organization.findMany({
       orderBy: [
         {
           id: 'desc',
         },
       ],
-      where: {
-        orgId: authUserInfo.orgId,
-      },
     });
   }
 
-  async getById(@Param('id') id: number, authUserInfo) {
-    return await this.prisma.bloodgroup.findMany({
-      orderBy: [
-        {
-          id: 'desc',
-        },
-      ],
-      where: {
-        id: Number(id),
-        orgId: authUserInfo.orgId,
-      },
-    });
-  }
-
-  async getAllActive() {
-    return await this.prisma.bloodgroup.findMany({
+  async getActiveAll() {
+    return await this.prisma.organization.findMany({
       orderBy: [
         {
           id: 'desc',
@@ -47,13 +30,27 @@ export class BloodGroupsService {
     });
   }
 
-  async create(@Body() dto: CreateBloodGroupsDto, authUserInfo) {
-    const { bloodGroupName, bloodGroupDes, serialNo } = dto;
-    await this.prisma.bloodgroup.create({
+  async getById(@Param('id') id: number) {
+    return await this.prisma.organization.findMany({
+      orderBy: [
+        {
+          id: 'desc',
+        },
+      ],
+      where: {
+        id: Number(id),
+        activeStatus: true,
+      },
+    });
+  }
+
+  async create(@Body() dto: CreateOrganizationDto, authUserInfo) {
+    const { orgName, orgDescription, orgId, serialNo } = dto;
+    await this.prisma.organization.create({
       data: {
-        bloodGroupName,
-        bloodGroupDes,
-        serialNo,
+        orgName: orgName,
+        orgDescription: orgDescription,
+        serialNo: serialNo,
         createdDate: new Date().toLocaleDateString(),
         createdTime: new Date().toLocaleTimeString(),
         createdAt: new Date(),
@@ -64,20 +61,19 @@ export class BloodGroupsService {
 
   async update(
     @Param('id') id: number,
-    @Body() dto: UpdateBloodGroupsDto,
+    @Body() dto: UpdateOrganizationDto,
     authUserInfo,
   ) {
-    const { bloodGroupName, bloodGroupDes, serialNo, activeStatus } = dto;
-
-    return await this.prisma.bloodgroup.update({
+    const { orgName, orgDescription, serialNo, activeStatus } = dto;
+    return await this.prisma.organization.update({
       where: {
         id: Number(id),
       },
       data: {
-        bloodGroupName,
-        bloodGroupDes,
-        activeStatus,
-        serialNo,
+        orgName: orgName,
+        orgDescription: orgDescription,
+        activeStatus: activeStatus,
+        serialNo: serialNo,
         updatedDate: new Date().toLocaleDateString(),
         updatedTime: new Date().toLocaleTimeString(),
         updatedAt: new Date(),

@@ -32,8 +32,8 @@ export class UserController {
   @Get('/getAllUser')
   async getAllUser() {
     try {
-      const getTotalUser = await this.userService.getAllTotalUser();
-      const results = await this.userService.getAllUser();
+      const getTotalUser = await this.userService.getAllTotalUser(authUserInfo);
+      const results = await this.userService.getAllUser(authUserInfo);
       return {
         message: 'Show Successfully',
         success: true,
@@ -50,7 +50,9 @@ export class UserController {
   @Get('/getAllActiveUsers')
   async getAllActiveUsers(@AuthUserInfo() authUserInfo: Users) {
     try {
-      const totalActiveUser = await this.userService.getAllTotalActiveUsers();
+      const totalActiveUser = await this.userService.getAllTotalActiveUsers(
+        authUserInfo,
+      );
       const results = await this.userService.getAllActiveUsers(authUserInfo);
       return {
         message: 'Show Successfully',
@@ -68,8 +70,9 @@ export class UserController {
   @Get('/getAllInActiveUsers')
   async getAllInActiveUsers(@AuthUserInfo() authUserInfo: Users) {
     try {
-      const totalInactiveUser =
-        await this.userService.getAllTotalInActiveUsers();
+      const totalInactiveUser = await this.userService.getAllTotalInActiveUsers(
+        authUserInfo,
+      );
       const results = await this.userService.getAllInActiveUsers(authUserInfo);
       return {
         message: 'Show Successfully',
@@ -100,10 +103,14 @@ export class UserController {
 
   // @UseGuards(LocalAuthGuard)
   @Post('/login')
-  async login(@Body() dto: LoginUserDto) {
-    const checkUserExists = await this.prisma.users.findUnique({
+  async login(@Body() body: any, @Request() req) {
+    const userInfo = { Users: req.session };
+    console.log('body', body);
+    // return { Users: req.user}
+    // console.log("session", userInfo)
+    const checkUserExists = await this.prisma.users.findFirst({
       where: {
-        username: dto.username,
+        username: body.usernmae,
         activeStatus: true,
       },
     });

@@ -4,12 +4,10 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-
   async getAllUser() {
     return await this.prisma.users.findMany();
   }
-
-  async getAllTotalUser() {
+  async getAllTotalUser(authUserInfo) {
     return await this.prisma.users.aggregate({
       _count: {
         id: true,
@@ -26,7 +24,7 @@ export class UserService {
     });
   }
 
-  async getAllTotalActiveUsers() {
+  async getAllTotalActiveUsers(authUserInfo) {
     return await this.prisma.users.aggregate({
       _count: {
         id: true,
@@ -46,7 +44,7 @@ export class UserService {
     });
   }
 
-  async getAllTotalInActiveUsers() {
+  async getAllTotalInActiveUsers(authUserInfo) {
     return await this.prisma.users.aggregate({
       _count: {
         id: true,
@@ -67,6 +65,7 @@ export class UserService {
       desigId,
       roleId,
       orgId,
+      companyId,
     } = body;
     const saltOrRounds = 10;
     const hashedPasword = await bcrypt.hash(password, saltOrRounds);
@@ -88,7 +87,7 @@ export class UserService {
   }
 
   async getUserByuserName(username: string) {
-    await this.prisma.users.findMany({
+    const data = await this.prisma.users.findMany({
       where: {
         username: username,
       },
