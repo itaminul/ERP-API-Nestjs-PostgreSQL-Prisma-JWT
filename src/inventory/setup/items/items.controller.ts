@@ -16,7 +16,7 @@ import { Users } from '@prisma/client';
 import { CreateItemDto } from './dto/create.items.dto';
 import { UpdateItemDto } from './dto/update.items.dto';
 
-@Controller('items')
+@Controller('inventory-item-setup')
 export class ItemsController {
   constructor(private readonly itemService: ItemsService) {}
 

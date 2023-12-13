@@ -9,14 +9,15 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Prisma, Users } from '@prisma/client';
-import { LocalAuthGuard } from 'src/auth/local.auth.guard';
+import { Users } from '@prisma/client';
+// import { LocalAuthGuard } from 'src/auth/local.auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { compare } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -29,7 +30,7 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/getAllUser')
-  async getAllUser(@AuthUserInfo() authUserInfo: Users) {
+  async getAllUser() {
     try {
       const getTotalUser = await this.userService.getAllTotalUser(authUserInfo);
       const results = await this.userService.getAllUser(authUserInfo);
@@ -113,15 +114,13 @@ export class UserController {
         activeStatus: true,
       },
     });
+    console.log('checkUserExists', checkUserExists);
 
     if (!checkUserExists) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const checkPassword = await compare(
-      body.password,
-      checkUserExists.password,
-    );
+    const checkPassword = await compare(dto.password, checkUserExists.password);
 
     delete checkUserExists.password;
     if (checkPassword) {

@@ -4,11 +4,9 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-
-  async getAllUser(authUserInfo) {
+  async getAllUser() {
     return await this.prisma.users.findMany();
   }
-
   async getAllTotalUser(authUserInfo) {
     return await this.prisma.users.aggregate({
       _count: {
