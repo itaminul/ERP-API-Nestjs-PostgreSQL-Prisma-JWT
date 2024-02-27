@@ -30,10 +30,10 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/getAllUser')
-  async getAllUser() {
+  async getAllUser(@AuthUserInfo() authUserInfo: Users) {
     try {
       const getTotalUser = await this.userService.getAllTotalUser(authUserInfo);
-      const results = await this.userService.getAllUser(authUserInfo);
+      const results = await this.userService.getAllUser();
       return {
         message: 'Show Successfully',
         success: true,
@@ -120,7 +120,7 @@ export class UserController {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const checkPassword = await compare(dto.password, checkUserExists.password);
+    const checkPassword = await compare(checkUserExists.password, checkUserExists.password);
 
     delete checkUserExists.password;
     if (checkPassword) {
