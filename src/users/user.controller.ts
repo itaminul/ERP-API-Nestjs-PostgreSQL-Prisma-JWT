@@ -105,22 +105,17 @@ export class UserController {
   @Post('/login')
   async login(@Body() body: any, @Request() req) {
     const userInfo = { Users: req.session };
-    console.log('body', body);
-    // return { Users: req.user}
-    // console.log("session", userInfo)
-    const checkUserExists = await this.prisma.users.findFirst({
+    const checkUserExists = await this.prisma.users.findUnique({
       where: {
-        username: body.usernmae,
+        username: body.username,
         activeStatus: true,
       },
-    });
-    console.log('checkUserExists', checkUserExists);
-
+    })
     if (!checkUserExists) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const checkPassword = await compare(checkUserExists.password, checkUserExists.password);
+    const checkPassword = await compare(body.password, checkUserExists.password);
 
     delete checkUserExists.password;
     if (checkPassword) {
