@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {  IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Injectable()
 export class CreateDepartmentDto {

@@ -7,14 +7,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from './filters/transform-nterceptor';
 import * as session from 'express-session';
 import * as passport from 'passport';
-
-//role base authentication
-//https://blog.bitsrc.io/authentication-and-authorization-in-nestjs-39f9d92184ab
-//https://shpota.com/2022/07/16/role-based-authorization-with-jwt-using-nestjs.html
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const APP_PORT = process.env.APP_PORT || 8000;
+  const APP_PORT = process.env.APP_PORT || 9007;
   app.use(
     session({
       secret: 'key',
@@ -33,6 +28,7 @@ async function bootstrap() {
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   // app.useGlobalFilters(new HttpExceptionFilter())
   app.enableCors();
+  app.setGlobalPrefix('api');
   await app.listen(APP_PORT, () => {
     console.info(`Server is listening on port ${APP_PORT}`);
   });

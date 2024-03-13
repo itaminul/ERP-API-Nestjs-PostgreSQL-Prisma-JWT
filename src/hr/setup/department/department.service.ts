@@ -47,8 +47,9 @@ export class DepartmentService {
     });
   }
 
+
   async create(@Body() dto: CreateDepartmentDto, authUserInfo) {
-    const { departmentName, departmentDes, orgId, serialNo } = dto;
+    const { departmentName, departmentDes, orgId,serialNo } = dto;
     await this.prisma.department.create({
       data: {
         departmentName: departmentName,
