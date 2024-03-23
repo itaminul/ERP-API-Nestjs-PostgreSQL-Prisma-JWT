@@ -735,3 +735,26 @@ model RequisitionApproveChild {
   updatedAt      DateTime?
   updatedBy      Int?
 }
+
+model ExamSetup {
+  id             Int           @id @default(autoincrement())
+  examName String
+  examDescription String?
+  examType Int
+  examStartDate DateTime
+  examEndDate DateTime
+  examStartTime DateTime
+  examEndTime DateTime
+  examSerialNo Int?
+  orgId          Int?
+  activeStatus   Boolean       @default(true)
+  createdDate    String?
+  createdTime    String?
+  createdBy      Int?
+  createdAt      DateTime      @default(now())
+  updatedDate    String?
+  updatedTime    String?
+  updatedAt      DateTime?
+  updatedBy      Int?
+}
+
