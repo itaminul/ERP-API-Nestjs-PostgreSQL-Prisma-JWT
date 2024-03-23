@@ -1,5 +1,6 @@
+
 import { Injectable } from "@nestjs/common";
-import { IsOptional, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString, IsNotEmpty } from "class-validator";
 
 @Injectable() 
 export class UpdateExamSetupDto {
@@ -8,5 +9,20 @@ export class UpdateExamSetupDto {
     @IsOptional()
     @IsString()
     examDescription: string
+    @IsNumber()
+    @IsNotEmpty()
+    examType: number
+    @IsNotEmpty()
+    @IsString()
+    examStartDate: string
+    @IsNotEmpty()
+    @IsString()
+    examEndDate: string
+    @IsNotEmpty()
+    @IsString()
+    examStartTime: string
+    @IsNotEmpty()
+    @IsString()
+    examEndTime: string
     
 }
