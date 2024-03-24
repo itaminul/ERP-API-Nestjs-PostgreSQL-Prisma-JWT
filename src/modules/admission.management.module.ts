@@ -13,6 +13,6 @@ import { StudentService } from "src/admission-management-system/student/student.
     providers: [
         StudentService
     ]
-});
+})
 
 export class StudentInformationModule{};
