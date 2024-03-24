@@ -37,7 +37,9 @@ Prerequisites: You have to have installed Docker and Docker-compose in your comp
 
 - HR
 - Inventory
-- Quiz Test
+- Online Exam
+- Admission Management System
+- E-commerce
 
 ## Module Wise Features
 
