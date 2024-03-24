@@ -34,6 +34,10 @@ import { DivisionModule } from './global-setup/division/division.module';
 import { JavascriptController } from './custom/javascript.controoler';
 import { DivisionController } from './global-setup/division/division.controller';
 import { DivisionService } from './global-setup/division/division.service';
+import { SetupController } from './admission-management-system/setup/setup.controller';
+import { StudentController } from './admission-management-system/student/student.controller';
+import { StudentModule } from './admission-management-system/student/student.module';
+import { StudentInformationModule } from './modules/admission.management.module';
 
 //https://www.loginradius.com/blog/engineering/guest-post/session-authentication-with-nestjs-and-mongodb/
 
@@ -47,6 +51,7 @@ import { DivisionService } from './global-setup/division/division.service';
     }),
     PrismaModule,
     HrModule,
+    StudentInformationModule,
     InventoryModule,
     SecurityModule,
     ModulesModule,
@@ -58,6 +63,7 @@ import { DivisionService } from './global-setup/division/division.service';
     ItemsModule,
     MovementsModule,
     DivisionModule,
+    StudentModule,
   ],
   controllers: [
     JavascriptController,
@@ -70,6 +76,8 @@ import { DivisionService } from './global-setup/division/division.service';
     ItemsController,
     MovementsController,
     DivisionController,
+    SetupController,
+    StudentController,
   ],
   providers: [
     JavascriptService,
