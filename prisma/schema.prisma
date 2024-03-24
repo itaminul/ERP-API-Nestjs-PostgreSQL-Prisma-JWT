@@ -189,6 +189,7 @@ model EmployeePresentAddress {
   updatedTime           String?
   updatedAt             DateTime?
   updatedBy             Int?
+  studentInfo   StudentInfo[]
 }
 
 
@@ -219,6 +220,7 @@ model EmployeePermanentAddress {
   updatedTime           String?
   updatedAt             DateTime?
   updatedBy             Int?
+  studentInfo   StudentInfo[]
 }
 
 model EmployeeEdu {
@@ -276,6 +278,8 @@ model Department {
   updatedAt      DateTime?
   updatedBy      Int?
   employeeInfo   EmployeeInfo[]
+  studentInfo   StudentInfo[]
+  
 }
 
 model Gender {
@@ -294,6 +298,7 @@ model Gender {
   updatedAt      DateTime?
   updatedBy      Int?
   employeeInfo   EmployeeInfo[]
+  studentInfo   StudentInfo[]
 }
 
 model Religion {
@@ -312,6 +317,7 @@ model Religion {
   updatedAt      DateTime?
   updatedBy      Int?
   employeeInfo   EmployeeInfo[]
+  studentInfo   StudentInfo[]
 }
 
 model Bloodgroup {
@@ -330,6 +336,7 @@ model Bloodgroup {
   updatedAt      DateTime?
   updatedBy      Int?
   employeeInfo   EmployeeInfo[]
+  studentInfo   StudentInfo[]
 }
 
 model Division {
@@ -404,6 +411,7 @@ model Designation {
   updatedAt       DateTime?
   updatedBy       Int?
   employeeInfo    EmployeeInfo[]
+  studentInfo   StudentInfo[]
 }
 
 model LeaveParent {
@@ -735,6 +743,57 @@ model RequisitionApproveChild {
   updatedAt      DateTime?
   updatedBy      Int?
 }
+
+
+
+model StudentInfo {
+  id                    Int           @id @default(autoincrement())
+  firstName             String?
+  middleName            String
+  lastName              String
+  fullName              String
+  phone                 String?
+  mobileOne             String?
+  mobileTwo             String?
+  emergencyMobile       String?
+  officeEmail           String?
+  personalEmail         String?
+  studentImage              String?
+  studentSignature          String?
+  nationalId            Int?
+  department            Department?   @relation(fields: [departmentId], references: [id])
+  departmentId                Int?
+  designation           Designation?  @relation(fields: [designationId], references: [id])
+  designationId         Int?
+  dateOfBirts           String?
+  gender Gender? @relation(fields: [genderId], references: [id])
+  genderId             Int?
+  religion Religion? @relation(fields: [religionId], references: [id])
+  religionId              Int?
+  bloodgroup Bloodgroup? @relation(fields: [bloodGroupId], references: [id])
+  bloodGroupId Int?
+  maritialStatus        Boolean?
+  spousName             String?
+  spouseProfe           Int? //spouse profession
+  fatherOrHusbandName   String?
+  fatherOrHusbandProfe  Int?
+  fatherOrHusbandMobile String?
+  motherName            String?
+  motherProfe           Int?
+  motherMobile          String?
+  activeStatus          Boolean       @default(true)
+  createdDate           String?
+  createdTime           String?
+  createdBy             Int?
+  createdAt             DateTime      @default(now())
+  updatedDate           String?
+  updatedTime           String?
+  updatedAt             DateTime?
+  updatedBy             Int?
+  employeePresentAddress EmployeePresentAddress[]
+  employeePermanentAddress EmployeePermanentAddress[]
+}
+
 
 model ExamSetup {
   id             Int           @id @default(autoincrement())
