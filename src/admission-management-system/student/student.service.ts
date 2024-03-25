@@ -2,6 +2,7 @@ import { Body, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateStudentDto } from './dto/create.student.dto';
 import { UpdateStudentDto } from './dto/update.student.dto';
+import { IsDateString, isDateString } from 'class-validator';
 
 @Injectable()
 export class StudentService {
@@ -60,6 +61,11 @@ export class StudentService {
         religionId,
         fullName,
         phone,
+        orgId: authUserInfo.orgId,
+        createdBy: authUserInfo.id,
+        createdAt: new Date(),
+        createdDate: new Date().toLocaleDateString(),
+        createdTime: new Date().toLocaleTimeString()
       },
     });
   }
@@ -90,7 +96,10 @@ export class StudentService {
       phone,
       activeStatus,
     } = dto;
-    await this.prisma.studentInfo.create({
+    await this.prisma.studentInfo.update({
+      where: {
+        id: Number(id)
+      },
       data: {
         studentImage,
         studentSignature,
@@ -115,6 +124,10 @@ export class StudentService {
         fullName,
         phone,
         activeStatus,
+        updatedBy: authUserInfo.id,
+        updatedAt: new Date(),
+        updatedDate: new Date().toLocaleDateString(),
+        updatedTime: new Date().toLocaleTimeString()
       },
     });
   }

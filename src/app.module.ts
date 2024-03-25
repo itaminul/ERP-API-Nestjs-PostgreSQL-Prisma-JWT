@@ -34,9 +34,6 @@ import { DivisionModule } from './global-setup/division/division.module';
 import { JavascriptController } from './custom/javascript.controoler';
 import { DivisionController } from './global-setup/division/division.controller';
 import { DivisionService } from './global-setup/division/division.service';
-
-import { StudentController } from './admission-management-system/student/student.controller';
-import { StudentModule } from './admission-management-system/student/student.module';
 import { StudentInformationModule } from './modules/admission.management.module';
 import { ProductInformationModule } from './modules/ecommerce.module';
 @Module({
@@ -61,8 +58,7 @@ import { ProductInformationModule } from './modules/ecommerce.module';
     CountriesModule,
     ItemsModule,
     MovementsModule,
-    DivisionModule,
-    StudentModule,
+    DivisionModule
   ],
   controllers: [
     JavascriptController,
@@ -76,7 +72,6 @@ import { ProductInformationModule } from './modules/ecommerce.module';
     MovementsController,
     DivisionController,
     // SetupController,
-    StudentController,
   ],
   providers: [
     JavascriptService,
