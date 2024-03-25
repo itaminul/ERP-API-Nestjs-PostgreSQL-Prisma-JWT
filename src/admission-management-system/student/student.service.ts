@@ -7,11 +7,11 @@ import { UpdateStudentDto } from './dto/update.student.dto';
 export class StudentService {
   constructor(readonly prisma: PrismaService) {}
 
-  async getAll() {
+  async getAll(authUserInfo) {
     return await this.prisma.studentInfo.findMany();
   }
 
-  async create(@Body() dto: CreateStudentDto) {
+  async create(authUserInfo, @Body() dto: CreateStudentDto) {
     const {
       studentImage,
       studentSignature,
@@ -35,37 +35,36 @@ export class StudentService {
       religionId,
       fullName,
       phone,
-      
     } = dto;
     await this.prisma.studentInfo.create({
       data: {
         studentImage,
-      studentSignature,
-      firstName,
-      lastName,
-      middleName,
-      maritialStatus,
-      mobileOne,
-      mobileTwo,
-      motherMobile,
-      motherName,
-      motherProfe,
-      emergencyMobile,
-      fatherOrHusbandMobile,
-      officeEmail,
-      dateOfBirth,
-      departmentId,
-      bloodGroupId,
-      spousName,
-      genderId,
-      religionId,
-      fullName,
-      phone,
+        studentSignature,
+        firstName,
+        lastName,
+        middleName,
+        maritialStatus,
+        mobileOne,
+        mobileTwo,
+        motherMobile,
+        motherName,
+        motherProfe,
+        emergencyMobile,
+        fatherOrHusbandMobile,
+        officeEmail,
+        dateOfBirth,
+        departmentId,
+        bloodGroupId,
+        spousName,
+        genderId,
+        religionId,
+        fullName,
+        phone,
       },
     });
   }
 
-  async update(@Param('id') id: number, @Body() dto: UpdateStudentDto) {
+  async update(@Param('id') id: number, @Body() dto: UpdateStudentDto, authUserInfo) {
     const {
       studentImage,
       studentSignature,
@@ -89,34 +88,33 @@ export class StudentService {
       religionId,
       fullName,
       phone,
-      activeStatus
-      
+      activeStatus,
     } = dto;
     await this.prisma.studentInfo.create({
       data: {
         studentImage,
-      studentSignature,
-      firstName,
-      lastName,
-      middleName,
-      maritialStatus,
-      mobileOne,
-      mobileTwo,
-      motherMobile,
-      motherName,
-      motherProfe,
-      emergencyMobile,
-      fatherOrHusbandMobile,
-      officeEmail,
-      dateOfBirth,
-      departmentId,
-      bloodGroupId,
-      spousName,
-      genderId,
-      religionId,
-      fullName,
-      phone,
-      activeStatus
+        studentSignature,
+        firstName,
+        lastName,
+        middleName,
+        maritialStatus,
+        mobileOne,
+        mobileTwo,
+        motherMobile,
+        motherName,
+        motherProfe,
+        emergencyMobile,
+        fatherOrHusbandMobile,
+        officeEmail,
+        dateOfBirth,
+        departmentId,
+        bloodGroupId,
+        spousName,
+        genderId,
+        religionId,
+        fullName,
+        phone,
+        activeStatus,
       },
     });
   }
