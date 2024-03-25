@@ -411,7 +411,6 @@ model Designation {
   updatedAt       DateTime?
   updatedBy       Int?
   employeeInfo    EmployeeInfo[]
-  studentInfo   StudentInfo[]
 }
 
 model LeaveParent {
@@ -763,9 +762,10 @@ model StudentInfo {
   nationalId            Int?
   department            Department?   @relation(fields: [departmentId], references: [id])
   departmentId                Int?
-  designation           Designation?  @relation(fields: [designationId], references: [id])
-  designationId         Int?
-  dateOfBirts           String?
+  programmId         Int?
+  admissionSession Int?
+  admissionYearID Int?
+  dateOfBirth           String?
   gender Gender? @relation(fields: [genderId], references: [id])
   genderId             Int?
   religion Religion? @relation(fields: [religionId], references: [id])
