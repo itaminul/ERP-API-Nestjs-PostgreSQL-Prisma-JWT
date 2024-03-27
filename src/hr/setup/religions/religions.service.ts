@@ -53,6 +53,7 @@ export class ReligionsService {
         religionName,
         religionDes,
         serialNo,
+        orgId: authUserInfo.orgId,
         createdDate: new Date().toLocaleDateString(),
         createdTime: new Date().toLocaleTimeString(),
         createdAt: new Date(),

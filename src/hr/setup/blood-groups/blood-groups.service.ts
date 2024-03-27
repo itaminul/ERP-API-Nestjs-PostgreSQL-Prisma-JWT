@@ -13,10 +13,7 @@ export class BloodGroupsService {
         {
           id: 'desc',
         },
-      ],
-      where: {
-        orgId: authUserInfo.orgId,
-      },
+      ]
     });
   }
 
