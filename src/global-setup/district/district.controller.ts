@@ -16,7 +16,7 @@ import { CreateDistrictDto } from './dto/create-district.dto';
 import { UpdateDistrictDto } from './dto/update-district.dto';
 
 @Controller('district')
-export class DivisionController {
+export class DistrictController {
   constructor(private readonly districtService: DistrictService) {}
 
   @UseGuards(AuthGuard('jwt'))
