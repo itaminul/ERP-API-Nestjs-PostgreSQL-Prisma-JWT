@@ -353,12 +353,15 @@ model Division {
   updatedBy                Int?
   employeePermanentAddress EmployeePermanentAddress[]
   employeePresentAddress   EmployeePresentAddress[]
+  district District[]
 }
 
 model District {
   id                       Int                        @id @default(autoincrement())
   districtName             String
   districtDes              String?
+  division     Division? @relation(fields: [divisionId], references: [id])
+  divisionId            Int?
   orgId                    Int?
   serialNo                 Int?
   activeStatus             Boolean                    @default(true)
@@ -372,12 +375,15 @@ model District {
   updatedBy                Int?
   employeePermanentAddress EmployeePermanentAddress[]
   employeePresentAddress   EmployeePresentAddress[]
+  thana Thana[]
 }
 
 model Thana {
   id                       Int                        @id @default(autoincrement())
   thanaName                String
   thanaDes                 String?
+  district     District? @relation(fields: [dristrictId], references: [id])
+  dristrictId            Int?
   orgId                    Int?
   serialNo                 Int?
   activeStatus             Boolean                    @default(true)
