@@ -1,14 +1,13 @@
 import { Body, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { CreateDistrictDto } from './dto/create-district.dto';
-import { UpdateDistrictDto } from './dto/update-district.dto';
-
+import { CreateThanaDto } from './dto/create-thana.dto';
+import { UpdateThanatDto } from './dto/update-thana.dto';
 @Injectable()
-export class DistrictService {
+export class ThanaService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getAll(authUserInfo) {
-    return await this.prisma.district.findMany({
+    return await this.prisma.thana.findMany({
       orderBy: [
         {
           id: 'desc',
@@ -21,7 +20,7 @@ export class DistrictService {
   }
 
   async getActiveAll() {
-    return await this.prisma.district.findMany({
+    return await this.prisma.thana.findMany({
       orderBy: [
         {
           id: 'desc',
@@ -34,7 +33,7 @@ export class DistrictService {
   }
 
   async getById(@Param('id') id: number) {
-    return await this.prisma.district.findMany({
+    return await this.prisma.thana.findMany({
       orderBy: [
         {
           id: 'desc',
@@ -47,21 +46,14 @@ export class DistrictService {
     });
   }
 
-  async create(@Body() dto: CreateDistrictDto, authUserInfo) {
-    const { 
-      districtName,
-       districtDes,
-        orgId,
-         serialNo,
-         divisionId
-         } = dto;
-    await this.prisma.district.create({
+  async create(@Body() dto: CreateThanaDto, authUserInfo) {
+    const { thanaName, thanaDes, serialNo, dristrictId } = dto;
+    await this.prisma.thana.create({
       data: {
-        districtName,
-        districtDes,
-        orgId: orgId,
+        thanaName,
+        thanaDes,
         serialNo: serialNo,
-        divisionId,
+        dristrictId,
         createdDate: new Date().toLocaleDateString(),
         createdTime: new Date().toLocaleTimeString(),
         createdAt: new Date(),
@@ -72,28 +64,20 @@ export class DistrictService {
 
   async update(
     @Param('id') id: number,
-    @Body() dto: UpdateDistrictDto,
+    @Body() dto: UpdateThanatDto,
     authUserInfo,
   ) {
-    const { 
-      districtName, 
-      districtDes, 
-      orgId, 
-      serialNo, 
-      activeStatus, 
-      divisionId 
-    } = dto;
-    return await this.prisma.district.update({
+    const { thanaName, thanaDes, serialNo, dristrictId, activeStatus } = dto;
+    return await this.prisma.thana.update({
       where: {
         id: Number(id),
       },
       data: {
-        districtName: districtName,
-        districtDes: districtDes,
+        thanaName,
+        thanaDes,
         activeStatus: activeStatus,
-        orgId: orgId,
         serialNo: serialNo,
-        divisionId,
+        dristrictId,
         updatedDate: new Date().toLocaleDateString(),
         updatedTime: new Date().toLocaleTimeString(),
         updatedAt: new Date(),

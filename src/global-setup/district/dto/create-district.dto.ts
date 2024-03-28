@@ -17,4 +17,8 @@ export class CreateDistrictDto {
   @IsOptional()
   @IsNumber()
   serialNo: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  divisionId
 }
