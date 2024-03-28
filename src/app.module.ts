@@ -36,6 +36,9 @@ import { DivisionController } from './global-setup/division/division.controller'
 import { DivisionService } from './global-setup/division/division.service';
 import { StudentInformationModule } from './modules/admission.management.module';
 import { ProductInformationModule } from './modules/ecommerce.module';
+import { DistrictModule } from './global-setup/district/district.module';
+import { DistrictController } from './global-setup/district/district.controller';
+import { DistrictService } from './global-setup/district/district.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -58,7 +61,8 @@ import { ProductInformationModule } from './modules/ecommerce.module';
     CountriesModule,
     ItemsModule,
     MovementsModule,
-    DivisionModule
+    DivisionModule,
+    DistrictModule
   ],
   controllers: [
     JavascriptController,
@@ -72,6 +76,7 @@ import { ProductInformationModule } from './modules/ecommerce.module';
     MovementsController,
     DivisionController,
     // SetupController,
+    DistrictController
   ],
   providers: [
     JavascriptService,
@@ -84,6 +89,7 @@ import { ProductInformationModule } from './modules/ecommerce.module';
     ItemsService,
     MovementsService,
     DivisionService,
+    DistrictService
   ],
 })
 export class AppModule {}

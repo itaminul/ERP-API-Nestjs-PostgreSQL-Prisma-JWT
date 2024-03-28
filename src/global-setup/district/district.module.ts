@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { DivisionController } from './district.controller';
 import { DistrictService } from './district.service';
+import { DistrictController } from './district.controller';
 
 @Module({
   providers: [DistrictService],
-  controllers: [DivisionController],
+  controllers: [DistrictController],
 })
-export class DivisionModule {}
+export class DistrictModule {}
