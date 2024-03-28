@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Injectable()
-export class UpdateDistrictDto {
+export class CreateThanaDto {
   @IsString()
-  districtName: string;
+  thanaName: string;
 
   @IsOptional()
   @IsString()
-  districtDes: string;
+  thanaDes: string;
 
   @IsOptional()
   @IsNumber()
@@ -20,9 +20,6 @@ export class UpdateDistrictDto {
   
   @IsNotEmpty()
   @IsNumber()
-  divisionId
+  dristrictId
 
-  @IsOptional()
-  @IsNumber()
-  activeStatus: boolean;
 }
