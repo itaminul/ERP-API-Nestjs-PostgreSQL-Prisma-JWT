@@ -9,21 +9,20 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
 import { Users } from '@prisma/client';
 import { DistrictService } from './district.service';
 import { CreateDistrictDto } from './dto/create-district.dto';
 import { UpdateDistrictDto } from './dto/update-district.dto';
+import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
 
 @Controller('district')
 export class DistrictController {
   constructor(private readonly districtService: DistrictService) {}
 
-  @UseGuards(AuthGuard('jwt'))
   @Get()
-  async getAll(@AuthUserInfo() authUserInfo: Users) {
+  async getAll() {
     try {
-      const results = await this.districtService.getAll(authUserInfo);
+      const results = await this.districtService.getAll();
       return {
         message: 'Show data successfully',
         success: true,
@@ -56,6 +55,22 @@ export class DistrictController {
   async getById(@Param('id') id: number) {
     try {
       const results = await this.districtService.getById(id);
+      return {
+        message: 'Show data successfully',
+        success: true,
+        status: HttpStatus.OK,
+        results,
+      };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/getDisByDivisionId/:id')
+  async getDistrictByDivisionId(@Param('id') id: number) {
+    try {
+      const results = await this.districtService.getDistrictByDivisionId(id);
       return {
         message: 'Show data successfully',
         success: true,

@@ -1,22 +1,19 @@
 import { Body, Injectable, Param } from '@nestjs/common';
-import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateDistrictDto } from './dto/create-district.dto';
 import { UpdateDistrictDto } from './dto/update-district.dto';
+import { PrismaService } from 'src/database/prisma/prisma.service';
 
 @Injectable()
 export class DistrictService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAll(authUserInfo) {
+  async getAll() {
     return await this.prisma.district.findMany({
       orderBy: [
         {
           id: 'desc',
         },
       ],
-      where: {
-        orgId: authUserInfo.orgId,
-      },
     });
   }
 
@@ -47,14 +44,16 @@ export class DistrictService {
     });
   }
 
+  async getDistrictByDivisionId(@Param('id') id: number) {
+    return await this.prisma.district.findMany({
+      where: {
+        divisionId: Number(id)
+      }
+    })
+  }
+
   async create(@Body() dto: CreateDistrictDto, authUserInfo) {
-    const { 
-      districtName,
-       districtDes,
-        orgId,
-         serialNo,
-         divisionId
-         } = dto;
+    const { districtName, districtDes, orgId, serialNo, divisionId } = dto;
     await this.prisma.district.create({
       data: {
         districtName,
@@ -75,13 +74,13 @@ export class DistrictService {
     @Body() dto: UpdateDistrictDto,
     authUserInfo,
   ) {
-    const { 
-      districtName, 
-      districtDes, 
-      orgId, 
-      serialNo, 
-      activeStatus, 
-      divisionId 
+    const {
+      districtName,
+      districtDes,
+      orgId,
+      serialNo,
+      activeStatus,
+      divisionId,
     } = dto;
     return await this.prisma.district.update({
       where: {
