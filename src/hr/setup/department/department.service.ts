@@ -1,23 +1,27 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Body, Inject, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { UpdateDepartmentDto } from './dto/update.department.dto';
 import { CreateDepartmentDto } from './dto/create.department.dto';
-
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { sleep } from 'src/sleep';
 @Injectable()
 export class DepartmentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache, private readonly prisma: PrismaService) {}
 
   async getAll(authUserInfo) {
-    return await this.prisma.department.findMany({
-      orderBy: [
-        {
-          id: 'desc',
-        },
-      ],
-      where: {
-        orgId: authUserInfo.orgId,
-      },
-    });
+     const key = 'department-find-all';
+     const departmentCached = await this.cacheManager.get(key);
+     if (departmentCached) {
+       return departmentCached;
+     }
+     const departments = await this.prisma.department.findMany({
+       orderBy: [{ id: 'desc' }],
+       where: { orgId: authUserInfo.orgId },
+     });
+    // await sleep(3000);
+     await this.cacheManager.set(key, departments, 10); 
+     return departments;
   }
 
   async getActiveAll() {
