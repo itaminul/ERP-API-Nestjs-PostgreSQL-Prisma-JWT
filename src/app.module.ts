@@ -39,8 +39,11 @@ import { EcommerceModule } from './modules/ecommerce.module';
 import { DistrictModule } from './global-setup/district/district.module';
 import { DistrictController } from './global-setup/district/district.controller';
 import { DistrictService } from './global-setup/district/district.service';
+import { RedisModule } from 'nestjs-redis';
+import { CacheModule } from '@nestjs/cache-manager';
 @Module({
   imports: [
+    CacheModule.register({ isGlobal: true}),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -62,7 +65,7 @@ import { DistrictService } from './global-setup/district/district.service';
     ItemsModule,
     MovementsModule,
     DivisionModule,
-    DistrictModule
+    DistrictModule,
   ],
   controllers: [
     JavascriptController,
@@ -76,7 +79,7 @@ import { DistrictService } from './global-setup/district/district.service';
     MovementsController,
     DivisionController,
     // SetupController,
-    DistrictController
+    DistrictController,
   ],
   providers: [
     JavascriptService,
@@ -89,7 +92,7 @@ import { DistrictService } from './global-setup/district/district.service';
     ItemsService,
     MovementsService,
     DivisionService,
-    DistrictService
+    DistrictService,
   ],
 })
 export class AppModule {}
