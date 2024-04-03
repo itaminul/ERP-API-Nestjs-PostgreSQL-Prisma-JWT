@@ -35,7 +35,7 @@ import { JavascriptController } from './custom/javascript.controoler';
 import { DivisionController } from './global-setup/division/division.controller';
 import { DivisionService } from './global-setup/division/division.service';
 import { StudentInformationModule } from './modules/admission.management.module';
-import { ProductInformationModule } from './modules/ecommerce.module';
+import { EcommerceModule } from './modules/ecommerce.module';
 import { DistrictModule } from './global-setup/district/district.module';
 import { DistrictController } from './global-setup/district/district.controller';
 import { DistrictService } from './global-setup/district/district.service';
@@ -49,7 +49,7 @@ import { DistrictService } from './global-setup/district/district.service';
     }),
     PrismaModule,
     HrModule,
-    ProductInformationModule,
+    EcommerceModule,
     StudentInformationModule,
     InventoryModule,
     SecurityModule,
