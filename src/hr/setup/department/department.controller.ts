@@ -13,7 +13,7 @@ import { DepartmentService } from './department.service';
 import { Prisma, Users } from '@prisma/client';
 import { CreateDepartmentDto } from './dto/create.department.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
+import { AuthUserInfo } from '../../../decorator/auth.user.info.decorator';
 import { UpdateDepartmentDto } from './dto/update.department.dto';
 
 @Controller('department')

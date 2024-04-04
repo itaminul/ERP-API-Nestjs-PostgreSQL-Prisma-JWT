@@ -41,9 +41,21 @@ import { DistrictController } from './global-setup/district/district.controller'
 import { DistrictService } from './global-setup/district/district.service';
 import { RedisModule } from 'nestjs-redis';
 import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 @Module({
   imports: [
-    CacheModule.register({ isGlobal: true}),
+    CacheModule.registerAsync({
+      isGlobal: true,
+      useFactory: async() => {
+        store: await redisStore({
+          socket: {
+            host: 'localhost',
+            port: 6379
+          }
+        })
+      }
+    }),
+    // CacheModule.register({ isGlobal: true}),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

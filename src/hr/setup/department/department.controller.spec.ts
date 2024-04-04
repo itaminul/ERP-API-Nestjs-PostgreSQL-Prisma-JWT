@@ -1,20 +1,31 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DepartmentController } from './department.controller';
 import { DepartmentService } from './department.service';
+import { PrismaService } from '../../../database/prisma/prisma.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
-describe('DepartmentController', () => {
-  let controller: DepartmentController;
+describe('DepartmentService', () => {
+  let service: DepartmentService;
+  let prismaService: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [DepartmentController],
-      providers: [DepartmentService],
+      providers: [
+        DepartmentService,
+        PrismaService,
+        {
+          provide: CACHE_MANAGER,
+          useValue: {}, // Mocked cache manager
+        },
+      ],
     }).compile();
 
-    controller = module.get<DepartmentController>(DepartmentController);
+    service = module.get<DepartmentService>(DepartmentService);
+    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
+
+  // Add more test cases as needed
 });
