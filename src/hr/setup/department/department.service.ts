@@ -1,5 +1,5 @@
 import { Body, Inject, Injectable, Param } from '@nestjs/common';
-import { PrismaService } from 'src/database/prisma/prisma.service';
+import { PrismaService } from '../../../database/prisma/prisma.service';
 import { UpdateDepartmentDto } from './dto/update.department.dto';
 import { CreateDepartmentDto } from './dto/create.department.dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
