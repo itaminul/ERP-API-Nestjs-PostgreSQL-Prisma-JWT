@@ -39,23 +39,23 @@ import { EcommerceModule } from './modules/ecommerce.module';
 import { DistrictModule } from './global-setup/district/district.module';
 import { DistrictController } from './global-setup/district/district.controller';
 import { DistrictService } from './global-setup/district/district.service';
-import { RedisModule } from 'nestjs-redis';
-import { CacheModule } from '@nestjs/cache-manager';
+import { CACHE_MANAGER, CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
+
 @Module({
   imports: [
     CacheModule.registerAsync({
       isGlobal: true,
-      useFactory: async() => {
+      useFactory: async () => ({
         store: await redisStore({
           socket: {
             host: 'localhost',
-            port: 6379
-          }
-        })
-      }
+            port: 6379,
+          },
+        }),
+      }),
     }),
-    // CacheModule.register({ isGlobal: true}),
+
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -105,6 +105,10 @@ import { redisStore } from 'cache-manager-redis-yet';
     MovementsService,
     DivisionService,
     DistrictService,
+    {
+      provide: CACHE_MANAGER,
+      useFactory: () => {}, // Your cache manager factory function
+    },
   ],
 })
 export class AppModule {}

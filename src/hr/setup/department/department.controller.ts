@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  ForbiddenException,
   Get,
   HttpStatus,
   Param,
@@ -10,11 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { DepartmentService } from './department.service';
-import { Prisma, Users } from '@prisma/client';
+import { Users } from '@prisma/client';
 import { CreateDepartmentDto } from './dto/create.department.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthUserInfo } from '../../../decorator/auth.user.info.decorator';
 import { UpdateDepartmentDto } from './dto/update.department.dto';
+
 
 @Controller('department')
 export class DepartmentController {
