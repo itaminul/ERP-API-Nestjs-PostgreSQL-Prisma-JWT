@@ -3,6 +3,8 @@ import { DepartmentService } from './department.service';
 import { PrismaService } from '../../../database/prisma/prisma.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 
+class MockPrismaService {}
+
 describe('DepartmentService', () => {
   let service: DepartmentService;
   let prismaService: PrismaService;
@@ -11,10 +13,10 @@ describe('DepartmentService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DepartmentService,
-        PrismaService,
+        { provide: PrismaService, useClass: MockPrismaService },
         {
           provide: CACHE_MANAGER,
-          useValue: {}, // Mocked cache manager
+          useValue: {}, 
         },
       ],
     }).compile();
@@ -26,6 +28,4 @@ describe('DepartmentService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  // Add more test cases as needed
 });
