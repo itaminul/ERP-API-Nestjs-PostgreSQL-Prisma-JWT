@@ -2,26 +2,29 @@ import { Body, Inject, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from '../../../database/prisma/prisma.service';
 import { UpdateDepartmentDto } from './dto/update.department.dto';
 import { CreateDepartmentDto } from './dto/create.department.dto';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { sleep } from 'src/sleep';
 @Injectable()
 export class DepartmentService {
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache, private readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async getAll(authUserInfo) {
-     const key = 'department-find-all';
-     const departmentCached = await this.cacheManager.get(key);
-     if (departmentCached) {
-       return departmentCached;
-     }
-     const departments = await this.prisma.department.findMany({
-       orderBy: [{ id: 'desc' }],
-       where: { orgId: authUserInfo.orgId },
-     });
-    // await sleep(3000);
-     await this.cacheManager.set(key, departments, 10); 
-     return departments;
+    const departments = await this.prisma.department.findMany({
+      where: {
+        orgId: authUserInfo.orgId
+      },
+      orderBy: [{ id: 'desc' }],
+    });
+
+    if (departments && departments.length > 0) {
+      await this.cacheManager.set('departments', departments);
+      const departmentData = await this.cacheManager.get('departments');
+      return departmentData;
+    } else {
+      throw new Error('No departments found or departments are undefined.');
+    }
   }
 
   async getActiveAll() {
@@ -51,10 +54,9 @@ export class DepartmentService {
     });
   }
 
-
   async create(@Body() dto: CreateDepartmentDto, authUserInfo) {
-    const { departmentName, departmentDes, orgId,serialNo } = dto;
-    await this.prisma.department.create({
+    const { departmentName, departmentDes, orgId, serialNo } = dto;
+    const createdDepartment = await this.prisma.department.create({
       data: {
         departmentName: departmentName,
         departmentDes: departmentDes,
@@ -66,6 +68,10 @@ export class DepartmentService {
         createdBy: authUserInfo.id,
       },
     });
+     await this.cacheManager.set(
+       `departments${createdDepartment.id}`,
+       createdDepartment,
+     );
   }
 
   async update(

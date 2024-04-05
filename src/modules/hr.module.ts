@@ -28,6 +28,7 @@ import { ImageResizeService } from 'src/services/image-resize.service';
 import { OrganizationService } from 'src/hr/setup/organization/organization.service';
 import { OrganizationModule } from 'src/hr/setup/organization/organization.module';
 import { OrganizationController } from 'src/hr/setup/organization/organization.controller';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 @Module({
   imports: [
     DepartmentModule,
@@ -59,7 +60,7 @@ import { OrganizationController } from 'src/hr/setup/organization/organization.c
     MovementsService,
     ReligionsService,
     BloodGroupsService,
-    OrganizationService,
+    OrganizationService
   ],
 })
 export class HrModule {}
