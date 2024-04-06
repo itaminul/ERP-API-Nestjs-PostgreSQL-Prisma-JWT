@@ -1,21 +1,30 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Body, Inject, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateCountriesDto } from './dto/create.countries.dto';
 import { UpdateCountriesDto } from './dto/update.countries.dto';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class CountriesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject('CACHE_MANAGER') private cacheManager: Cache, private readonly prisma: PrismaService) {}
 
   async getAll(authUserInfo) {
-    return await this.prisma.country.findMany({
+    let countries =  await this.prisma.country.findMany({
       where: {
         activeStatus: true,
       },
     });
+    
+   
+    if (countries && countries.length > 0) {
+      await this.cacheManager.set('countries', countries);
+      const departmentData = await this.cacheManager.get('countries');
+      return departmentData;
+    } else {
+      throw new Error('No countries found or countries are undefined.');
+    }
   }
 
-  
   async create(@Body() createCountriesDto: CreateCountriesDto, authUserInfo) {
     const { countryName, countryDescription, countryCode } = createCountriesDto;
     await this.prisma.country.create({
