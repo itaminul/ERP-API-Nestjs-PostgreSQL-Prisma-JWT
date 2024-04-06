@@ -19,9 +19,9 @@ import { UpdateCountriesDto } from './dto/update.countries.dto';
 @Controller('countries')
 export class CountriesController {
   constructor(private readonly countriesService: CountriesService) {}
-
-  @Get()
+  
   @UseGuards(AuthGuard('jwt'))
+  @Get()
   async getAll(@AuthUserInfo() authUserInfo: Users) {
     try {
       const results = await this.countriesService.getAll(authUserInfo);

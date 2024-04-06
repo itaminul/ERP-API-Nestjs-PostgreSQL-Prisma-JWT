@@ -39,7 +39,7 @@ import { EcommerceModule } from './modules/ecommerce.module';
 import { DistrictModule } from './global-setup/district/district.module';
 import { DistrictController } from './global-setup/district/district.controller';
 import { DistrictService } from './global-setup/district/district.service';
-import { CACHE_MANAGER, CacheModule } from '@nestjs/cache-manager';
+import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 
 @Module({
@@ -104,11 +104,7 @@ import { redisStore } from 'cache-manager-redis-yet';
     ItemsService,
     MovementsService,
     DivisionService,
-    DistrictService,
-    {
-      provide: CACHE_MANAGER,
-      useFactory: () => {}, // Your cache manager factory function
-    },
+    DistrictService
   ],
 })
 export class AppModule {}
