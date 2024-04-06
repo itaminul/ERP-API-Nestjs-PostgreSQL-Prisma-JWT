@@ -1,15 +1,24 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Body, Inject, Injectable, Param } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateStudentDto } from './dto/create.student.dto';
 import { UpdateStudentDto } from './dto/update.student.dto';
-import { IsDateString, isDateString } from 'class-validator';
 
 @Injectable()
 export class StudentService {
-  constructor(readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    readonly prisma: PrismaService,
+  ) {}
 
   async getAll(authUserInfo) {
-    return await this.prisma.studentInfo.findMany();
+    let studentInfos = await this.prisma.studentInfo.findMany();
+    if (studentInfos && studentInfos.length > 0) {
+      await this.cacheManager.set('studentInfos', studentInfos);
+      return await this.cacheManager.get('studentInfos');
+    } else {
+      throw new Error('No designations found or designations are undefined.');
+    }
   }
 
   async create(authUserInfo, @Body() dto: CreateStudentDto) {
@@ -65,12 +74,16 @@ export class StudentService {
         createdBy: authUserInfo.id,
         createdAt: new Date(),
         createdDate: new Date().toLocaleDateString(),
-        createdTime: new Date().toLocaleTimeString()
+        createdTime: new Date().toLocaleTimeString(),
       },
     });
   }
 
-  async update(@Param('id') id: number, @Body() dto: UpdateStudentDto, authUserInfo) {
+  async update(
+    @Param('id') id: number,
+    @Body() dto: UpdateStudentDto,
+    authUserInfo,
+  ) {
     const {
       studentImage,
       studentSignature,
@@ -98,7 +111,7 @@ export class StudentService {
     } = dto;
     await this.prisma.studentInfo.update({
       where: {
-        id: Number(id)
+        id: Number(id),
       },
       data: {
         studentImage,
@@ -127,7 +140,7 @@ export class StudentService {
         updatedBy: authUserInfo.id,
         updatedAt: new Date(),
         updatedDate: new Date().toLocaleDateString(),
-        updatedTime: new Date().toLocaleTimeString()
+        updatedTime: new Date().toLocaleTimeString(),
       },
     });
   }
