@@ -6,22 +6,24 @@ import { Cache } from 'cache-manager';
 
 @Injectable()
 export class CountriesService {
-  constructor(@Inject('CACHE_MANAGER') private cacheManager: Cache, private readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async getAll(authUserInfo) {
-    let countries =  await this.prisma.country.findMany({
+    const countries = await this.prisma.country.findMany({
       where: {
         activeStatus: true,
       },
     });
-    
-   
+
     if (countries && countries.length > 0) {
       await this.cacheManager.set('countries', countries);
-      const departmentData = await this.cacheManager.get('countries');
-      return departmentData;
+      const countriesData = await this.cacheManager.get('countries');
+      return countriesData;
     } else {
-      throw new Error('No countries found or countries are undefined.');
+      throw new Error('No departments found or departments are undefined.');
     }
   }
 

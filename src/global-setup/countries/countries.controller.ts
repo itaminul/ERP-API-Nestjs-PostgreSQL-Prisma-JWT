@@ -24,21 +24,16 @@ export class CountriesController {
   @UseGuards(AuthGuard('jwt'))
   async getAll(@AuthUserInfo() authUserInfo: Users) {
     try {
-      const ids = [1, 3];
-      const res = await this.countriesService.getAll(authUserInfo);
-      const newArray = res.reduce((acc, obj) => obj.id, 0);
-      console.log('res', newArray);
-
-      // const firstIndex = res.indexOf(ids);
-
-      const response = await this.countriesService.getAll(authUserInfo);
-      //   console.log("response", response)
-      return { message: 'Show successfully', status: HttpStatus.OK, response };
+      const results = await this.countriesService.getAll(authUserInfo);
+      return {
+        message: 'Show data successfully',
+        success: true,
+        status: HttpStatus.OK,
+        results,
+      };
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      }
+      return { success: false, message: error.message };
     }
-    throw error;
   }
 
   @UseGuards(AuthGuard('jwt'))
