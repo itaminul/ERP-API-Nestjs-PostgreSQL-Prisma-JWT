@@ -36,7 +36,7 @@ export class BloodGroupsService {
       ],
       where: {
         id: Number(id),
-       // orgId: authUserInfo.orgId,
+        orgId: authUserInfo.orgId,
       },
     });
         if (bloodGroupById && bloodGroupById.length > 0) {
