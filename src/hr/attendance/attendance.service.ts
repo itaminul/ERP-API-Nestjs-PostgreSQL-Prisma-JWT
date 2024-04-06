@@ -1,16 +1,21 @@
-import { Body, Injectable } from '@nestjs/common';
+import { Body, Inject, Injectable } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateAttendanceDto } from './dto/create.attendance.dto';
 
 @Injectable()
 export class AttendanceService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    private readonly prisma: PrismaService,
+  ) {}
   async getAll() {
-    try {
-      const result = this.prisma.attendance.findMany();
-      return result;
-    } catch (error) {
-      return 'error';
+    let attendance = await this.prisma.attendance.findMany();
+    if (attendance && attendance.length > 0) {
+      await this.cacheManager.set('designations', attendance);
+      return await this.cacheManager.get('attendance');
+    } else {
+      throw new Error('No attendance found or attendance are undefined.');
     }
   }
 
