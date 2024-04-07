@@ -1,20 +1,31 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Body, Inject, Injectable, Param } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
+import { Cache } from 'cache-manager';
 import { CreateBloodGroupsDto } from './dto/create-blood-groups.dto';
 import { UpdateBloodGroupsDto } from './dto/update-blood-groups.dto';
 
 @Injectable()
 export class BloodGroupsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async getAll(authUserInfo) {
-    return await this.prisma.bloodgroup.findMany({
+    let bloodGroups = await this.prisma.bloodgroup.findMany({
       orderBy: [
         {
           id: 'desc',
         },
-      ]
+      ],
     });
+    if (bloodGroups && bloodGroups.length > 0) {
+      await this.cacheManager.set('bloodGroups', bloodGroups);
+      const countriesData = await this.cacheManager.get('bloodGroups');
+      return countriesData;
+    } else {
+      throw new Error('No blood groups found or blood groups are undefined.');
+    }
   }
 
   async getById(@Param('id') id: number, authUserInfo) {
