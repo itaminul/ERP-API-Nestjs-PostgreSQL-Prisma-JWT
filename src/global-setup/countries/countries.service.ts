@@ -17,8 +17,7 @@ export class CountriesService {
 
     if (countries && countries.length > 0) {
       await this.cacheManager.set('countries', countries);
-      const countriesData = await this.cacheManager.get('countries');
-      return countriesData;
+      return await this.cacheManager.get('countries');
     } else {
       throw new Error('No countries found or countries are undefined.');
     }

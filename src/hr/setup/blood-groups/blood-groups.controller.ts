@@ -36,7 +36,7 @@ export class BloodGroupsController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('/getById')
+  @Get('/getById/:id')
   async getById(@Param('id') id: number, @AuthUserInfo() authUserInfo: Users) {
     try {
       const results = await this.bloodGroupService.getById(id, authUserInfo);

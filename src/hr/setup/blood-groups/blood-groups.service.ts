@@ -21,15 +21,14 @@ export class BloodGroupsService {
     });
     if (bloodGroups && bloodGroups.length > 0) {
       await this.cacheManager.set('bloodGroups', bloodGroups);
-      const countriesData = await this.cacheManager.get('bloodGroups');
-      return countriesData;
+      return await this.cacheManager.get('bloodGroups');
     } else {
       throw new Error('No blood groups found or blood groups are undefined.');
     }
   }
 
   async getById(@Param('id') id: number, authUserInfo) {
-    return await this.prisma.bloodgroup.findMany({
+    let bloodGroupById=  await this.prisma.bloodgroup.findMany({
       orderBy: [
         {
           id: 'desc',
@@ -37,9 +36,19 @@ export class BloodGroupsService {
       ],
       where: {
         id: Number(id),
-        orgId: authUserInfo.orgId,
+       // orgId: authUserInfo.orgId,
       },
     });
+        if (bloodGroupById && bloodGroupById.length > 0) {
+          await this.cacheManager.set('bloodGroupById', bloodGroupById);
+          return await this.cacheManager.get(
+            'bloodGroupById',
+          );
+        } else {
+          throw new Error(
+            'No blood groups found or blood groups are undefined.',
+          );
+        }
   }
 
   async getAllActive() {
