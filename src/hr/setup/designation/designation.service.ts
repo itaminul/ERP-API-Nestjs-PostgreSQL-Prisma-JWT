@@ -1,14 +1,18 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Body, Inject, Injectable, Param } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateDesignatinDto } from './dto/create.designation.dto';
 import { UpdateDesignatinDto } from './dto/update.designation.dto';
 
 @Injectable()
 export class DesignationService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async getAll(authUserInfo) {
-    return await this.prisma.designation.findMany({
+    let designations = await this.prisma.designation.findMany({
       orderBy: [
         {
           id: 'desc',
@@ -18,10 +22,16 @@ export class DesignationService {
         orgId: authUserInfo.orgId,
       },
     });
+    if (designations && designations.length > 0) {
+      await this.cacheManager.set('designations', designations);
+      return await this.cacheManager.get('designations');
+    } else {
+      throw new Error('No designations found or designations are undefined.');
+    }
   }
 
   async getById(@Param('id') id: number, authUserInfo) {
-    return await this.prisma.designation.findMany({
+    let designationsById = await this.prisma.designation.findMany({
       orderBy: [
         {
           id: 'desc',
@@ -32,10 +42,18 @@ export class DesignationService {
         orgId: authUserInfo.orgId,
       },
     });
+    if (designationsById && designationsById.length > 0) {
+      await this.cacheManager.set('designationsById', designationsById);
+      return await this.cacheManager.get('designationsById');
+    } else {
+      throw new Error(
+        'No designationsById found or designationsById are undefined.',
+      );
+    }
   }
 
   async getAllActive() {
-    return await this.prisma.designation.findMany({
+    let activeDesignation = await this.prisma.designation.findMany({
       orderBy: [
         {
           id: 'desc',
@@ -45,6 +63,14 @@ export class DesignationService {
         activeStatus: true,
       },
     });
+    if (activeDesignation && activeDesignation.length > 0) {
+      await this.cacheManager.set('activeDesignation', activeDesignation);
+      return await this.cacheManager.get('activeDesignation');
+    } else {
+      throw new Error(
+        'No active designation found or active designation are undefined.',
+      );
+    }
   }
 
   async create(@Body() dto: CreateDesignatinDto, authUserInfo) {
