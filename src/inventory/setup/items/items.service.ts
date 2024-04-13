@@ -1,20 +1,30 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Body, Inject, Injectable, Param } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateItemDto } from './dto/create.items.dto';
 import { UpdateItemDto } from './dto/update.items.dto';
 
 @Injectable()
 export class ItemsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async getAll(page = 1, authUserInfo) {
-    return await this.prisma.invItemSetup.findMany({
+    let items = await this.prisma.invItemSetup.findMany({
       take: 10,
       skip: 10 * (page - 1),
       where: {
         orgId: authUserInfo.orgId,
       },
     });
+    if (items && items.length > 0) {
+      await this.cacheManager.set('items', items);
+      return await this.cacheManager.get('items');
+    } else {
+      throw new Error('No items found or items are undefined.');
+    }
   }
 
   async create(@Body() dto: CreateItemDto, authUserInfo) {
