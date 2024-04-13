@@ -1,18 +1,28 @@
-import { Body, Injectable, Param } from '@nestjs/common';
+import { Body, Inject, Injectable, Param } from '@nestjs/common';
+import { Cache } from 'cache-manager';
 import { PrismaService } from 'src/database/prisma/prisma.service';
 import { CreateItemGroup } from './dto/create.item.group.dto';
 import { UpdateItemGroup } from './dto/update.item.group.dto';
 
 @Injectable()
 export class ItemGroupService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async getAll(authUserInfo) {
-    return await this.prisma.invItemsGroup.findMany({
+    let itemGroups =  await this.prisma.invItemsGroup.findMany({
       where: {
         orgId: authUserInfo.id,
       },
     });
+        if (itemGroups && itemGroups.length > 0) {
+          await this.cacheManager.set('itemGroups', itemGroups);
+          return await this.cacheManager.get('itemGroups');
+        } else {
+          throw new Error('No item Groups found or item Groups are undefined.');
+        }
   }
 
   async create(@Body() createItemGroup: CreateItemGroup, authUserInfo) {
