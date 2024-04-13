@@ -21,11 +21,17 @@ export class LeaveService {
   }
 
   async getById(@Param('id') id: number) {
-    return await this.prisma.leaveParent.findMany({
+    let leavesById = await this.prisma.leaveParent.findMany({
       where: {
         id: Number(id),
       },
     });
+    if (leavesById && leavesById.length > 0) {
+      await this.cacheManager.set('leavesById', leavesById);
+      return await this.cacheManager.get('leavesById');
+    } else {
+      throw new Error('No leaves by ID found or leaves by ID are undefined.');
+    }
   }
 
   async create(@Body() dto: CreateLeaveDto, authUserInfo) {
