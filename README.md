@@ -51,6 +51,11 @@ Prerequisites: You have to have installed Docker and Docker-compose in your comp
 - Update employee
 - Get all employee
 
+### Test
+
+# unit tests
+- npm run test
+
 ## Error Handling
 
 - If you see the following error message while running `npm run migrate:dev` script command or `npx prisma migrate dev` command then create the shadow database manually by using command Line or a database query client like DBeaver, HeidiSQL, pgAdmin, and so on.
