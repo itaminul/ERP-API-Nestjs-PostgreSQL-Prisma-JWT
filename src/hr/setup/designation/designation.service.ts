@@ -1,6 +1,6 @@
 import { Body, Inject, Injectable, Param } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import { PrismaService } from 'src/database/prisma/prisma.service';
+import { PrismaService } from '../../../database/prisma/prisma.service';
 import { CreateDesignatinDto } from './dto/create.designation.dto';
 import { UpdateDesignatinDto } from './dto/update.designation.dto';
 
