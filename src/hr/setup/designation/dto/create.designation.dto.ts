@@ -5,15 +5,16 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 export class CreateDesignatinDto{
     @IsString()
     designationName: string
-
     @IsOptional()
     @IsString()
     designationDes:  string
-
     @IsNotEmpty()
     @IsNumber()
     orgId: number
     @IsNumber()
     serialNo: number
+    @IsString()
+    @IsOptional()
+    createdBy
     
 }

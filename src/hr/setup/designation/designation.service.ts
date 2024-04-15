@@ -75,7 +75,7 @@ export class DesignationService {
 
   async create(@Body() dto: CreateDesignatinDto, authUserInfo) {
     const { designationName, designationDes, orgId, serialNo } = dto;
-    await this.prisma.designation.create({
+    let createData = await this.prisma.designation.create({
       data: {
         designationName,
         designationDes,
@@ -87,6 +87,7 @@ export class DesignationService {
         createdBy: authUserInfo.id,
       },
     });
+    return createData;
   }
 
   async update(
