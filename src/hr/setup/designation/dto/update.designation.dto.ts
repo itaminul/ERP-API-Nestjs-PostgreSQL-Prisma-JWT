@@ -21,4 +21,7 @@ export class UpdateDesignatinDto{
     @IsOptional()    
     @IsBoolean()
     activeStatus: boolean
+    @IsString()
+    @IsOptional()
+    updatedBy
 }
