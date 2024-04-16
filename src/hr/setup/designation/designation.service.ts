@@ -6,6 +6,7 @@ import { UpdateDesignatinDto } from './dto/update.designation.dto';
 
 @Injectable()
 export class DesignationService {
+  patch: any;
   constructor(
     @Inject('CACHE_MANAGER') private cacheManager: Cache,
     private readonly prisma: PrismaService,
@@ -98,7 +99,15 @@ export class DesignationService {
     const { designationName, designationDes, orgId, serialNo, activeStatus } =
       dto;
 
-    return await this.prisma.designation.update({
+      const existingDesignation = await this.prisma.designation.findUnique({
+        where: { id: Number(id) },
+      });
+  
+      if (!existingDesignation) {
+        throw new Error('Designation not found');
+      }
+
+    let updateData = await this.prisma.designation.update({
       where: {
         id: Number(id),
       },
@@ -114,5 +123,6 @@ export class DesignationService {
         updatedBy: authUserInfo.id,
       },
     });
+    return updateData;
   }
 }
