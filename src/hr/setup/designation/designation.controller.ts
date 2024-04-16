@@ -12,7 +12,7 @@ import { DesignationService } from './designation.service';
 import { Prisma, Users } from '@prisma/client';
 import { CreateDesignatinDto } from './dto/create.designation.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { AuthUserInfo } from 'src/decorator/auth.user.info.decorator';
+import { AuthUserInfo } from '../../../decorator/auth.user.info.decorator';
 import { UpdateDesignatinDto } from './dto/update.designation.dto';
 
 @Controller('designation')

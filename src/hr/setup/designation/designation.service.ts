@@ -82,9 +82,6 @@ export class DesignationService {
         designationDes,
         orgId,
         serialNo,
-        createdDate: new Date().toLocaleDateString(),
-        createdTime: new Date().toLocaleTimeString(),
-        createdAt: new Date(),
         createdBy: authUserInfo.id,
       },
     });
@@ -117,9 +114,6 @@ export class DesignationService {
         activeStatus,
         orgId,
         serialNo,
-        updatedDate: new Date().toLocaleDateString(),
-        updatedTime: new Date().toLocaleTimeString(),
-        updatedAt: new Date(),
         updatedBy: authUserInfo.id,
       },
     });
