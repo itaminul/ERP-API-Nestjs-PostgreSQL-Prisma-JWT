@@ -6,6 +6,7 @@ import { Users } from '@prisma/client';
 import { PrismaService } from '../../../database/prisma/prisma.service';
 import { CreateDesignatinDto } from './dto/create.designation.dto';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { UpdateDesignatinDto } from './dto/update.designation.dto';
 
 // Mocked AuthUserInfo object
 const mockAuthUserInfo: Users = {
@@ -94,4 +95,39 @@ describe('DesignationController', () => {
       );
     });
   });
+  describe('update', () => {
+    const authUserInfo = mockAuthUserInfo;
+    it('should update a designation', async () => {
+      // Mock data
+      const designationId = 1;
+      const updateDesignationDto: UpdateDesignatinDto = {
+        designationName: 'Updated Manager',
+        designationDes: 'Updated Manages the team',
+        orgId: 2,
+        serialNo: 2,
+        activeStatus: true,
+        updatedBy: 1,
+      };
+  
+      // Mock the update method of the service
+      const updatedDesignationDto: UpdateDesignatinDto = { ...updateDesignationDto }; // Create a copy of the DTO
+      jest.spyOn(service, 'update').mockResolvedValue(updatedDesignationDto as any);
+  
+      // Call the update method of the controller
+      const result = await controller.update(designationId, updateDesignationDto, authUserInfo);
+  
+      // Construct the expected response object
+      const expectedResponse = {
+        message: 'Updated Successfully',
+        success: true,
+        status: HttpStatus.OK,
+        results: updatedDesignationDto, // Expect the updated DTO object
+      };
+  
+      // Assertions
+      expect(result).toEqual(expectedResponse);
+      expect(service.update).toHaveBeenCalledWith(designationId, updateDesignationDto, authUserInfo);
+    });
+  });
+  
 });
